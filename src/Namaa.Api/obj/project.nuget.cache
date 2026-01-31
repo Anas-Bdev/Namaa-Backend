@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "17J8LPmPADo=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\anasm\\Downloads\\Namaa-Backend\\src\\Namaa.Api\\Namaa.Api.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\anasm\\.nuget\\packages\\microsoft.aspnetcore.openapi\\9.0.12\\microsoft.aspnetcore.openapi.9.0.12.nupkg.sha512",
+    "C:\\Users\\anasm\\.nuget\\packages\\microsoft.openapi\\1.6.17\\microsoft.openapi.1.6.17.nupkg.sha512"
+  ],
+  "logs": []
+}
