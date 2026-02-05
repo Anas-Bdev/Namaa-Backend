@@ -8,23 +8,5 @@ namespace Namaa.Api.Controllers;
 [ApiController]
 public class AuthController(IAuthService authService) : ControllerBase
 {
-    [HttpGet]
-    public IActionResult Hello()
-    {
-        return Ok("Hello");
-    }
-    [HttpPost("login")]
-    public async Task<IActionResult> Login(LoginRequest request,CancellationToken ct=default)
-    {
-        
-        var result =await authService.LoginAsync(request,ct);
-        return result.Match<IActionResult>( value => Ok(value),error => BadRequest(error));
-
-    }
-    [HttpGet("trusted")]
-    [Authorize(Roles ="User")]
-    public IActionResult Get()
-    {
-        return Ok("Trusted Client");
-    }
+    
 }
