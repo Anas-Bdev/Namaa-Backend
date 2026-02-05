@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Namaa.Infrastructure")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+cc8bd94585c1bfaf88253c9a652199341251cbb4")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0216f66ad1ccaf2208b165ffbd13e489d3cb6a16")]
 [assembly: System.Reflection.AssemblyProductAttribute("Namaa.Infrastructure")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Namaa.Infrastructure")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
