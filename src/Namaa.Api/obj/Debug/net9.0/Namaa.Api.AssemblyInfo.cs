@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Namaa.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a1953c59864c70266a22c8aff75633ea6e4af268")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+cc8bd94585c1bfaf88253c9a652199341251cbb4")]
 [assembly: System.Reflection.AssemblyProductAttribute("Namaa.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Namaa.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
