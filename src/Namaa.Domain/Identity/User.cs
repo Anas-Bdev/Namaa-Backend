@@ -1,9 +1,10 @@
 using System;
+using Namaa.Domain.Common;
 using Namaa.Domain.Common.Results;
 using Namaa.Domain.Enums;
 
 namespace Namaa.Domain.Identity;
-public sealed class User
+public sealed class User:BaseEntity
 {
     private User() {}
     private User(Guid roleId,String userName,String email,String passwordHash)
