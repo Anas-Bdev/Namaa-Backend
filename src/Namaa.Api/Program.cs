@@ -7,6 +7,7 @@ using Scalar.AspNetCore;
 using DotNetEnv;
 Env.Load(Path.Combine(Directory.GetCurrentDirectory(),"../../.env"));
 var builder = WebApplication.CreateBuilder(args);
+builder.Configuration.AddEnvironmentVariables();
 builder.Services.Configure<SmtpOptions>(builder.Configuration.GetSection("Smtp"));
 builder.Services.AddPresentation()
 .AddApplication().AddInfrastructure(builder.Configuration);
