@@ -1,10 +1,19 @@
 using Namaa.Api;
+using Namaa.Application;
 using Namaa.Infrastructure;
 using Namaa.Infrastructure.Seeder;
+using Namaa.Infrastructure.Settings;
+using Scalar.AspNetCore;
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddAppConfiguration();
-builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.Configure<SmtpOptions>(builder.Configuration.GetSection("Smtp"));
+builder.Services.AddPresentation()
+.AddApplication().AddInfrastructure(builder.Configuration);
 var app = builder.Build();
-app.UseCoreMiddlewares(builder.Configuration);
+if (app.Environment.IsDevelopment())
+{
+    app.MapOpenApi();
+    app.MapScalarApiReference();
+}
+app.UseCoreMiddlewares();
 app.MapControllers();
 app.Run();
