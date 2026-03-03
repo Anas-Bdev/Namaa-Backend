@@ -4,6 +4,8 @@ using Namaa.Infrastructure;
 using Namaa.Infrastructure.Seeder;
 using Namaa.Infrastructure.Settings;
 using Scalar.AspNetCore;
+using DotNetEnv;
+Env.Load(Path.Combine(Directory.GetCurrentDirectory(),"../../.env"));
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.Configure<SmtpOptions>(builder.Configuration.GetSection("Smtp"));
 builder.Services.AddPresentation()

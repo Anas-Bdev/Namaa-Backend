@@ -1,5 +1,4 @@
-using Microsoft.VisualBasic.CompilerServices;
-using System.Collections.Immutable;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,9 +8,10 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Identity;
-using Namaa.Application.Abstractions.Authentication;
-using Namaa.Infrastructure.Authentication;
-using Namaa.Application.Abstractions.Security;
+using Namaa.Application.Common.Interfaces;
+using Namaa.Infrastructure.Services;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using Namaa.Infrastructure.Persistence.Interceptors;
 
 namespace Namaa.Infrastructure;
 
@@ -19,11 +19,44 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
+        services.AddSingleton(TimeProvider.System);
+        services.AddHttpContextAccessor();
+
+        services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>();
+
         var connectionString = configuration.GetConnectionString("DefaultConnection");
-        services.AddDbContext<AppDbContext>(options =>
+        ArgumentNullException.ThrowIfNull(connectionString);
+        
+        services.AddScoped<ApplicationDbContextInitializer>();
+        
+        services.AddDbContext<AppDbContext>((sp, options) =>
         {
-            options.UseSqlServer(connectionString);
+            var interceptor = sp.GetRequiredService<ISaveChangesInterceptor>();
+            options.UseSqlServer(connectionString)
+                   .AddInterceptors(interceptor);
         });
+
+        services.AddScoped<IAppDbContext>(provider => provider.GetRequiredService<AppDbContext>());
+
+        services.AddIdentityCore<AppUser>(options =>
+        {
+            options.User.RequireUniqueEmail = true;
+            options.SignIn.RequireConfirmedEmail = false;
+            options.Password.RequireLowercase = true;
+            options.Password.RequireUppercase = true;
+            options.Password.RequireNonAlphanumeric = false;
+            options.Password.RequireDigit = true;
+            options.Password.RequiredUniqueChars = 1;
+            options.Password.RequiredLength = 8;
+            options.Lockout.MaxFailedAccessAttempts = 5;
+            options.Lockout.AllowedForNewUsers = true;
+            options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+        })
+        .AddRoles<AppRole>()
+        .AddEntityFrameworkStores<AppDbContext>()
+        .AddSignInManager()
+        .AddDefaultTokenProviders();
+
         var jwtSettings = configuration.GetSection("JwtSettings");
         services.AddAuthentication(options =>
         {
@@ -45,25 +78,15 @@ public static class DependencyInjection
             };
         });
 
-        services.AddIdentityCore<AppUser>(options =>
+        services.Configure<DataProtectionTokenProviderOptions>(options =>
         {
-            options.User.RequireUniqueEmail = true;
-            options.SignIn.RequireConfirmedEmail = false;
-            options.Password.RequireLowercase = true;
-            options.Password.RequireUppercase = true;
-            options.Password.RequireNonAlphanumeric = false;
-            options.Password.RequireDigit = true;
-            options.Password.RequiredUniqueChars = 1;
-            options.Lockout.MaxFailedAccessAttempts = 5;
-            options.Password.RequiredLength = 8;
-            options.Lockout.AllowedForNewUsers = true;
-            options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
-        })
-        .AddRoles<AppRole>()
-        .AddEntityFrameworkStores<AppDbContext>()
-        .AddSignInManager();
-    services.AddScoped<IAuthService,AuthService>();
-    services.AddScoped<ITokenService,TokenService>();
+            options.TokenLifespan = TimeSpan.FromHours(3);
+        });
+
+        services.AddScoped<IIdentityService, IdentityService>();
+        services.AddScoped<ITokenProvider, TokenProvider>();
+        services.AddScoped<IEmailSender, EmailSender>();
+        services.AddScoped<IEmailTemplateService, EmailTemplateService>();
 
         return services;
     }

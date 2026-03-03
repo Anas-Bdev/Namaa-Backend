@@ -1,1 +1,0 @@
-namespace Namaa.Application.Authentication.Dtos;
