@@ -9,6 +9,7 @@ using Namaa.Domain.Enums;
 
 namespace Namaa.Infrastructure.Identity;
 
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
@@ -263,4 +264,19 @@ public async Task<bool> IsEmailConfirmedAsync(string email)
     var user = await userManager.FindByEmailAsync(email);
     return user?.EmailConfirmed ?? false;
 }
+
+    public async Task<Result<Success>> ChangePasswordAsync(string userId, string currentPassword, string newPassword)
+    {
+        var user=await userManager.FindByIdAsync(userId);
+        if(user is null)
+       return Error.NotFound("User.NotFound", "The user account was not found.");
+
+       var identityResult=await userManager.ChangePasswordAsync(user,currentPassword,newPassword);
+       if(identityResult.Succeeded)
+       return Result.Success;
+       var errors=identityResult.Errors.Select(e => Error.Validation(e.Code,e.Description)).ToList();
+       return errors;
+
+
+     }
 }

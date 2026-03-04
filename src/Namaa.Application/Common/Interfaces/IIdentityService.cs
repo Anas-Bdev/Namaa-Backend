@@ -1,3 +1,4 @@
+using Namaa.Application.Features.Identity.Commands.ResendConfirmationEmail;
 using Namaa.Application.Features.Identity.Dtos;
 using Namaa.Domain.Common.Constants;
 using Namaa.Domain.Common.Results;
@@ -25,6 +26,7 @@ Task<Result<string>> CreateUserAsync(string password,string email,string role,st
  Task<Result<string>> GenerateConfirmationLinkAsync(string userId);
  Task<Result<string>> GenerateEmailConfirmationAsync(string userId);
  Task<Result<Success>> ConfirmEmailAsync(string userId,string token);
+ Task<Result<Success>> ChangePasswordAsync(string userId,string currentPassword,string newPassword);
  Task<Result<string>> GeneratePasswordResetCodeAsync(string email);
  Task<Result<Success>> ResetPasswordAsync(string email,string code,string newPassword);
 
