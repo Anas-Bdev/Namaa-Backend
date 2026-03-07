@@ -1,4 +1,3 @@
-using Microsoft.Identity.Client;
 namespace Namaa.Infrastructure.Settings;
 public sealed class SmtpOptions
 {

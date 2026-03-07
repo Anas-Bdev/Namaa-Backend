@@ -10,7 +10,7 @@ public class RefreshTokenConfiguration : IEntityTypeConfiguration<RefreshToken>
     public void Configure(EntityTypeBuilder<RefreshToken> builder)
     {
         builder.ToTable("RefreshTokens");
-        builder.HasKey(rt => rt.Id).IsClustered(false);
+        builder.HasKey(rt => rt.Id);
         builder.Property(rt => rt.Token).HasMaxLength(200).IsRequired();
         builder.HasIndex(rt => rt.Token).IsUnique();
         builder.HasOne<AppUser>().WithMany().HasForeignKey(rt => rt.UserId);

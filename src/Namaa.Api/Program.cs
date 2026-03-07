@@ -6,25 +6,30 @@ using Scalar.AspNetCore;
 using DotNetEnv;
 using Namaa.Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
-var envPath=Path.Combine(Directory.GetCurrentDirectory(), "../../.env");
-if (File.Exists(envPath))
-{
-    Env.Load(envPath);
-}
+using Namaa.Infrastructure.Seeder;
 var builder = WebApplication.CreateBuilder(args);
+if (builder.Environment.IsDevelopment())
+{
+    Env.TraversePath().Load();
+}
 builder.Configuration.AddEnvironmentVariables();
 builder.Services.Configure<SmtpOptions>(builder.Configuration.GetSection("Smtp"));
 builder.Services.AddPresentation()
 .AddApplication().AddInfrastructure(builder.Configuration);
+
 var app = builder.Build();
+using (var scope = app.Services.CreateScope())
+{
+    await scope.ServiceProvider.SeedIdentityAsync();
+}
+app.MapOpenApi();
+app.MapScalarApiReference();
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
-    app.MapScalarApiReference();
+    using var serviceScope=app.Services.CreateScope();
+    using var dbContext=serviceScope.ServiceProvider.GetRequiredService<AppDbContext>();
+    dbContext?.Database.Migrate();
 }
- using var serviceScope=app.Services.CreateScope();
- using var dbContext=serviceScope.ServiceProvider.GetRequiredService<AppDbContext>();
- dbContext?.Database.Migrate();
 app.UseCoreMiddlewares();
 app.MapControllers();
 app.Run();

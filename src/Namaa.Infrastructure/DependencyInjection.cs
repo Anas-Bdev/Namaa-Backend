@@ -32,7 +32,7 @@ public static class DependencyInjection
         services.AddDbContext<AppDbContext>((sp, options) =>
         {
             var interceptor = sp.GetRequiredService<ISaveChangesInterceptor>();
-            options.UseSqlServer(connectionString)
+            options.UseNpgsql(connectionString)
                    .AddInterceptors(interceptor);
         });
 
