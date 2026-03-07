@@ -12,6 +12,7 @@ public static class DependencyInjection
       services.AddControllerWithJsonConfiguration()
             .ConfigureProblemDetails()
             .AddApiDocumentation()
+            .AddConfiguredCors()
             .AddIdentityInfrastructure()
             .AddExceptionHandling();
 
@@ -27,6 +28,19 @@ public static class DependencyInjection
                 context.ProblemDetails.Instance = $"{context.HttpContext.Request.Method} {context.HttpContext.Request.Path}";
                 context.ProblemDetails.Extensions.Add("requestId", context.HttpContext.TraceIdentifier);
             };
+        });
+        return services;
+    }
+    private static IServiceCollection AddConfiguredCors(this IServiceCollection services)
+    {
+        services.AddCors(options =>
+        {
+            options.AddPolicy("NamaaCorsPolicy",policy =>
+            {
+                policy.AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowAnyOrigin();
+            });
         });
         return services;
     }
@@ -66,6 +80,7 @@ public static class DependencyInjection
     {
         app.UseExceptionHandler();
         app.UseHttpsRedirection();
+        app.UseCors("NamaaCorsPolicy");
         app.UseAuthentication();
         app.UseAuthorization();
 
