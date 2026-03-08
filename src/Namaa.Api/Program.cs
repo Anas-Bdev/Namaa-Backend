@@ -30,6 +30,9 @@ if (app.Environment.IsDevelopment())
 }
 app.UseCoreMiddlewares();
 app.MapOpenApi();
-app.MapScalarApiReference();
+app.MapScalarApiReference(options =>
+{
+    options.AddPreferredSecuritySchemes("https");
+});
 app.MapControllers();
 app.Run();
