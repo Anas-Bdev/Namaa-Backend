@@ -32,7 +32,7 @@ app.UseCoreMiddlewares();
 app.MapOpenApi();
 app.MapScalarApiReference(options =>
 {
-    options.AddPreferredSecuritySchemes("https");
+    options.AddPreferredSecuritySchemes("Bearer");
 });
 app.MapControllers();
 app.Run();
