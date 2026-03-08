@@ -30,9 +30,6 @@ if (app.Environment.IsDevelopment())
 }
 app.UseCoreMiddlewares();
 app.MapOpenApi();
-app.MapScalarApiReference(options =>
-{
-    options.AddPreferredSecuritySchemes("Bearer");
-});
+app.MapScalarApiReference();
 app.MapControllers();
 app.Run();
