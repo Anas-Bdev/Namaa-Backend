@@ -22,8 +22,6 @@ using (var scope = app.Services.CreateScope())
 {
     await scope.ServiceProvider.SeedIdentityAsync();
 }
-app.MapOpenApi();
-app.MapScalarApiReference();
 if (app.Environment.IsDevelopment())
 {
     using var serviceScope=app.Services.CreateScope();
@@ -31,5 +29,7 @@ if (app.Environment.IsDevelopment())
     dbContext?.Database.Migrate();
 }
 app.UseCoreMiddlewares();
+app.MapOpenApi();
+app.MapScalarApiReference();
 app.MapControllers();
 app.Run();
