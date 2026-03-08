@@ -24,16 +24,7 @@ namespace Namaa.Api.OpenApi.Transformer;
             };
             document.Components??=new();
             document.Components.SecuritySchemes=requirements;
-            document.SecurityRequirements = new List<OpenApiSecurityRequirement>
-            {
-                new()
-                {
-                    [new OpenApiSecurityScheme 
-                    { 
-                        Reference = new OpenApiReference { Id = "Bearer", Type = ReferenceType.SecurityScheme } 
-                    }] = Array.Empty<string>()
-                }
-            };
+        
         }
     }
 
