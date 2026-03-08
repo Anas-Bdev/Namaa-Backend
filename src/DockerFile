@@ -1,0 +1,33 @@
+# Stage 1: Build
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /source
+
+# 1. Copy the solution and project files first to cache the 'restore' layer
+COPY Namaa.sln .
+COPY Namaa.Api/Namaa.Api.csproj Namaa.Api/
+COPY Namaa.Application/Namaa.Application.csproj Namaa.Application/
+COPY Namaa.Domain/Namaa.Domain.csproj Namaa.Domain/
+COPY Namaa.Infrastructure/Namaa.Infrastructure.csproj Namaa.Infrastructure/
+
+# 2. Restore dependencies
+RUN dotnet restore
+
+# 3. Copy the rest of the source code
+COPY . .
+
+# 4. Build and publish the API
+RUN dotnet publish "Namaa.Api/Namaa.Api.csproj" -c Release -o /app/publish
+
+# Stage 2: Runtime
+FROM mcr.microsoft.com/dotnet/aspnet:8.0
+WORKDIR /app
+
+# Copy the published files from the build stage
+COPY --from=build /app/publish .
+
+# Render defaults and environment setup
+EXPOSE 8080
+ENV ASPNETCORE_URLS=http://+:8080
+
+# Make sure this matches your actual DLL name in Namaa.Api/bin
+ENTRYPOINT ["dotnet", "Namaa.Api.dll"]
