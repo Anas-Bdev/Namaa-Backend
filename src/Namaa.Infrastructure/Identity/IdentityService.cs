@@ -97,7 +97,8 @@ public class IdentityService(
     
    public async Task<Result<Success>> ConfirmEmailAsync(string userId, string token)
 {
-    var decodedToken = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(token));
+    var decodedTokenBytes = WebEncoders.Base64UrlDecode(token);
+    var decodedToken = Encoding.UTF8.GetString(decodedTokenBytes);
     var user = await userManager.FindByIdAsync(userId);
     if (user is null)
         return Error.NotFound("User.NotFound", "The user account was not found.");
