@@ -19,7 +19,7 @@ COPY . .
 RUN dotnet publish "Namaa.Api/Namaa.Api.csproj" -c Release -o /app/publish
 
 # Stage 2: Runtime
-FROM mcr.microsoft.com/dotnet/aspnet:8.0
+FROM mcr.microsoft.com/dotnet/aspnet:9.0
 WORKDIR /app
 
 # Copy the published files from the build stage
