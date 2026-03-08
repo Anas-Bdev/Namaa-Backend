@@ -27,7 +27,7 @@ COPY --from=build /app/publish .
 
 # Render defaults and environment setup
 EXPOSE 8080
-ENV ASPNETCORE_URLS=http://+:8080
+ENV ASPNETCORE_URLS=http://+:$PORT
 
 # Make sure this matches your actual DLL name in Namaa.Api/bin
 ENTRYPOINT ["dotnet", "Namaa.Api.dll"]
