@@ -43,11 +43,11 @@ public class RegisterCommandHandler(
             linkResult.Value);
 
         // 4. Send Email
-        // await sender.SendEmailAsync(
-        //     request.Email, 
-        //     "Confirm Your Email", // This is the actual Subject
-        //     emailBody,            // This is the Body
-        //     cancellationToken);
+        await sender.SendEmailAsync(
+            request.Email, 
+            "Confirm Your Email", // This is the actual Subject
+            emailBody,            // This is the Body
+            cancellationToken);
 
         return Result.Success;
     }
