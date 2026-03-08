@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.HttpOverrides;
 using Namaa.Api.ExceptionHandling;
 using Namaa.Api.OpenApi.Transformer;
 using Namaa.Api.Services;
@@ -79,6 +80,10 @@ public static class DependencyInjection
     public static IApplicationBuilder UseCoreMiddlewares(this WebApplication app)
     {
         app.UseExceptionHandler();
+        app.UseForwardedHeaders(new ForwardedHeadersOptions
+       {
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+       });
         app.UseHttpsRedirection();
         app.UseCors("NamaaCorsPolicy");
         app.UseAuthentication();
