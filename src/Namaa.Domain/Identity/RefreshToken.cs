@@ -2,7 +2,7 @@ using Namaa.Domain.Common;
 using Namaa.Domain.Common.Results;
 
 namespace Namaa.Domain.Identity;
-public sealed class RefreshToken : BaseEntity
+public sealed class RefreshToken : AuditableEntity
 {
     public string? Token {get;}
     public Guid UserId {get;}

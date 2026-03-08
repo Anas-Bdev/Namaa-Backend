@@ -7,29 +7,40 @@ using DotNetEnv;
 using Namaa.Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Namaa.Infrastructure.Seeder;
+
 var builder = WebApplication.CreateBuilder(args);
+
 if (builder.Environment.IsDevelopment())
 {
     Env.TraversePath().Load();
 }
+
 builder.Configuration.AddEnvironmentVariables();
+
 builder.Services.Configure<SmtpOptions>(builder.Configuration.GetSection("Smtp"));
-builder.Services.AddPresentation()
-.AddApplication().AddInfrastructure(builder.Configuration);
+
+builder.Services
+    .AddPresentation()
+    .AddApplication()
+    .AddInfrastructure(builder.Configuration);
 
 var app = builder.Build();
+
 using (var scope = app.Services.CreateScope())
 {
-    await scope.ServiceProvider.SeedIdentityAsync();
+    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+    await dbContext.Database.MigrateAsync();
+
+    if (app.Environment.IsDevelopment())
+    {
+        await scope.ServiceProvider.SeedIdentityAsync();
+    }
 }
-if (app.Environment.IsDevelopment())
-{
-    using var serviceScope=app.Services.CreateScope();
-    using var dbContext=serviceScope.ServiceProvider.GetRequiredService<AppDbContext>();
-    dbContext?.Database.Migrate();
-}
+
 app.UseCoreMiddlewares();
 app.MapOpenApi();
 app.MapScalarApiReference();
 app.MapControllers();
+
 app.Run();

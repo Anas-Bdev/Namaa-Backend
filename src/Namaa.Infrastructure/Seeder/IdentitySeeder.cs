@@ -1,16 +1,19 @@
 using System.Runtime.CompilerServices;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Namaa.Application.Common.Interfaces;
 using Namaa.Infrastructure.Identity;
+using Namaa.Infrastructure.Persistence.Context;
 
 namespace Namaa.Infrastructure.Seeder;
 public static class IdentitySeeder
 {
     public static async Task SeedAsync(IServiceProvider services)
     {
-        var scope=services.CreateScope();
-        var roleManager=scope.ServiceProvider.GetRequiredService<RoleManager<AppRole>>();
-        var userManager=scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
+        using var serviceScope=services.CreateScope();
+        var roleManager=serviceScope.ServiceProvider.GetRequiredService<RoleManager<AppRole>>();
+        var userManager=serviceScope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
         var roles=new[] {"Admin","User"};
         foreach (var roleName in roles)
 {

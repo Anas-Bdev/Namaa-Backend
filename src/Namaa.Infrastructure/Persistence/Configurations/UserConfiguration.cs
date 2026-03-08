@@ -12,7 +12,6 @@ public class UserConfiguration : IEntityTypeConfiguration<AppUser>
     builder.ToTable("Users");
     builder.Property(u => u.Status).IsRequired();
     builder.Property(u => u.ProfileImageUrl).HasMaxLength(500);
-    builder.Property(u => u.CreatedAtUtc).IsRequired();
     builder.Property(e => e.Status).HasConversion<string>();
     }
 }
