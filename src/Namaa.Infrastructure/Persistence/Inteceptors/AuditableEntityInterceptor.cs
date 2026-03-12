@@ -32,8 +32,10 @@ public class AuditableEntityInterceptor(IUser user,TimeProvider timeProvider) : 
             {
                 entry.Entity.CreatedAtUtc=utcNow;
                 entry.Entity.CreatedBy=userId;
+                entry.Entity.LastModifiedBy=userId;
+                entry.Entity.LastModifiedUtc=utcNow;
             }
-            if (entry.State == EntityState.Added || entry.State == EntityState.Modified || entry.HasChangedOwnedEntities())
+            if ( entry.State == EntityState.Modified || entry.HasChangedOwnedEntities())
             {
                 entry.Entity.LastModifiedUtc = utcNow;
                 entry.Entity.LastModifiedBy = userId;
