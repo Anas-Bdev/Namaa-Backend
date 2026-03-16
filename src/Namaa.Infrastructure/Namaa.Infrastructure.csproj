@@ -26,5 +26,10 @@
 
    
   </ItemGroup>
+  <ItemGroup>
+    <None Update="EmailTemplates\*.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 
 </Project>
