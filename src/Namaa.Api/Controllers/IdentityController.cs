@@ -1,5 +1,3 @@
-
-using System.Net;
 using System.Security.Claims;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -106,7 +104,7 @@ public class IdentityController(ISender sender) : ControllerBase
     public async Task<IActionResult> GetCurrentUser(CancellationToken ct)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        var query = new GetUserByIdQuery(userId!);
+        var query = new GetUserByIdQuery(userId);
         var result = await sender.Send(query, ct);
         
         return result.Match(response => Ok(response), errors => this.ToProblem(errors));

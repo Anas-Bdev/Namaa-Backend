@@ -6,7 +6,6 @@ using Scalar.AspNetCore;
 using DotNetEnv;
 using Namaa.Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
-using Namaa.Infrastructure.Seeder;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,11 +31,8 @@ using (var scope = app.Services.CreateScope())
 
     await dbContext.Database.MigrateAsync();
 
-    if (app.Environment.IsDevelopment())
-    {
-        await scope.ServiceProvider.SeedIdentityAsync();
-    }
 }
+ await app.InitializeDatabaseAsync();
 
 app.UseCoreMiddlewares();
 app.MapOpenApi();
