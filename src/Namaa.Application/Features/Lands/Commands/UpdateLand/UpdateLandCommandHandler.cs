@@ -13,6 +13,10 @@ public class UpdateLandCommandHandler(IAppDbContext context) : IRequestHandler<U
         var land = await context.Lands.FindAsync([request.LandId], cancellationToken);
         if(land is null)
         return ApplicationErrors.LandNotFound;
+        if (land.FarmerId != request.FarmerId)
+    {
+        return ApplicationErrors.Forbidden;
+    }
         var updateResult = land.Update(
             request.CityId,
             request.SoilId,

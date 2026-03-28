@@ -57,6 +57,7 @@ public static class DependencyInjection
     {
       options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
       options.JsonSerializerOptions.DefaultIgnoreCondition=JsonIgnoreCondition.WhenWritingNull;
+      options.JsonSerializerOptions.PropertyNameCaseInsensitive=true;
     });
     return services;
   }

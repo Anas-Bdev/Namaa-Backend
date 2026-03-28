@@ -15,6 +15,10 @@ public class GetLandByIdQueryHandler(IAppDbContext context) : IRequestHandler<Ge
         var land=await context.Lands.AsNoTracking().FirstOrDefaultAsync(l => l.Id==request.LandId,cancellationToken);
         if(land is null)
         return ApplicationErrors.LandNotFound;
+        if (land.FarmerId != request.FarmerId)
+        {
+            return ApplicationErrors.Forbidden;
+        }
         return land.ToDto();
     }
 }

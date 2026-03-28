@@ -128,7 +128,6 @@ namespace Namaa.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Namaa.Domain.Identity.RefreshToken", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<DateTimeOffset>("CreatedAtUtc")
@@ -147,6 +146,7 @@ namespace Namaa.Infrastructure.Persistence.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Token")
+                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)");
 
@@ -166,7 +166,6 @@ namespace Namaa.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Namaa.Domain.Land.Land", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<double>("Area")
@@ -183,7 +182,8 @@ namespace Namaa.Infrastructure.Persistence.Migrations
 
                     b.Property<string>("EnvironmentType")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.Property<Guid>("FarmerId")
                         .HasColumnType("uuid");
@@ -195,6 +195,7 @@ namespace Namaa.Infrastructure.Persistence.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)");
 
@@ -203,17 +204,98 @@ namespace Namaa.Infrastructure.Persistence.Migrations
 
                     b.Property<string>("WaterAvailability")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.Property<string>("WaterSourceType")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("FarmerId");
 
                     b.ToTable("Lands", (string)null);
+                });
+
+            modelBuilder.Entity("Namaa.Domain.Profiles.Expert.ExpertAvailability", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset>("CreatedAtUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("text");
+
+                    b.Property<int>("Day")
+                        .HasColumnType("integer");
+
+                    b.Property<TimeSpan>("EndTime")
+                        .HasColumnType("interval");
+
+                    b.Property<Guid>("ExpertProfileId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset>("LastModifiedUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<TimeSpan>("StartTime")
+                        .HasColumnType("interval");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExpertProfileId");
+
+                    b.ToTable("ExpertAvailabilities", (string)null);
+                });
+
+            modelBuilder.Entity("Namaa.Domain.Profiles.Expert.ExpertProfile", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("AddressDetail")
+                        .HasMaxLength(250)
+                        .HasColumnType("character varying(250)");
+
+                    b.Property<bool?>("CanVisitOnSite")
+                        .HasColumnType("boolean");
+
+                    b.Property<int?>("CityId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTimeOffset>("CreatedAtUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("text");
+
+                    b.Property<string>("CvUrl")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset>("LastModifiedUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int?>("Specialization")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("YearsOfExperience")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ExpertProfiles", (string)null);
                 });
 
             modelBuilder.Entity("Namaa.Infrastructure.Identity.AppRole", b =>
@@ -394,6 +476,22 @@ namespace Namaa.Infrastructure.Persistence.Migrations
                         .HasForeignKey("FarmerId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Namaa.Domain.Profiles.Expert.ExpertAvailability", b =>
+                {
+                    b.HasOne("Namaa.Domain.Profiles.Expert.ExpertProfile", "Expert")
+                        .WithMany("Availabilities")
+                        .HasForeignKey("ExpertProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Expert");
+                });
+
+            modelBuilder.Entity("Namaa.Domain.Profiles.Expert.ExpertProfile", b =>
+                {
+                    b.Navigation("Availabilities");
                 });
 #pragma warning restore 612, 618
         }

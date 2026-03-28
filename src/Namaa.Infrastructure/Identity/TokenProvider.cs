@@ -3,10 +3,8 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.VisualBasic;
 using Namaa.Application.Common.Interfaces;
 using Namaa.Application.Features.Identity.Dtos;
-using Namaa.Domain.Common.Errors;
 using Namaa.Domain.Common.Results;
 using System.Security.Cryptography;
 using Microsoft.EntityFrameworkCore;
@@ -16,9 +14,9 @@ namespace Namaa.Infrastructure.Identity;
 
 public class TokenProvider(IConfiguration configuration, IAppDbContext context) : ITokenProvider
 {
-    public async Task<Result<TokenResponse>> GenerateJwtTokenAsync(AppUserDto user, CancellationToken ct = default)
+    public async Task<Result<TokenResponse>> GenerateJwtTokenAsync(AppUserDto user,bool rememberMe=false, CancellationToken ct = default)
     {
-        var tokenResult = await CreateAsync(user, ct);
+        var tokenResult = await CreateAsync(user, rememberMe,ct);
 
         if (tokenResult.IsError)
         {
@@ -28,7 +26,7 @@ public class TokenProvider(IConfiguration configuration, IAppDbContext context) 
         return tokenResult.Value;
     }
 
-    private async Task<Result<TokenResponse>> CreateAsync(AppUserDto user, CancellationToken ct)
+    private async Task<Result<TokenResponse>> CreateAsync(AppUserDto user,bool rememberMe, CancellationToken ct)
     {
         var jwtSettings = configuration.GetSection("JwtSettings");
         var issuer = jwtSettings["Issuer"];
@@ -58,7 +56,7 @@ public class TokenProvider(IConfiguration configuration, IAppDbContext context) 
 
         var tokenHandler = new JwtSecurityTokenHandler();
         var securityToken = tokenHandler.CreateToken(descriptor);
-
+         var refreshTokenExpiryDate=rememberMe? DateTimeOffset.UtcNow.AddDays(7) : DateTimeOffset.UtcNow.AddDays(1);
         await context.RefreshTokens
             .Where(rt => rt.UserId == user.UserId)
             .ExecuteDeleteAsync(ct);
@@ -67,7 +65,7 @@ public class TokenProvider(IConfiguration configuration, IAppDbContext context) 
             Guid.NewGuid(), 
             GenerateRefreshToken(), 
             user.UserId, 
-            DateTimeOffset.UtcNow.AddDays(7));
+            refreshTokenExpiryDate);
 
         if (!refreshTokenResult.IsSuccess)
         {

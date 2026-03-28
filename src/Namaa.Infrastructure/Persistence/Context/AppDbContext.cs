@@ -4,12 +4,17 @@ using Namaa.Application.Common.Interfaces;
 using Namaa.Domain.Common;
 using Namaa.Domain.Identity;
 using Namaa.Domain.Land;
+using Namaa.Domain.Profiles.Expert;
 using Namaa.Infrastructure.Identity;
 namespace Namaa.Infrastructure.Persistence.Context;
 public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbContext<AppUser,AppRole,Guid>(options),IAppDbContext
 {
     public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
     public DbSet<Land> Lands => Set<Land>();
+
+    public DbSet<ExpertProfile> ExpertProfiles => Set<ExpertProfile>();
+
+    public DbSet<ExpertAvailability> ExpertAvailabilities => Set<ExpertAvailability>();
 
     public override async Task<int> SaveChangesAsync(CancellationToken ct = default)
     {

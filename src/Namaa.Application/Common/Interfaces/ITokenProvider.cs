@@ -5,6 +5,6 @@ using Namaa.Domain.Common.Results;
 namespace Namaa.Application.Common.Interfaces;
 public interface ITokenProvider
 {
-    Task<Result<TokenResponse>> GenerateJwtTokenAsync(AppUserDto user,CancellationToken ct=default);
+    Task<Result<TokenResponse>> GenerateJwtTokenAsync(AppUserDto user,bool rememberMe=false,CancellationToken ct=default);
     ClaimsPrincipal? GetPrincipalFromExpiredToken(string token);
 }
