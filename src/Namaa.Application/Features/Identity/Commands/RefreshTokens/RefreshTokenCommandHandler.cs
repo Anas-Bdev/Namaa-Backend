@@ -28,7 +28,7 @@ public class RefreshTokenCommandHandler(IAppDbContext dbContext,ITokenProvider t
         var refreshToken=await dbContext.RefreshTokens.FirstOrDefaultAsync(t => t.Token==request.RefreshToken && t.UserId==parsedUserId,cancellationToken);
         if(refreshToken is null || refreshToken.ExpiresOnUtc<DateTime.UtcNow)
         return ApplicationErrors.RefreshTokenExpired;
-        var generateTokenResult = await tokenProvider.GenerateJwtTokenAsync(getUserResult.Value, cancellationToken);
+        var generateTokenResult = await tokenProvider.GenerateJwtTokenAsync(getUserResult.Value, ct:cancellationToken);
 
         if (generateTokenResult.IsError)
         {

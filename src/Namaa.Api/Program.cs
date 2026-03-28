@@ -16,8 +16,6 @@ if (builder.Environment.IsDevelopment())
 
 builder.Configuration.AddEnvironmentVariables();
 
-builder.Services.Configure<SmtpOptions>(builder.Configuration.GetSection("Smtp"));
-
 builder.Services
     .AddPresentation()
     .AddApplication()
@@ -35,6 +33,10 @@ using (var scope = app.Services.CreateScope())
  await app.InitializeDatabaseAsync();
 
 app.UseCoreMiddlewares();
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage(); 
+}
 app.MapOpenApi();
 app.MapScalarApiReference();
 app.MapControllers();

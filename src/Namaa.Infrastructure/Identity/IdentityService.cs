@@ -9,18 +9,23 @@ using Namaa.Domain.Enums;
 
 namespace Namaa.Infrastructure.Identity;
 using System.Text;
+using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Namaa.Application.Features.Identity.Queries.GetOnboardingStatus;
 
 public class IdentityService(
     UserManager<AppUser> userManager,
     RoleManager<AppRole> roleManager,
     IAppDbContext dbContext,
     IConfiguration configuration,
-    SignInManager<AppUser> signInManager) : IIdentityService
+    SignInManager<AppUser> signInManager,
+    ISender sender) : IIdentityService
 {
+    private async Task<OnboardingStatus> GetStatus(Guid userId, string role) 
+        => await sender.Send(new GetOnboardingStatusQuery(userId, role));
     // Authenticates a user and returns their JWT-ready data
     public async Task<Result<AppUserDto>> AuthenticateAsync(string email, string password)
 {
@@ -48,8 +53,10 @@ public class IdentityService(
     var role = roles.Count >0 ? roles[0]:null;
     if (role is null)
     return Error.Validation("Auth.RoleMissing", "User has no role.");
+
+    var onboarding = await GetStatus(user.Id, role);
         
-    return new AppUserDto(user.Id, user.Email!, role, user.FullName!, user.Status);
+    return new AppUserDto(user.Id, user.Email!, role, user.FullName!, user.Status,onboarding.IsProfileComplete,onboarding.HasCv);
 }
 
     // Creates a new user with a specific role (Experts start as Pending)
@@ -152,9 +159,11 @@ public async Task<Result<AppUserDto>> GetUserByIdAsync(string userId)
     var role = roles.Count > 0 ? roles[0] : null;
     
     if (role is null)
-        return Error.Validation("User.RoleMissing", "The user has no assigned role.");
+     return Error.Validation("User.RoleMissing", "The user has no assigned role.");
+
+     var onboarding = await GetStatus(user.Id, role);
     
-    return new AppUserDto(user.Id, user.Email!, role, user.FullName!, user.Status);
+    return new AppUserDto(user.Id, user.Email!, role, user.FullName!, user.Status,onboarding.IsProfileComplete,onboarding.HasCv);
 }
 
 public async Task<Result<AppUserDto>> GetUserByEmailAsync(string email)
@@ -168,8 +177,10 @@ public async Task<Result<AppUserDto>> GetUserByEmailAsync(string email)
     
     if (role is null)
         return Error.Validation("User.RoleMissing", "The user has no assigned role.");
-    
-    return new AppUserDto(user.Id, user.Email!, role, user.FullName!, user.Status);
+
+      var onboarding = await GetStatus(user.Id, role);
+
+    return new AppUserDto(user.Id, user.Email!, role, user.FullName!, user.Status,onboarding.IsProfileComplete,onboarding.HasCv);
 }
 
 public async Task<Result<string>> GetUserRoleAsync(string userId)

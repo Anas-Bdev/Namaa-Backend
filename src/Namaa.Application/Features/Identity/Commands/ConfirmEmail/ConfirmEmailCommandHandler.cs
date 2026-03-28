@@ -18,7 +18,7 @@ public class ConfirmEmailCommandHandler(IIdentityService service, ITokenProvider
     if (!userResult.IsSuccess)
         return userResult.Errors;
 
-    var tokenResponse = await tokenProvider.GenerateJwtTokenAsync(userResult.Value);
+    var tokenResponse = await tokenProvider.GenerateJwtTokenAsync(userResult.Value,ct:cancellationToken);
     if (!tokenResponse.IsSuccess)
         return tokenResponse.Errors;
 

@@ -10,8 +10,9 @@ public class LoginRequest
     public string Email {get;init;}=default!;
     [Required(ErrorMessage = "Password is required.")]
     public string Password {get;init;}=default!;
+    public bool RememberMe {get;init;}
     public LoginCommand ToCommand()
     {
-        return new(Email,Password);
+        return new(Email,Password,RememberMe);
     }
 }

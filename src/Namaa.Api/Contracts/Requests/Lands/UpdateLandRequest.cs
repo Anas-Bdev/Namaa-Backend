@@ -29,9 +29,10 @@ public class UpdateLandRequest
     [Required(ErrorMessage = "Environment type is required.")]
     public EnvironmentType EnvironmentType { get; init; }
 
-    public UpdateLandCommand ToCommand(Guid landId)
+    public UpdateLandCommand ToCommand(Guid landId,Guid farmerId)
     {
         return new UpdateLandCommand(
+            farmerId,
             landId,
             Name,
             AreaDonum,

@@ -19,7 +19,7 @@ public class LoginCommandHandler(
             return authResult.Errors;
         }
 
-        var tokenResult = await tokenProvider.GenerateJwtTokenAsync(authResult.Value);
+        var tokenResult = await tokenProvider.GenerateJwtTokenAsync(authResult.Value,request.RememberMe,cancellationToken);
         
         if (!tokenResult.IsSuccess)
         {

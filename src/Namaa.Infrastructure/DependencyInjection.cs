@@ -12,6 +12,7 @@ using Namaa.Application.Common.Interfaces;
 using Namaa.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Namaa.Infrastructure.Persistence.Interceptors;
+using Namaa.Infrastructure.Settings;
 
 namespace Namaa.Infrastructure;
 
@@ -23,6 +24,11 @@ public static class DependencyInjection
         services.AddHttpContextAccessor();
 
         services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>();
+        services.AddScoped<IUserReadRepository,UserReadRepository>();
+        services.Configure<SmtpOptions>(configuration.GetSection("Smtp"));
+        services.Configure<CloudinarySettings>(configuration.GetSection("Cloudinary"));
+        services.AddScoped<IFileService,CloudinaryFileService>();
+
 
         var connectionString = configuration.GetConnectionString("DefaultConnection");
         ArgumentNullException.ThrowIfNull(connectionString);
