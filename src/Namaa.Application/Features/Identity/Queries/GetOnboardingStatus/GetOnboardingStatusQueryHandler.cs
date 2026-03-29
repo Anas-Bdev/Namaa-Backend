@@ -36,7 +36,7 @@ public class GetOnboardingStatusQueryHandler(IAppDbContext context)
     {
         var expert = await context.ExpertProfiles
             .Where(x => x.Id == userId) 
-            .Select(e => new { e.CvUrl, e.CityId })
+            .Select(e => new { e.CvUrl, e.GovernorateId })
             .FirstOrDefaultAsync(ct);
 
         if (expert == null) 
@@ -45,7 +45,7 @@ public class GetOnboardingStatusQueryHandler(IAppDbContext context)
         bool hasCv = !string.IsNullOrEmpty(expert.CvUrl);
         
 
-        bool isComplete = expert.CityId.HasValue; 
+        bool isComplete = expert.GovernorateId.HasValue; 
 
         return new OnboardingStatus(hasCv, isComplete);
     }
