@@ -20,7 +20,7 @@ public class GovernorateConfiguration : IEntityTypeConfiguration<Governorate>
          .HasMaxLength(100);
             
             builder.HasData(
-     new Governorate(1,  "Jerusalem", 26.0f, 10.0f, 525, "Low"),
+    new Governorate(1,  "Jerusalem", 26.0f, 10.0f, 525, "Low"),
     new Governorate(2,  "Ramallah",  24.0f, 9.0f,  615, "Medium"),
     new Governorate(3,  "Hebron",    24.0f, 11.0f, 425, "Low"),
     new Governorate(4,  "Bethlehem", 27.0f, 10.0f, 525, "Low to Medium"),
@@ -32,6 +32,6 @@ public class GovernorateConfiguration : IEntityTypeConfiguration<Governorate>
     new Governorate(10, "Tubas",     30.0f, 12.0f, 375, "Medium"),
     new Governorate(11, "Jericho",   36.0f, 15.0f, 175, "Low"),
     new Governorate(12, "Gaza",      30.0f, 12.5f, 375, "Very Low")
-            );
+      );
     }
 }
