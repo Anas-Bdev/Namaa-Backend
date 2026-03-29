@@ -11,7 +11,12 @@ public class GetMyLandsQueryHandler(IAppDbContext context) : IRequestHandler<Get
     
     public async Task<Result<List<LandDto>>> Handle(GetMyLandsQuery request, CancellationToken cancellationToken)
     {
-    var lands=await context.Lands.Where(l => l.FarmerId==request.FarmerId).AsNoTracking().ToListAsync(cancellationToken);
+    var lands = await context.Lands
+            .Where(l => l.FarmerId == request.FarmerId)
+            .Include(l => l.Governorate) 
+            .Include(l => l.SoilType)    
+            .AsNoTracking()              
+            .ToListAsync(cancellationToken);
     return lands.ToDtos();
     }
 }

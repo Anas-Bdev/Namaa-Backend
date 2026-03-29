@@ -12,7 +12,10 @@ public class GetLandByIdQueryHandler(IAppDbContext context) : IRequestHandler<Ge
 {
     public async Task<Result<LandDto>> Handle(GetLandByIdQuery request, CancellationToken cancellationToken)
     {
-        var land=await context.Lands.AsNoTracking().FirstOrDefaultAsync(l => l.Id==request.LandId,cancellationToken);
+        var land=await context.Lands.AsNoTracking()
+        .Include(l => l.Governorate)
+        .Include(l => l.SoilType)
+        .FirstOrDefaultAsync(l => l.Id==request.LandId,cancellationToken);
         if(land is null)
         return ApplicationErrors.LandNotFound;
         if (land.FarmerId != request.FarmerId)

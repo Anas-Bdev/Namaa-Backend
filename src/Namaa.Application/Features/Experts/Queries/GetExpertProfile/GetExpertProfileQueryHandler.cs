@@ -14,13 +14,14 @@ public class GetExpertProfileQueryHandler(IAppDbContext context,IUserReadReposit
     public async Task<Result<ExpertProfileDto>> Handle(GetExpertProfileQuery request, CancellationToken cancellationToken)
     {
         var usersQuery = userReadRepository.Query();
-
-        var query = from expert in context.ExpertProfiles
-                        .Include(x => x.Availabilities) 
-                        .AsNoTracking()
-                    join user in usersQuery on expert.Id equals user.Id
-                    where expert.Id == request.UserId 
-                    select new { expert, user };
+        
+          var query = from expert in context.ExpertProfiles
+                    .Include(x => x.Availabilities)
+                    .Include(x => x.Governorate)  
+                    .AsNoTracking()
+                join user in usersQuery on expert.Id equals user.Id
+                where expert.Id == request.UserId 
+                select new { expert, user };
 
         var result = await query.FirstOrDefaultAsync(cancellationToken);
 

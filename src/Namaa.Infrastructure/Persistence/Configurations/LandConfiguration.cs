@@ -21,7 +21,8 @@ public class LandConfiguration : IEntityTypeConfiguration<Land>
             .HasMaxLength(200);
 
         builder.Property(l => l.Area)
-            .IsRequired();
+            .IsRequired()
+            .HasPrecision(18,2);
 
         builder.Property(l => l.WaterSourceType)
             .IsRequired()
@@ -38,11 +39,26 @@ public class LandConfiguration : IEntityTypeConfiguration<Land>
             .HasConversion<string>()
             .HasMaxLength(50);
 
-        builder.Property(l => l.CityId)
+             builder.Property(l => l.IrrigationMethod)
+            .IsRequired()
+            .HasConversion<string>()
+            .HasMaxLength(50);
+
+        builder.Property(l => l.GovernorateId)
             .IsRequired();
 
-        builder.Property(l => l.SoilId)
+        builder.Property(l => l.SoilTypeId)
             .IsRequired();
+
+        builder.HasOne(l => l.SoilType)
+               .WithMany() // A SoilType can be found on many Lands
+               .HasForeignKey(l => l.SoilTypeId)
+               .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne(l => l.Governorate)
+               .WithMany() // A Governorate can have many Lands
+               .HasForeignKey(l => l.GovernorateId)
+               .OnDelete(DeleteBehavior.Restrict); // Important!
 
         builder.HasOne<AppUser>()
             .WithMany()

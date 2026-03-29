@@ -24,7 +24,8 @@ public class UpdateLandCommandHandler(IAppDbContext context) : IRequestHandler<U
             request.AreaDonum,
             request.WaterSourceType,
             request.WaterAvailability,
-            request.EnvironmentType
+            request.EnvironmentType,
+            request.IrrigationMethod
         );
         if(updateResult.IsError)
         return updateResult.Errors;

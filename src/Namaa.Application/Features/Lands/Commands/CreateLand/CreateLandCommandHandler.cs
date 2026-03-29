@@ -20,7 +20,8 @@ public class CreateLandCommandHandler(IAppDbContext context) : IRequestHandler<C
             request.AreaDonum,
             request.WaterSourceType,
             request.WaterAvailability,
-            request.EnvironmentType
+            request.EnvironmentType,
+            request.IrrigationMethod
         );
        
        if(createLandResult.IsError)

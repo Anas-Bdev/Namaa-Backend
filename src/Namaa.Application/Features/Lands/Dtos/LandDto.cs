@@ -6,9 +6,12 @@ public class LandDto
     public Guid LandId {get;set;}
     public string Name {get;set;}=string.Empty;
     public double AreaDonum {get;set;}
-    public int CityId {get;set;}
-    public int SoilId {get;set;}
+    public int GovernorateId {get;set;}
+    public int SoilTypeId {get;set;}
+    public string GovernorateName {get;set;}=string.Empty;
+    public string SoilTypeName {get;set;}=string.Empty;
     public WaterSourceType WaterSourceType {get;set;}
+    public IrrigationMethod IrrigationMethod {get;set;}
     public WaterAvailability WaterAvailability {get;set;}
     public EnvironmentType EnvironmentType {get;set;}
 

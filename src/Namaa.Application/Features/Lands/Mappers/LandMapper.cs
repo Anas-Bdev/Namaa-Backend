@@ -10,14 +10,17 @@ public static class LandMapper
         
         return new LandDto
         {
+            GovernorateName=entity.Governorate!.Name!,
+            SoilTypeName=entity.SoilType!.Name!,
             LandId=entity.Id,
             Name=entity.Name!,
             AreaDonum=entity.Area,
-            CityId=entity.CityId,
-            SoilId=entity.SoilId,
+            GovernorateId=entity.Governorate!.Id,
+            SoilTypeId=entity.SoilType!.Id,
             WaterSourceType=entity.WaterSourceType,
             WaterAvailability=entity.WaterAvailability,
-            EnvironmentType=entity.EnvironmentType
+            EnvironmentType=entity.EnvironmentType,
+            IrrigationMethod=entity.IrrigationMethod
         };
     }
     public static List<LandDto> ToDtos(this IEnumerable<Land> entities)

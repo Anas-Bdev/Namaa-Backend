@@ -27,5 +27,15 @@ public class ExpertAvailabilityConfiguration : IEntityTypeConfiguration<ExpertAv
             .IsRequired();
 
             builder.HasIndex(a => a.ExpertProfileId);
+
+            builder.HasOne(a => a.Expert)
+            .WithMany(e => e.Availabilities)
+            .HasForeignKey(a => a.ExpertProfileId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+    builder.Property(a => a.Day)
+    .IsRequired()
+    .HasConversion<string>()
+    .HasMaxLength(20);
     }
 }

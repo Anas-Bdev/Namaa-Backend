@@ -25,7 +25,7 @@ public class GetExpertsQueryHandler(IAppDbContext context,IUserReadRepository us
 
         if (request.CityId.HasValue)
         {
-            query=query.Where(x => x.expert.CityId==request.CityId);
+            query=query.Where(x => x.expert.GovernorateId==request.CityId);
         }
      
      var totalCount=await query.CountAsync(cancellationToken);
@@ -36,10 +36,11 @@ public class GetExpertsQueryHandler(IAppDbContext context,IUserReadRepository us
                .Take(request.PageSize)
                .Select(x => new ExpertSummaryDto
                {
+                Governorate=x.expert.Governorate!.Name!,
                 Id=x.expert.Id,
                 FullName=x.user.FullName,
                 Specialization=x.expert.Specialization.ToString()!,
-                CityId=x.expert.CityId ?? 0,
+                GovernorateId=x.expert.Governorate.Id,
                 YearsOfExperience=x.expert.YearsOfExperience ?? 0
            }).ToListAsync(cancellationToken);
 

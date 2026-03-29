@@ -21,13 +21,16 @@ public class CreateLandRequest
     public int SoilId { get; init; }
 
     [Required(ErrorMessage = "Water source type is required.")]
-    public WaterSourceType WaterSourceType { get; init; }
+    public WaterSourceType? WaterSourceType { get; init; }
 
     [Required(ErrorMessage = "Water availability is required.")]
-    public WaterAvailability WaterAvailability { get; init; }
+    public WaterAvailability? WaterAvailability { get; init; }
+    
+    [Required(ErrorMessage ="Irrigation Method is required.")]
+    public IrrigationMethod? IrrigationMethod {get;init;}
 
     [Required(ErrorMessage = "Environment type is required.")]
-    public EnvironmentType EnvironmentType { get; init; }
+    public EnvironmentType? EnvironmentType { get; init; }
 
     public CreateLandCommand ToCommand(Guid farmerId)
     {
@@ -37,9 +40,10 @@ public class CreateLandRequest
             AreaDonum,
             CityId,
             SoilId,
-            WaterSourceType,
-            WaterAvailability,
-            EnvironmentType
+            IrrigationMethod!.Value,
+            WaterSourceType!.Value,
+            WaterAvailability!.Value,
+            EnvironmentType!.Value
         );
     }
 }

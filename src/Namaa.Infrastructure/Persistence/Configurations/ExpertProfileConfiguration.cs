@@ -18,6 +18,11 @@ public class ExpertProfileConfiguration : IEntityTypeConfiguration<ExpertProfile
 
         builder.Property(e => e.AddressDetail)
         .HasMaxLength(250);
+
+        builder.HasOne(e => e.Governorate)
+            .WithMany() // One Governorate can have many Experts
+            .HasForeignKey(e => e.GovernorateId)
+            .OnDelete(DeleteBehavior.Restrict);
         
         builder.HasMany(e => e.Availabilities)
         .WithOne(a => a.Expert)

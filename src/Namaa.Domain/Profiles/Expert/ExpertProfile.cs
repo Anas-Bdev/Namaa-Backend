@@ -1,13 +1,15 @@
 using Namaa.Domain.Common;
 using Namaa.Domain.Common.Results;
 using Namaa.Domain.Enums;
+using Namaa.Domain.ReferenceData;
 
 namespace Namaa.Domain.Profiles.Expert;
 public sealed class ExpertProfile:AuditableEntity
 {
     public string? CvUrl {get;private set;}
     public int? YearsOfExperience {get;private set;}
-    public int? CityId {get;private set;}
+    public int? GovernorateId {get;private set;}
+    public Governorate? Governorate {get;private set;}
     public string? AddressDetail {get;private set;}
     public ExpertSpecialization? Specialization {get;private set;}
     public bool? CanVisitOnSite {get;private set;}
@@ -44,7 +46,7 @@ public sealed class ExpertProfile:AuditableEntity
 
     Specialization = specialization;
     YearsOfExperience = yearsOfExperience;
-    CityId = cityId;
+    GovernorateId = cityId;
     AddressDetail = addressDetail;
     CanVisitOnSite = canVisitOnSite;
 
