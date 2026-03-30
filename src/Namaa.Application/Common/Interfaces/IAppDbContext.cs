@@ -4,6 +4,7 @@ using Namaa.Domain.Identity;
 using Namaa.Domain.Land;
 using Namaa.Domain.Profiles.Expert;
 using Namaa.Domain.Profiles.Farmer;
+using Namaa.Domain.Profiles.Trader;
 
 public interface IAppDbContext
 {
@@ -13,5 +14,7 @@ public interface IAppDbContext
 DbSet<ExpertProfile> ExpertProfiles { get; }
 DbSet<ExpertAvailability> ExpertAvailabilities { get; }
 DbSet<FarmerProfile> FarmerProfiles { get; }
+DbSet<TraderProfile> TraderProfiles { get; }
+
 Task<int> SaveChangesAsync(CancellationToken ct=default);
 }

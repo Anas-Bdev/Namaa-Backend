@@ -15,4 +15,6 @@ public static class FarmerErrors
 
     public static readonly Error FarmerNotFound = Error.NotFound(
         "Farmer.NotFound", "Farmer profile was not found.");
+
+   
 }
