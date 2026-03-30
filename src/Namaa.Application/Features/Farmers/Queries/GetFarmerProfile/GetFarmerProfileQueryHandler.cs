@@ -5,6 +5,7 @@ using Namaa.Application.Common.Interfaces;
 using Namaa.Application.Features.Farmers.Dtos;
 using Namaa.Application.Features.Farmers.Mappers;
 using Namaa.Domain.Common.Results;
+using Namaa.Domain.Profiles.Farmer;
 
 namespace Namaa.Application.Features.Farmers.Queries.GetFarmerProfile;
 
@@ -22,7 +23,7 @@ public class GetFarmerProfileQueryHandler(
             .FirstOrDefaultAsync(f => f.Id == request.UserId, cancellationToken);
 
         if (farmer is null)
-            return ApplicationErrors.FarmerNotFound;
+            return FarmerErrors.FarmerNotFound;
 
         var users = await userReadRepository.Query()
             .ToListAsync(cancellationToken);

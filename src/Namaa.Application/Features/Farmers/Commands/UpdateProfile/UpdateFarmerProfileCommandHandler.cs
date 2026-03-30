@@ -5,6 +5,7 @@ using Namaa.Application.Common.Interfaces;
 using Namaa.Application.Features.Farmers.Dtos;
 using Namaa.Application.Features.Farmers.Mappers;
 using Namaa.Domain.Common.Results;
+using Namaa.Domain.Profiles.Farmer;
 
 namespace Namaa.Application.Features.Farmers.Commands.UpdateProfile;
 
@@ -21,7 +22,7 @@ public class UpdateFarmerProfileCommandHandler(
             .FirstOrDefaultAsync(x => x.Id == request.UserId, cancellationToken);
 
         if (farmer is null)
-            return ApplicationErrors.FarmerNotFound;
+            return FarmerErrors.FarmerNotFound;
 
         var result = farmer.UpdateProfile(
             request.Description,

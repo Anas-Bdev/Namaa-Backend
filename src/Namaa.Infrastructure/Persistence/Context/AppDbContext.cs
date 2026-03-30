@@ -5,6 +5,7 @@ using Namaa.Domain.Common;
 using Namaa.Domain.Identity;
 using Namaa.Domain.Land;
 using Namaa.Domain.Profiles.Expert;
+using Namaa.Domain.Profiles.Farmer;
 using Namaa.Infrastructure.Identity;
 namespace Namaa.Infrastructure.Persistence.Context;
 public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbContext<AppUser,AppRole,Guid>(options),IAppDbContext
@@ -14,6 +15,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
 
     public DbSet<ExpertProfile> ExpertProfiles => Set<ExpertProfile>();
 
+    public DbSet<FarmerProfile> FarmerProfiles { get; set; }
     public DbSet<ExpertAvailability> ExpertAvailabilities => Set<ExpertAvailability>();
 
     public override async Task<int> SaveChangesAsync(CancellationToken ct = default)

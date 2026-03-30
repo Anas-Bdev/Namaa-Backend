@@ -9,4 +9,10 @@ public static class FarmerErrors
 
     public static readonly Error CityRequired = Error.Validation(
         "Farmer.CityRequired", "A valid city must be selected.");
+
+    public static readonly Error FarmerAlreadyExists = Error.Conflict(
+        "Farmer.AlreadyExists", "Farmer profile already exists.");
+
+    public static readonly Error FarmerNotFound = Error.NotFound(
+        "Farmer.NotFound", "Farmer profile was not found.");
 }
