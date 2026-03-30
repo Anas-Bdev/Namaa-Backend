@@ -31,7 +31,7 @@ public class GetFarmersQueryHandler(
             .Skip((request.PageNumber - 1) * request.PageSize)
             .Take(request.PageSize)
             .ToListAsync(cancellationToken);
-
+        
        
         var users = await userReadRepository.Query()
             .ToListAsync(cancellationToken);
