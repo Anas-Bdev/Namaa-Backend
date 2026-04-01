@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Namaa.Application.Common.Interfaces;
 using Namaa.Application.Features.Lands.Dtos;
 using Namaa.Application.Features.Lands.Mappers;
@@ -28,7 +29,12 @@ public class CreateLandCommandHandler(IAppDbContext context) : IRequestHandler<C
        return createLandResult.Errors;
        context.Lands.Add(createLandResult.Value);
        await context.SaveChangesAsync(cancellationToken);
-        var land=createLandResult.Value;
-        return land.ToDto();
+       var land=createLandResult.Value;
+       var landWithDetails = await context.Lands
+        .Include(l => l.Governorate)
+        .Include(l => l.SoilType)
+        .AsNoTracking()
+        .FirstOrDefaultAsync(l => l.Id == land.Id, cancellationToken);
+        return landWithDetails!.ToDto();
     }
 }

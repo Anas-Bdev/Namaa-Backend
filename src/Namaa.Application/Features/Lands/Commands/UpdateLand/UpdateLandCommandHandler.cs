@@ -31,5 +31,8 @@ public class UpdateLandCommandHandler(IAppDbContext context) : IRequestHandler<U
         return updateResult.Errors;
         await context.SaveChangesAsync(cancellationToken);
          return Result.Updated;
+
+
+
     }
 }
