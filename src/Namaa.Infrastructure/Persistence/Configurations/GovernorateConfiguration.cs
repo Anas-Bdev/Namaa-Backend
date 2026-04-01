@@ -18,6 +18,9 @@ public class GovernorateConfiguration : IEntityTypeConfiguration<Governorate>
          builder.Property(g => g.WaterAvailability)
          .IsRequired()
          .HasMaxLength(100);
+
+         builder.Property(g => g.AvgRainfall)
+         .IsRequired();
             
             builder.HasData(
     new Governorate(1,  "Jerusalem", 26.0f, 10.0f, 525, "Low"),
