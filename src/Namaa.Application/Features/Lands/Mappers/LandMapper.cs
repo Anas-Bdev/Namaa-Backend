@@ -20,7 +20,9 @@ public static class LandMapper
             WaterSourceType=entity.WaterSourceType,
             WaterAvailability=entity.WaterAvailability,
             EnvironmentType=entity.EnvironmentType,
-            IrrigationMethod=entity.IrrigationMethod
+            IrrigationMethod=entity.IrrigationMethod,
+            AddressDetail=entity.AddressDetail!
+
         };
     }
     public static List<LandDto> ToDtos(this IEnumerable<Land> entities)

@@ -7,10 +7,10 @@ namespace Namaa.Infrastructure.Services;
 
 public class WeatherService(IConfiguration configuration,HttpClient httpClient) : IWeatherService
 {
-    public async Task<WeatherDto> GetWeatherByCityAsync(string cityName, CancellationToken cancellationToken)
+    public async Task<WeatherDto> GetWeatherByCityAsync(double latitude,double longitude, CancellationToken cancellationToken)
     {
       var apiKey=configuration["WeatherApi:OpenWeatherMapKey"];
-      var url = $"https://api.openweathermap.org/data/2.5/weather?q={cityName}&appid={apiKey}&units=metric";
+      var url = $"https://api.openweathermap.org/data/2.5/weather?lat={latitude}&lon={longitude}&units=metric&appid={apiKey}";
       var response=await httpClient.GetFromJsonAsync<OpenWeatherResponse>(url,cancellationToken);
       var dto = new WeatherDto
             {

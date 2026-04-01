@@ -20,4 +20,12 @@ public static class LandErrors
 
     public static readonly Error SoilRequired = 
         Error.Validation("Land_SoilId_Required", "Soil type selection is required.");
+        public static readonly Error AddressRequired = 
+        Error.Validation("Land_AddressDetail_Required", "A detailed address description is required.");
+
+    public static readonly Error InvalidLatitude = 
+        Error.Validation("Land_Latitude_Invalid", "Latitude must be within the valid geographical boundaries of Palestine (31.0 to 33.0).");
+
+    public static readonly Error InvalidLongitude = 
+        Error.Validation("Land_Longitude_Invalid", "Longitude must be within the valid geographical boundaries of Palestine (34.0 to 36.0).");
 }

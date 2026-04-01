@@ -7,6 +7,7 @@ namespace Namaa.Application.Features.Lands.Commands.CreateLand;
 
 public sealed record CreateLandCommand(
     Guid FarmerId,
+    string AddressDetail,
     string Name,
     double AreaDonum,
     int CityId,
