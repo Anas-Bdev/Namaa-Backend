@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Namaa.Application.Common.Interfaces;
@@ -5,6 +6,7 @@ using Namaa.Domain.Common;
 using Namaa.Domain.Identity;
 using Namaa.Domain.Land;
 using Namaa.Domain.Profiles.Expert;
+using Namaa.Domain.ReferenceData;
 using Namaa.Infrastructure.Identity;
 namespace Namaa.Infrastructure.Persistence.Context;
 public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbContext<AppUser,AppRole,Guid>(options),IAppDbContext
@@ -16,13 +18,18 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
 
     public DbSet<ExpertAvailability> ExpertAvailabilities => Set<ExpertAvailability>();
 
+    public DbSet<Crop> Crops => Set<Crop>();
+
+    public DbSet<SoilType> SoilTypes => Set<SoilType>();
+
+    public DbSet<Governorate> Governorates => Set<Governorate>();
+
     public override async Task<int> SaveChangesAsync(CancellationToken ct = default)
     {
         return await base.SaveChangesAsync(ct);
     }
 
    
-    
     protected override void OnModelCreating(ModelBuilder builder)
     {
        base.OnModelCreating(builder);

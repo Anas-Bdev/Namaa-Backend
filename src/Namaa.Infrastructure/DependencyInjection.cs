@@ -34,12 +34,14 @@ public static class DependencyInjection
         ArgumentNullException.ThrowIfNull(connectionString);
         
         services.AddScoped<ApplicationDbContextInitializer>();
+        services.AddScoped<IAiConsultantService,OpenAiConsultantService>();
         
         services.AddDbContext<AppDbContext>((sp, options) =>
         {
             var interceptor = sp.GetRequiredService<ISaveChangesInterceptor>();
             options.UseNpgsql(connectionString)
                    .AddInterceptors(interceptor);
+            options.ConfigureWarnings(warnings => warnings.Ignore(RelationalEventId.PendingModelChangesWarning));
         });
 
         services.AddScoped<IAppDbContext>(provider => provider.GetRequiredService<AppDbContext>());

@@ -1,3 +1,4 @@
+
 namespace Namaa.Domain.ReferenceData;
 public sealed class SoilType
 {
