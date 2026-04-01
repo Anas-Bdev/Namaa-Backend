@@ -65,5 +65,17 @@ public class LandConfiguration : IEntityTypeConfiguration<Land>
             .HasForeignKey(l => l.FarmerId)
             .IsRequired()
             .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Property(l => l.AddressDetail)
+        .IsRequired()
+        .HasMaxLength(250); // Limits the column size so it doesn't default to NVARCHAR(MAX)
+
+    // 2. Configure Latitude
+    builder.Property(l => l.Latitude)
+        .IsRequired(); 
+
+    // 3. Configure Longitude
+    builder.Property(l => l.Longitude)
+        .IsRequired();
     }
 }

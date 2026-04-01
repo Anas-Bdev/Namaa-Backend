@@ -20,8 +20,8 @@ public class GetLocalWeatherQueryHandler(IAppDbContext context,IWeatherService w
                if(land is null)
                return ApplicationErrors.LandNotFound;
                
-        string cityName=land.Governorate!.Name!;
+        
 
-       return await weatherService.GetWeatherByCityAsync(cityName,cancellationToken);
+       return await weatherService.GetWeatherByCityAsync(land.Latitude,land.Longitude,cancellationToken);
     }
 }

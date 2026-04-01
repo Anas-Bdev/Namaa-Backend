@@ -29,6 +29,7 @@ public static class DependencyInjection
         services.Configure<CloudinarySettings>(configuration.GetSection("Cloudinary"));
         services.AddScoped<IFileService,CloudinaryFileService>();
         services.AddHttpClient<IWeatherService,WeatherService>();
+        services.AddHttpClient<IGeocodingService, NominatimGeocodingService>();
 
         var connectionString = configuration.GetConnectionString("DefaultConnection");
         ArgumentNullException.ThrowIfNull(connectionString);

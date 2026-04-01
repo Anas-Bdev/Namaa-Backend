@@ -3,6 +3,7 @@ using Namaa.Domain.Enums;
 namespace Namaa.Application.Features.Lands.Dtos;
 public class LandDto
 {
+    public string AddressDetail {get;set;}=string.Empty;
     public Guid LandId {get;set;}
     public string Name {get;set;}=string.Empty;
     public double AreaDonum {get;set;}
