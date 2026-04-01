@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Namaa.Infrastructure.Persistence.Context;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Namaa.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260401220606_AddLocationFieldToLand")]
+    partial class AddLocationFieldToLand
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -3801,9 +3804,6 @@ namespace Namaa.Infrastructure.Persistence.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("AvgRainfall")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -3822,84 +3822,72 @@ namespace Namaa.Infrastructure.Persistence.Migrations
                         new
                         {
                             Id = 1,
-                            AvgRainfall = 525,
                             Name = "Jerusalem",
                             WaterAvailability = "Low"
                         },
                         new
                         {
                             Id = 2,
-                            AvgRainfall = 615,
                             Name = "Ramallah",
                             WaterAvailability = "Medium"
                         },
                         new
                         {
                             Id = 3,
-                            AvgRainfall = 425,
                             Name = "Hebron",
                             WaterAvailability = "Low"
                         },
                         new
                         {
                             Id = 4,
-                            AvgRainfall = 525,
                             Name = "Bethlehem",
                             WaterAvailability = "Low to Medium"
                         },
                         new
                         {
                             Id = 5,
-                            AvgRainfall = 650,
                             Name = "Nablus",
                             WaterAvailability = "Medium to High"
                         },
                         new
                         {
                             Id = 6,
-                            AvgRainfall = 500,
                             Name = "Jenin",
                             WaterAvailability = "High"
                         },
                         new
                         {
                             Id = 7,
-                            AvgRainfall = 575,
                             Name = "Tulkarm",
                             WaterAvailability = "Medium"
                         },
                         new
                         {
                             Id = 8,
-                            AvgRainfall = 650,
                             Name = "Qalqilya",
                             WaterAvailability = "High"
                         },
                         new
                         {
                             Id = 9,
-                            AvgRainfall = 550,
                             Name = "Salfit",
                             WaterAvailability = "Medium"
                         },
                         new
                         {
                             Id = 10,
-                            AvgRainfall = 375,
                             Name = "Tubas",
                             WaterAvailability = "Medium"
                         },
                         new
                         {
                             Id = 11,
-                            AvgRainfall = 175,
                             Name = "Jericho",
                             WaterAvailability = "Low"
                         },
                         new
                         {
                             Id = 12,
-                            AvgRainfall = 375,
                             Name = "Gaza",
                             WaterAvailability = "Very Low"
                         });

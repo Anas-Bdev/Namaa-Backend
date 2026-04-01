@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using Namaa.Domain.Common;
 using Namaa.Domain.Common.Results;
 using Namaa.Domain.Enums;
@@ -8,6 +9,9 @@ public sealed class Land : AuditableEntity
 {
     public Guid FarmerId { get; }
     public int GovernorateId { get; private set; }
+    public double Latitude {get;private set;}
+    public double Longitude {get;private set;}
+    public string? AddressDetail {get;private set;}
     public int SoilTypeId { get; private set; }
     public string? Name { get; private set; }
     public double Area { get; private set; }
@@ -31,7 +35,10 @@ public sealed class Land : AuditableEntity
         WaterSourceType waterSourceType, 
         WaterAvailability waterAvailability, 
         EnvironmentType environmentType,
-        IrrigationMethod irrigationMethod) 
+        IrrigationMethod irrigationMethod,
+        double latitude,
+        double longitude,
+        string addressDetail) 
         : base(id)
     {
         FarmerId = farmerId;
@@ -43,6 +50,9 @@ public sealed class Land : AuditableEntity
         WaterAvailability = waterAvailability;
         EnvironmentType = environmentType;
         IrrigationMethod = irrigationMethod; 
+        Latitude=latitude;
+        Longitude=longitude;
+        AddressDetail=addressDetail;
     }
 
     public static Result<Land> Create(
@@ -55,10 +65,23 @@ public sealed class Land : AuditableEntity
         WaterSourceType waterSourceType, 
         WaterAvailability waterAvailability, 
         EnvironmentType environmentType,
-        IrrigationMethod irrigationMethod) 
+        IrrigationMethod irrigationMethod,
+        double latitude,
+        double longitude,
+        string addressDetail) 
     {
         if (id == Guid.Empty)
             return LandErrors.IdRequired;
+
+        if(string.IsNullOrWhiteSpace(addressDetail))    
+        return LandErrors.AddressRequired;
+
+        if (latitude < 31.0 || latitude > 33.0)
+        return LandErrors.InvalidLatitude;
+
+    // 3. Validate Longitude
+       if (longitude < 34.0 || longitude > 36.0)
+        return LandErrors.InvalidLongitude;
 
         if (farmerId == Guid.Empty)
             return LandErrors.FarmerIdRequired;
@@ -85,7 +108,10 @@ public sealed class Land : AuditableEntity
             waterSourceType, 
             waterAvailability, 
             environmentType, 
-            irrigationMethod); 
+            irrigationMethod,
+            latitude,
+            longitude,
+            addressDetail); 
     }
 
     public Result<Updated> Update(
@@ -96,8 +122,22 @@ public sealed class Land : AuditableEntity
         WaterSourceType waterSourceType, 
         WaterAvailability waterAvailability, 
         EnvironmentType environmentType,
-        IrrigationMethod irrigationMethod) 
+        IrrigationMethod irrigationMethod,
+        double latitude,
+        double longitude,
+        string addressDetail) 
     {
+        
+        if(string.IsNullOrWhiteSpace(addressDetail))    
+        return LandErrors.AddressRequired;
+        
+         if (latitude < 31.0 || latitude > 33.0)
+        return LandErrors.InvalidLatitude;
+
+    // 3. Validate Longitude
+       if (longitude < 34.0 || longitude > 36.0)
+        return LandErrors.InvalidLongitude;
+
         if (cityId <= 0)
             return LandErrors.CityRequired;
 
@@ -118,6 +158,9 @@ public sealed class Land : AuditableEntity
         WaterAvailability = waterAvailability;
         EnvironmentType = environmentType;
         IrrigationMethod = irrigationMethod; 
+        Longitude=longitude;
+        Latitude=latitude;
+        AddressDetail=addressDetail;
 
         return Result.Updated;
     }
