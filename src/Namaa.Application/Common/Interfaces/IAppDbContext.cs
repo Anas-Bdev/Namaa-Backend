@@ -3,13 +3,18 @@ using Microsoft.EntityFrameworkCore;
 using Namaa.Domain.Identity;
 using Namaa.Domain.Land;
 using Namaa.Domain.Profiles.Expert;
+using Namaa.Domain.ReferenceData;
 
 public interface IAppDbContext
 {
  
  DbSet<RefreshToken> RefreshTokens {get;}
+ DbSet<Crop> Crops {get;}
+ DbSet<SoilType> SoilTypes {get;}
+ DbSet<Governorate> Governorates {get;}
  DbSet<Land> Lands {get;}
 DbSet<ExpertProfile> ExpertProfiles { get; }
 DbSet<ExpertAvailability> ExpertAvailabilities { get; }
 Task<int> SaveChangesAsync(CancellationToken ct=default);
+
 }

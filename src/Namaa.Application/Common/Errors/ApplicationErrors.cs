@@ -10,6 +10,8 @@ public static class ApplicationErrors
     public static readonly Error ExpertNotFound=Error.NotFound("Expert.NotFound","Profile not found. Please upload your CV first.");
     public static readonly Error ExpertAlreadyExists = Error.Conflict("Expert.AlreadyExists", "A profile already exists for this user.");
     public static readonly Error Forbidden = Error.Forbidden("General.Forbidden", "You do not have permission to access this resource.");
+    public static readonly Error InvalidSoilType = Error.NotFound("SoilType.InvalidId", "The selected soil type does not exist.");
+    public static readonly Error RegionCropsNotFound = Error.NotFound("Recommendations.NotFound", "The Governorate ID is invalid.");
+}
     
 
-}
