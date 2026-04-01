@@ -23,7 +23,7 @@ public class GetFarmerProfileQueryHandler(
             .FirstOrDefaultAsync(f => f.Id == request.UserId, cancellationToken);
 
         if (farmer is null)
-            return FarmerErrors.FarmerNotFound;
+            return ApplicationErrors.FarmerNotFound;
 
         var users = await userReadRepository.Query()
             .ToListAsync(cancellationToken);

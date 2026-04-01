@@ -1,6 +1,7 @@
 namespace Namaa.Application.Common.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Namaa.Domain.Identity;
+using Namaa.Domain.Investment;
 using Namaa.Domain.Land;
 using Namaa.Domain.Profiles.Expert;
 using Namaa.Domain.Profiles.Farmer;
@@ -17,5 +18,6 @@ DbSet<ExpertAvailability> ExpertAvailabilities { get; }
 DbSet<FarmerProfile> FarmerProfiles { get; }
 DbSet<InvestorProfile> InvestorProfiles { get; }
 DbSet<TraderProfile> TraderProfiles { get; } Task<int> SaveChangesAsync(CancellationToken ct=default);
-
+DbSet<InvestmentProject> InvestmentProjects { get; }
+DbSet<InvestorContribution> InvestorContributions { get; }
 }

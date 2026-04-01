@@ -22,7 +22,7 @@ public class UpdateFarmerProfileCommandHandler(
             .FirstOrDefaultAsync(x => x.Id == request.UserId, cancellationToken);
 
         if (farmer is null)
-            return FarmerErrors.FarmerNotFound;
+            return ApplicationErrors.FarmerNotFound;
 
         var result = farmer.UpdateProfile(
             request.Description,

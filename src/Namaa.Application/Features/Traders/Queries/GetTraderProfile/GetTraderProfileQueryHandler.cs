@@ -23,7 +23,7 @@ public class GetTraderProfileQueryHandler(
             .FirstOrDefaultAsync(t => t.Id == request.UserId, cancellationToken);
 
         if (trader is null)
-            return TraderErrors.TraderNotFound;
+            return ApplicationErrors.TraderNotFound;
 
         var users = await userReadRepository.Query()
             .ToListAsync(cancellationToken);

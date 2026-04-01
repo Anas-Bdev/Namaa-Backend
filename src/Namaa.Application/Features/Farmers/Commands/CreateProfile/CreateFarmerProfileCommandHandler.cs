@@ -18,7 +18,7 @@ public class CreateFarmerProfileCommandHandler(IAppDbContext context)
             .AnyAsync(x => x.Id == request.UserId, cancellationToken);
 
         if (exists)
-            return FarmerErrors.FarmerAlreadyExists;
+            return ApplicationErrors.FarmerAlreadyExists;
 
         var result = FarmerProfile.Create(request.UserId);
 

@@ -23,7 +23,7 @@ public class GetInvestorProfileQueryHandler(
             .FirstOrDefaultAsync(i => i.Id == request.UserId, cancellationToken);
 
         if (investor is null)
-            return InvestorErrors.InvestorNotFound;
+            return ApplicationErrors.InvestorNotFound;
 
         var users = await userReadRepository.Query()
             .ToListAsync(cancellationToken);

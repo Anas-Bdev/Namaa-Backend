@@ -18,7 +18,7 @@ public class CreateTraderProfileCommandHandler(IAppDbContext context)
             .AnyAsync(x => x.Id == request.UserId, cancellationToken);
 
         if (exists)
-            return TraderErrors.TraderAlreadyExists;
+            return ApplicationErrors.TraderAlreadyExists;
 
         var result = TraderProfile.Create(request.UserId);
 

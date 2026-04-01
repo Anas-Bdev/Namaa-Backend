@@ -22,7 +22,7 @@ public class UpdateInvestorProfileCommandHandler(
             .FirstOrDefaultAsync(x => x.Id == request.UserId, cancellationToken);
 
         if (investor is null)
-            return InvestorErrors.InvestorNotFound;
+            return ApplicationErrors.InvestorNotFound;
 
         var result = investor.UpdateProfile(
             request.OrganizationName,

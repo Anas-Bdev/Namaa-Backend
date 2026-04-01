@@ -22,7 +22,7 @@ public class UpdateTraderProfileCommandHandler(
             .FirstOrDefaultAsync(x => x.Id == request.UserId, cancellationToken);
 
         if (trader is null)
-            return TraderErrors.TraderNotFound;
+            return ApplicationErrors.TraderNotFound;
 
         var result = trader.UpdateProfile(
             request.BusinessName,

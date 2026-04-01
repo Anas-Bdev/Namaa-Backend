@@ -18,7 +18,7 @@ public class CreateInvestorProfileCommandHandler(IAppDbContext context)
             .AnyAsync(x => x.Id == request.UserId, cancellationToken);
 
         if (exists)
-            return InvestorErrors.InvestorAlreadyExists;
+            return ApplicationErrors.InvestorAlreadyExists;
 
         var result = InvestorProfile.Create(request.UserId);
 
