@@ -28,7 +28,7 @@ public static class DependencyInjection
         services.Configure<SmtpOptions>(configuration.GetSection("Smtp"));
         services.Configure<CloudinarySettings>(configuration.GetSection("Cloudinary"));
         services.AddScoped<IFileService,CloudinaryFileService>();
-
+        services.AddHttpClient<IWeatherService,WeatherService>();
 
         var connectionString = configuration.GetConnectionString("DefaultConnection");
         ArgumentNullException.ThrowIfNull(connectionString);
