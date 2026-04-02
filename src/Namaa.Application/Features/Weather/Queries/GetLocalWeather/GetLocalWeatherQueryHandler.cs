@@ -13,9 +13,8 @@ public class GetLocalWeatherQueryHandler(IAppDbContext context,IWeatherService w
     public async Task<Result<WeatherDto>> Handle(GetLocalWeatherQuery request, CancellationToken cancellationToken)
     {
         var land=await context.Lands
-                .Include(l => l.Governorate)
-               .AsNoTracking()
-               .FirstOrDefaultAsync(l => l.Id==request.LandId && l.FarmerId==request.FarmerId);
+                .AsNoTracking()
+                .FirstOrDefaultAsync(l => l.Id==request.LandId && l.FarmerId==request.FarmerId);
 
                if(land is null)
                return ApplicationErrors.LandNotFound;

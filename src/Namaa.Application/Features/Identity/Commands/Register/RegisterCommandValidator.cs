@@ -32,11 +32,10 @@ public sealed class RegisterCommandValidator : AbstractValidator<RegisterCommand
         RuleFor(x => x.Role)
             .NotEmpty().WithMessage("Role is required.");
 
-        // 5. Phone Number Rules
-           RuleFor(x => x.PhoneNumber)
-           .Matches(@"^\+?[1-9]\d{1,14}$").WithMessage("Invalid international phone number format.")
-           .When(x => !string.IsNullOrWhiteSpace(x.PhoneNumber));
-            // Inside your RegisterCommandValidator constructor:
+       RuleFor(x => x.PhoneNumber)
+    .Matches(@"^(0|\+?970|\+?972)5[69]\d{7}$")
+    .WithMessage("Please enter a valid Palestinian mobile number (e.g., 059... or 056...).")
+    .When(x => !string.IsNullOrWhiteSpace(x.PhoneNumber));
      
     }
 }

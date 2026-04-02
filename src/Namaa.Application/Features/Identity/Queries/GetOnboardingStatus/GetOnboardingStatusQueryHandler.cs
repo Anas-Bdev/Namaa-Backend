@@ -28,7 +28,7 @@ public class GetOnboardingStatusQueryHandler(IAppDbContext context)
             //     return new OnboardingStatus(null, investorComplete);
 
             default:
-                return new OnboardingStatus(null, true); 
+                return new OnboardingStatus(null, false); 
         }
     }
 
