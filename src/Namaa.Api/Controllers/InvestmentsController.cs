@@ -8,6 +8,9 @@ using Namaa.Application.Features.Investments.Commands.CreateContribution;
 using Namaa.Application.Features.Investments.Commands.CreateProject;
 using Namaa.Application.Features.Investments.Commands.DeleteProject;
 using Namaa.Application.Features.Investments.Commands.RespondToContribution;
+using Namaa.Application.Features.Investments.Commands.SetActualResults;
+using Namaa.Application.Features.Investments.Commands.StartFunding;
+using Namaa.Application.Features.Investments.Commands.StartWork;
 using Namaa.Application.Features.Investments.Commands.UpdateProject;
 using Namaa.Application.Features.Investments.Queries.GetAllProjects;
 using Namaa.Application.Features.Investments.Queries.GetMyContributions;
@@ -39,14 +42,8 @@ public class InvestmentsController(ISender sender) : ControllerBase
             : ProjectCreatorRole.Investor;
 
         var command = new CreateInvestmentProjectCommand(
-            UserId,
-            creatorRole,
-            request.Title,
-            request.Description,
-            request.RequiredAmount,
-            request.ExpectedProfit,
-            request.SharePercentage
-        );
+            UserId, creatorRole, request.Title, request.Description,
+            request.RequiredAmount, request.ExpectedProfit, request.SharePercentage);
         var result = await sender.Send(command, ct);
         return result.Match(project => Ok(project), errors => this.ToProblem(errors));
     }
@@ -59,14 +56,8 @@ public class InvestmentsController(ISender sender) : ControllerBase
         CancellationToken ct)
     {
         var command = new UpdateInvestmentProjectCommand(
-            id,
-            UserId,
-            request.Title,
-            request.Description,
-            request.RequiredAmount,
-            request.ExpectedProfit,
-            request.SharePercentage
-        );
+            id, UserId, request.Title, request.Description,
+            request.RequiredAmount, request.ExpectedProfit, request.SharePercentage);
         var result = await sender.Send(command, ct);
         return result.Match(project => Ok(project), errors => this.ToProblem(errors));
     }
@@ -113,6 +104,36 @@ public class InvestmentsController(ISender sender) : ControllerBase
         return result.Match(project => Ok(project), errors => this.ToProblem(errors));
     }
 
+    [HttpPut("projects/{id}/start-funding")]
+    [Authorize(Roles = $"{AppRoles.Farmer},{AppRoles.Investor}")]
+    public async Task<IActionResult> StartFunding(Guid id, CancellationToken ct)
+    {
+        var command = new StartFundingCommand(id, UserId);
+        var result = await sender.Send(command, ct);
+        return result.Match(project => Ok(project), errors => this.ToProblem(errors));
+    }
+
+    [HttpPut("projects/{id}/start-work")]
+    [Authorize(Roles = $"{AppRoles.Farmer},{AppRoles.Investor}")]
+    public async Task<IActionResult> StartWork(Guid id, CancellationToken ct)
+    {
+        var command = new StartWorkCommand(id, UserId);
+        var result = await sender.Send(command, ct);
+        return result.Match(project => Ok(project), errors => this.ToProblem(errors));
+    }
+
+    [HttpPut("projects/{id}/set-actual-results")]
+    [Authorize(Roles = $"{AppRoles.Farmer},{AppRoles.Investor}")]
+    public async Task<IActionResult> SetActualResults(
+        Guid id,
+        [FromBody] SetActualResultsRequest request,
+        CancellationToken ct)
+    {
+        var command = new SetActualResultsCommand(id, UserId, request.ActualRevenue, request.ActualCost);
+        var result = await sender.Send(command, ct);
+        return result.Match(project => Ok(project), errors => this.ToProblem(errors));
+    }
+
     // ========== Contributions ==========
 
     [HttpPost("contributions")]
@@ -121,11 +142,7 @@ public class InvestmentsController(ISender sender) : ControllerBase
         [FromBody] CreateContributionRequest request,
         CancellationToken ct)
     {
-        var command = new CreateContributionCommand(
-            request.ProjectId,
-            UserId,
-            request.Amount
-        );
+        var command = new CreateContributionCommand(request.ProjectId, UserId, request.Amount);
         var result = await sender.Send(command, ct);
         return result.Match(contribution => Ok(contribution), errors => this.ToProblem(errors));
     }
@@ -153,4 +170,4 @@ public class InvestmentsController(ISender sender) : ControllerBase
         var result = await sender.Send(query, ct);
         return result.Match(contributions => Ok(contributions), errors => this.ToProblem(errors));
     }
-} 
+}

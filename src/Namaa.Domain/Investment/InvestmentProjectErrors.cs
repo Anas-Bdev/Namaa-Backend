@@ -20,4 +20,12 @@ public static class InvestmentProjectErrors
         "InvestmentProject.NotOpen", "This project is no longer open for contributions.");
     public static readonly Error CannotContributeToOwnProject = Error.Conflict(
         "InvestmentProject.CannotContribute", "You cannot contribute to your own project.");
+    public static readonly Error CannotUpdateProject = Error.Conflict(
+    "InvestmentProject.CannotUpdate", "Cannot update project in current status.");
+    public static readonly Error InvalidStatusTransition = Error.Conflict(
+        "InvestmentProject.InvalidStatus", "Invalid status transition.");
+    public static readonly Error InvalidActualRevenue = Error.Validation(
+        "InvestmentProject.InvalidRevenue", "Actual revenue cannot be negative.");
+    public static readonly Error InvalidActualCost = Error.Validation(
+        "InvestmentProject.InvalidCost", "Actual cost cannot be negative.");
 }

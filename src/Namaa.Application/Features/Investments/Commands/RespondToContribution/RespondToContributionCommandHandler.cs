@@ -20,6 +20,7 @@ public class RespondToContributionCommandHandler(
     {
         var contribution = await context.InvestorContributions
             .Include(c => c.Project)
+            .ThenInclude(p => p!.Contributions)
             .FirstOrDefaultAsync(c => c.Id == request.ContributionId, cancellationToken);
 
         if (contribution is null)
@@ -28,10 +29,13 @@ public class RespondToContributionCommandHandler(
         if (contribution.Project!.CreatorId != request.UserId)
             return InvestorContributionErrors.Unauthorized;
 
-        var result = request.IsApproved
-            ? contribution.Approve()
-            : contribution.Reject();
-        
+        Result<Updated> result;
+
+        if (request.IsApproved)
+            result = contribution.Project.ApproveContribution(contribution);
+        else
+            result = contribution.Project.RejectContribution(contribution);
+
         if (result.IsError)
             return result.Errors;
 

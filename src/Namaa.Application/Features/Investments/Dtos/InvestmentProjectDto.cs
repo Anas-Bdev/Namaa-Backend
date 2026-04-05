@@ -1,6 +1,4 @@
-﻿using Namaa.Domain.Enums;
-
-namespace Namaa.Application.Features.Investments.Dtos;
+﻿namespace Namaa.Application.Features.Investments.Dtos;
 
 public class InvestmentProjectDto
 {
@@ -14,6 +12,9 @@ public class InvestmentProjectDto
     public decimal AmountCollected { get; set; }
     public decimal? ExpectedProfit { get; set; }
     public decimal? SharePercentage { get; set; }
+    public decimal? ActualRevenue { get; set; }
+    public decimal? ActualCost { get; set; }
+    public decimal? ActualProfit { get; set; }
     public string Status { get; set; } = string.Empty;
     public List<ContributionDto> Contributions { get; set; } = [];
 }

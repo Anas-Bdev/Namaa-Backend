@@ -11,6 +11,8 @@ public sealed class InvestorContribution : AuditableEntity
     public Guid ContributorId { get; private set; }
     public decimal Amount { get; private set; }
     public ContributionStatus Status { get; private set; } = ContributionStatus.Pending;
+    public decimal SharePercentage { get; private set; }
+    public decimal? ProfitShare { get; private set; }
 
     private InvestorContribution() { }
 
@@ -35,15 +37,13 @@ public sealed class InvestorContribution : AuditableEntity
             return InvestorContributionErrors.ContributionIdRequired;
         if (amount <= 0)
             return InvestorContributionErrors.InvalidAmount;
-
         return new InvestorContribution(id, projectId, contributorId, amount);
     }
-    
+
     public Result<Updated> Approve()
     {
         if (Status != ContributionStatus.Pending)
             return InvestorContributionErrors.AlreadyResponded;
-
         Status = ContributionStatus.Approved;
         return Result.Updated;
     }
@@ -52,8 +52,13 @@ public sealed class InvestorContribution : AuditableEntity
     {
         if (Status != ContributionStatus.Pending)
             return InvestorContributionErrors.AlreadyResponded;
-
         Status = ContributionStatus.Rejected;
+        return Result.Updated;
+    }
+
+    public Result<Updated> SetProfitShare(decimal profitShare)
+    {
+        ProfitShare = profitShare;
         return Result.Updated;
     }
 }

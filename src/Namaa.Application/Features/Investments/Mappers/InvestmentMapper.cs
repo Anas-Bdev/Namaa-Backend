@@ -22,6 +22,9 @@ public static class InvestmentMapper
             AmountCollected = project.AmountCollected,
             ExpectedProfit = project.ExpectedProfit,
             SharePercentage = project.SharePercentage,
+            ActualRevenue = project.ActualRevenue,
+            ActualCost = project.ActualCost,
+            ActualProfit = project.ActualProfit,
             Status = project.Status.ToString(),
             Contributions = project.Contributions
                 .Select(c => c.ToDto(contributorNames.GetValueOrDefault(c.ContributorId, string.Empty)))
@@ -56,6 +59,8 @@ public static class InvestmentMapper
             ContributorId = contribution.ContributorId,
             ContributorName = contributorName,
             Amount = contribution.Amount,
+            SharePercentage = contribution.SharePercentage,
+            ProfitShare = contribution.ProfitShare,
             Status = contribution.Status.ToString()
         };
     }

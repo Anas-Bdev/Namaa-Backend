@@ -2,7 +2,10 @@
 
 public enum ProjectStatus
 {
-    Open,
-    Closed,
+    Pending,
+    Funding,
+    Funded,
+    InProgress,
+    Completed,
     Cancelled
 }
