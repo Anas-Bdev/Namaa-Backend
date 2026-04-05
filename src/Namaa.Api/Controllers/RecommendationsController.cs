@@ -16,6 +16,6 @@ public class RecommendationsController(ISender sender) : ControllerBase
     {
         var query=request.ToQuery();
         var result=await sender.Send(query,cancellationToken);
-        return result.Match(success => Ok(success),errors => this.ToProblem(errors));
+        return result.Match(response => Ok(response),errors => this.ToProblem(errors));
     }
 }

@@ -26,7 +26,7 @@ public class LandsController(ISender sender) : ControllerBase
     {
         var command = request.ToCommand(UserId); 
         var result = await sender.Send(command, ct);
-        return result.Match(response => Ok(response), errors => this.ToProblem(errors));
+        return result.Match(response => CreatedAtAction(nameof(GetLandById),new {id=response.LandId},response), errors => this.ToProblem(errors));
     }
 
     [HttpGet]

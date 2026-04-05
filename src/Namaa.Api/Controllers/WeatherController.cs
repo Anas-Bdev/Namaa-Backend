@@ -17,6 +17,6 @@ public class WeatherController(ISender sender):ControllerBase
         var farmerId =  Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
         var result = await sender.Send(new GetLocalWeatherQuery(farmerId, landId), ct);
         
-        return result.Match(success => Ok(success),errors => this.ToProblem(errors));
+        return result.Match(response => Ok(response),errors => this.ToProblem(errors));
     }
 }
