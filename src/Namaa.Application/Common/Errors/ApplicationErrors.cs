@@ -13,6 +13,8 @@ public static class ApplicationErrors
     public static readonly Error InvalidSoilType = Error.NotFound("SoilType.InvalidId", "The selected soil type does not exist.");
     public static readonly Error RegionCropsNotFound = Error.NotFound("Recommendations.NotFound", "The Governorate ID is invalid.");
     public static readonly Error AddressNotFound = Error.Validation("Land_Address_NotFound", "Could not find GPS coordinates for this address. Please try adding a nearby landmark or the city name.");
+     public static readonly Error SeedingCycleNotFound=Error.NotFound("ApplicationErrors.SeedingCycle.NotFound","SeedingCycle does not exist.");
+
      
 }
     

@@ -1,6 +1,6 @@
 using Namaa.Domain.Common.Results;
 
-namespace Namaa.Domain.Land;
+namespace Namaa.Domain.Lands;
 public static class LandErrors
 {
    public static readonly Error IdRequired = 

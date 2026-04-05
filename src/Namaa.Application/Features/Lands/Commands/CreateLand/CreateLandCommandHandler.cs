@@ -5,7 +5,7 @@ using Namaa.Application.Common.Interfaces;
 using Namaa.Application.Features.Lands.Dtos;
 using Namaa.Application.Features.Lands.Mappers;
 using Namaa.Domain.Common.Results;
-using Namaa.Domain.Land;
+using Namaa.Domain.Lands;
 
 namespace Namaa.Application.Features.Lands.Commands.CreateLand;
 

@@ -1,5 +1,5 @@
 using Namaa.Application.Features.Lands.Dtos;
-using Namaa.Domain.Land;
+using Namaa.Domain.Lands;
 
 namespace Namaa.Application.Features.Lands.Mappers;
 public static class LandMapper

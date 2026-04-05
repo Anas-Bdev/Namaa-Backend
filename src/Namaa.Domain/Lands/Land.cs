@@ -1,10 +1,9 @@
-using System.ComponentModel;
 using Namaa.Domain.Common;
 using Namaa.Domain.Common.Results;
 using Namaa.Domain.Enums;
 using Namaa.Domain.ReferenceData;
 
-namespace Namaa.Domain.Land;
+namespace Namaa.Domain.Lands;
 public sealed class Land : AuditableEntity
 {
     public Guid FarmerId { get; }

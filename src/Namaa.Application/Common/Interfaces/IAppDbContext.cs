@@ -1,14 +1,16 @@
 namespace Namaa.Application.Common.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Namaa.Domain.Identity;
-using Namaa.Domain.Land;
+using Namaa.Domain.Lands;
 using Namaa.Domain.Profiles.Expert;
 using Namaa.Domain.ReferenceData;
+using Namaa.Domain.SeedingCycles;
 
 public interface IAppDbContext
 {
  
  DbSet<RefreshToken> RefreshTokens {get;}
+ DbSet<SeedingCycle> SeedingCycles {get;}
  DbSet<Crop> Crops {get;}
  DbSet<SoilType> SoilTypes {get;}
  DbSet<Governorate> Governorates {get;}
