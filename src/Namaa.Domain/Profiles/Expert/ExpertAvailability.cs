@@ -4,7 +4,7 @@ using Namaa.Domain.Common.Results;
 namespace Namaa.Domain.Profiles.Expert;
 public sealed class ExpertAvailability:AuditableEntity
 {
- public Guid ExpertProfileId {get;private set;}
+ public Guid ExpertProfileId {get;}
  public ExpertProfile? Expert {get;private set;}
  public DayOfWeek Day {get;private set;}
  public TimeSpan StartTime {get;private set;}
@@ -12,10 +12,9 @@ public sealed class ExpertAvailability:AuditableEntity
 
  private ExpertAvailability () {}
 
- private ExpertAvailability(Guid id,Guid expertProfileId,DayOfWeek day,TimeSpan startTime,TimeSpan endTime)
+ private ExpertAvailability(Guid id,DayOfWeek day,TimeSpan startTime,TimeSpan endTime)
  : base(id)
     {
-        ExpertProfileId=expertProfileId;
         Day=day;
         StartTime=startTime;
         EndTime=endTime;
@@ -23,7 +22,6 @@ public sealed class ExpertAvailability:AuditableEntity
 
     public static Result<ExpertAvailability> Create(
         Guid id, 
-        Guid expertProfileId, 
         DayOfWeek day, 
         TimeSpan startTime, 
         TimeSpan endTime)
@@ -31,13 +29,11 @@ public sealed class ExpertAvailability:AuditableEntity
         if (id == Guid.Empty)
         return ExpertErrors.AvailabilityIdRequired;
 
-        if (expertProfileId == Guid.Empty)
-         return ExpertErrors.UserIdRequired;    
 
          if (startTime >= endTime)
          return ExpertErrors.InvalidTimeRange;
 
-         return new ExpertAvailability(id, expertProfileId, day, startTime, endTime);
+         return new ExpertAvailability(id, day, startTime, endTime);
     }
 
     public Result<Updated> Update(DayOfWeek day, TimeSpan startTime, TimeSpan endTime)

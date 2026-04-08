@@ -32,6 +32,7 @@ public class GetExpertsQueryHandler(IAppDbContext context,IUserReadRepository us
      var totalPages=(int)Math.Ceiling(totalCount/(double)request.PageSize);
 
      var items= await query.OrderByDescending(x => x.expert.YearsOfExperience)
+               .ThenBy(x => x.expert.Id)
                .Skip((request.PageNumber-1)*request.PageSize)
                .Take(request.PageSize)
                .Select(x => new ExpertSummaryDto

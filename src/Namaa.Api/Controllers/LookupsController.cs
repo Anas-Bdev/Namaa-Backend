@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Namaa.Api.Extensions;
+using Namaa.Application.Features.Lookups.Queries.GetCrops;
 using Namaa.Application.Features.Lookups.Queries.GetGovernorates;
 using Namaa.Application.Features.Lookups.Queries.GetSoilTypes;
 using Namaa.Domain.Enums;
@@ -13,6 +14,19 @@ public class LookupsController(ISender sender) : ControllerBase
 {
     [HttpGet("water-sources")]
     public IActionResult GetWaterSources() => Ok(GetEnumList<WaterSourceType>());
+
+    [HttpGet("crops/{landId:guid}")]
+public async Task<IActionResult> GetCrops(Guid landId, CancellationToken ct)
+{
+    var query = new GetCropsQuery(landId);
+
+    var result = await sender.Send(query, ct);
+
+    return result.Match(
+        success => Ok(success), 
+        errors => this.ToProblem(errors)
+    );
+}
 
     [HttpGet("water-availabilities")]
     public IActionResult GetWaterAvailabilities() => Ok(GetEnumList<WaterAvailability>());
@@ -30,6 +44,9 @@ public class LookupsController(ISender sender) : ControllerBase
     {
         return Ok(GetEnumList<CycleStatus>());
     }
+
+    [HttpGet("expert-specializations")]
+   public IActionResult GetExpertSpecializations() => Ok(GetEnumList<ExpertSpecialization>());
 
     [HttpGet("seeding-cycle-initial-statuses")]
     public IActionResult GetSeedingCycleInitialStatuses()

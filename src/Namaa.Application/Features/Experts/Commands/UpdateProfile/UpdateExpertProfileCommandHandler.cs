@@ -2,8 +2,6 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Namaa.Application.Common.Errors;
 using Namaa.Application.Common.Interfaces;
-using Namaa.Application.Features.Experts.Dtos;
-using Namaa.Application.Features.Experts.Mappers;
 using Namaa.Domain.Common.Results;
 using Namaa.Domain.Profiles.Expert;
 
@@ -11,9 +9,9 @@ namespace Namaa.Application.Features.Experts.Commands.UpdateProfile;
 public class UpdateExpertProfileCommandHandler(
     IAppDbContext context,
     IUserReadRepository userReadRepository) 
-    : IRequestHandler<UpdateExpertProfileCommand, Result<ExpertProfileDto>>
+    : IRequestHandler<UpdateExpertProfileCommand, Result<Updated>>
 {
-    public async Task<Result<ExpertProfileDto>> Handle(UpdateExpertProfileCommand request, CancellationToken cancellationToken)
+    public async Task<Result<Updated>> Handle(UpdateExpertProfileCommand request, CancellationToken cancellationToken)
     {
         var expert = await context.ExpertProfiles
             .Include(x => x.Availabilities)
@@ -25,7 +23,7 @@ public class UpdateExpertProfileCommandHandler(
         var newAvailabilityEntities = new List<ExpertAvailability>();
         foreach (var slot in request.Availabilities)
         {
-            var slotResult = ExpertAvailability.Create(Guid.NewGuid(), expert.Id, slot.Day, slot.StartTime, slot.EndTime);
+            var slotResult = ExpertAvailability.Create(Guid.NewGuid(), slot.Day, slot.StartTime, slot.EndTime);
             if (slotResult.IsError) return slotResult.Errors;
             newAvailabilityEntities.Add(slotResult.Value);
         }
@@ -47,7 +45,6 @@ public class UpdateExpertProfileCommandHandler(
 
         var user = await userReadRepository.Query()
             .FirstOrDefaultAsync(u => u.Id == expert.Id, cancellationToken);
-
-        return expert.ToDto(user!.FullName);
+     return Result.Updated;
     }
 }

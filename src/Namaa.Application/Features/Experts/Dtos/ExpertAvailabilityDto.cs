@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 
 namespace Namaa.Application.Features.Experts.Dtos;
 public class ExpertAvailabilityDto

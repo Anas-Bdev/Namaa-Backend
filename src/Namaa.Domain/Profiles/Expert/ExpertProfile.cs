@@ -65,27 +65,9 @@ public sealed class ExpertProfile:AuditableEntity
     
   public Result<Updated> UpdatedAvailability(List<ExpertAvailability> incomingSlots)
     {
-        _availabilities.RemoveAll(existing => !incomingSlots.Any(incoming => incoming.Id==existing.Id));
-
-        foreach(var incoming in incomingSlots)
-        {
-            var existing=_availabilities.FirstOrDefault( v => v.Id==incoming.Id);
-            
-            if(existing is null){
-            _availabilities.Add(incoming);
-            }
-            
-            else{
-
-          var UpdatedTimeSlotResult=existing.Update(incoming.Day,incoming.StartTime,incoming.EndTime);
-                if (UpdatedTimeSlotResult.IsError)
-                {
-                    return UpdatedTimeSlotResult.Errors;
-                }
-          
-            }
-        }
-        return Result.Updated;
+       _availabilities.Clear();
+       _availabilities.AddRange(incomingSlots);
+       return Result.Updated;
     }
         
     }

@@ -1,4 +1,3 @@
-using Namaa.Domain.Enums;
 
 namespace Namaa.Application.Features.Experts.Dtos;
 public class ExpertSummaryDto

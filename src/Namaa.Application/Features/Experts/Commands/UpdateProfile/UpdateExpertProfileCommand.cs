@@ -11,5 +11,5 @@ public sealed record UpdateExpertProfileCommand(
     int CityId,
     string AddressDetail,
     bool CanVisitOnSite,
-    List<CreateExpertAvailabilityCommand> Availabilities
-) : IRequest<Result<ExpertProfileDto>>;
+    List<UpdateExpertAvailabilityCommand> Availabilities
+) : IRequest<Result<Updated>>;
