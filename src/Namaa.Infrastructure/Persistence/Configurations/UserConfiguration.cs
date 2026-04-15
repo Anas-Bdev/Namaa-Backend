@@ -10,7 +10,8 @@ public class UserConfiguration : IEntityTypeConfiguration<AppUser>
     public void Configure(EntityTypeBuilder<AppUser> builder)
     {
     builder.ToTable("Users");
-    builder.Property(u => u.FullName).HasMaxLength(150);
+    builder.Property(u => u.FirstName).HasMaxLength(150).IsRequired();
+    builder.Property(u => u.LastName).HasMaxLength(150).IsRequired(false);
     builder.Property(u => u.ProfileImageUrl).HasMaxLength(500);
     builder.Property(u => u.ResetCode).HasMaxLength(256);
     builder.Property(u => u.Status).HasConversion<string>().IsRequired();

@@ -4,6 +4,9 @@ using Namaa.Application.Common.Interfaces;
 using Namaa.Domain.Identity;
 using Namaa.Domain.Lands;
 using Namaa.Domain.Profiles.Expert;
+using Namaa.Domain.Profiles.Farmer;
+using Namaa.Domain.Profiles.Investor;
+using Namaa.Domain.Profiles.Trader;
 using Namaa.Domain.ReferenceData;
 using Namaa.Domain.SeedingCycles;
 using Namaa.Infrastructure.Identity;
@@ -25,10 +28,12 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
 
     public DbSet<SeedingCycle> SeedingCycles => Set<SeedingCycle>();
 
-    public override async Task<int> SaveChangesAsync(CancellationToken ct = default)
-    {
-        return await base.SaveChangesAsync(ct);
-    }
+    public DbSet<FarmerProfile> FarmerProfiles => Set<FarmerProfile>();
+
+    public DbSet<TraderProfile> TraderProfiles => Set<TraderProfile>();
+
+    public DbSet<InvestorProfile> InvestorProfiles => Set<InvestorProfile>();
+
 
    
     protected override void OnModelCreating(ModelBuilder builder)

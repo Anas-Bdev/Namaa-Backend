@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using Namaa.Application.Features.Account.Dtos;
 using Namaa.Application.Features.Identity.Dtos;
 using Namaa.Domain.Common.Results;
 

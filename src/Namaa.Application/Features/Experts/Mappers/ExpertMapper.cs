@@ -4,18 +4,17 @@ using Namaa.Domain.Profiles.Expert;
 namespace Namaa.Application.Features.Experts.Mappers;
 public static class ExpertMapper
 {
-    public static ExpertProfileDto ToDto(this ExpertProfile expert,string fullName)
+    public static ExpertProfileDto ToDto(this ExpertProfile expert)
     {
         return new ExpertProfileDto
         {
-            Governorate=expert.Governorate!.Name!,
+            Governorate=expert.Governorate?.Name,
             Id=expert.Id,
-            FullName=fullName,
-            Specialization=expert.Specialization.ToString()!,
-            YearsOfExperience=expert.YearsOfExperience ?? 0,
-            GovernorateId=expert.GovernorateId ?? 0,
-            AddressDetail=expert.AddressDetail!,
-            CanVisitOnSite=expert.CanVisitOnSite ?? false,
+            Specialization=expert.Specialization.ToString(),
+            YearsOfExperience=expert.YearsOfExperience,
+            GovernorateId=expert.GovernorateId,
+            AddressDetail=expert.AddressDetail,
+            CanVisitOnSite=expert.CanVisitOnSite,
             CvUrl=expert.CvUrl!,
             Availabilities=expert.Availabilities.Select(e => e.ToDto()).ToList()
         };

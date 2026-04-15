@@ -9,24 +9,17 @@ using Namaa.Domain.SeedingCycles;
 
 namespace Namaa.Api.Controllers;
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/lookups")]
 public class LookupsController(ISender sender) : ControllerBase
 {
     [HttpGet("water-sources")]
     public IActionResult GetWaterSources() => Ok(GetEnumList<WaterSourceType>());
 
-    [HttpGet("crops/{landId:guid}")]
-public async Task<IActionResult> GetCrops(Guid landId, CancellationToken ct)
-{
-    var query = new GetCropsQuery(landId);
+    [HttpGet("trader-types")]
+    public IActionResult GetTraderTypes() => Ok(GetEnumList<TraderType>());
 
-    var result = await sender.Send(query, ct);
-
-    return result.Match(
-        success => Ok(success), 
-        errors => this.ToProblem(errors)
-    );
-}
+    [HttpGet("investor-types")]
+    public IActionResult GetInvestorTypes() => Ok(GetEnumList<InvestorType>());
 
     [HttpGet("water-availabilities")]
     public IActionResult GetWaterAvailabilities() => Ok(GetEnumList<WaterAvailability>());
@@ -74,7 +67,7 @@ public async Task<IActionResult> GetCrops(Guid landId, CancellationToken ct)
     public async Task<IActionResult> GetGovernorates()
     {
         var result = await sender.Send(new GetGovernoratesQuery());
-        return result.Match(success => Ok(success), errors => this.ToProblem(errors));
+        return result.Match(response => Ok(response), errors => this.ToProblem(errors));
     }
 
     private static IEnumerable<object> GetEnumList<T>() where T : Enum

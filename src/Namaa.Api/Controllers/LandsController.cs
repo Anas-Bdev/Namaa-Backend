@@ -7,11 +7,12 @@ using Namaa.Api.Extensions;
 using Namaa.Application.Features.Lands.Commands.DeleteLand;
 using Namaa.Application.Features.Lands.Queries.GetLandById;
 using Namaa.Application.Features.Lands.Queries.GetMyLands;
+using Namaa.Application.Features.Lookups.Queries.GetCrops;
 using Namaa.Domain.Common.Constants;
 
 namespace Namaa.Api.Controllers;
 
-[Route("api/[controller]")]
+[Route("api/lands")]
 [ApiController]
 [Authorize(Roles =AppRoles.Farmer)] 
 [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
@@ -20,6 +21,20 @@ namespace Namaa.Api.Controllers;
 public class LandsController(ISender sender) : ControllerBase
 {
     private Guid UserId => Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+
+    [HttpGet("{landId:guid}/crops")]
+    public async Task<IActionResult> GetCrops(Guid landId, CancellationToken ct)
+    {
+    var query = new GetCropsQuery(landId);
+
+    var result = await sender.Send(query, ct);
+
+    return result.Match(
+        response => Ok(response), 
+        errors => this.ToProblem(errors)
+    );
+    }
+
 
     [HttpPost]
     public async Task<IActionResult> CreateLand([FromBody] CreateLandRequest request, CancellationToken ct)

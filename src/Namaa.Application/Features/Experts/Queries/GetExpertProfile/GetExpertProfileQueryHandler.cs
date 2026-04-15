@@ -8,32 +8,19 @@ using Namaa.Application.Features.Experts.Mappers;
 
 
 namespace Namaa.Application.Features.Experts.Queries.GetExpertProfile;
-public class GetExpertProfileQueryHandler(IAppDbContext context,IUserReadRepository userReadRepository) : IRequestHandler<GetExpertProfileQuery, Result<ExpertProfileDto>>
+public class GetExpertProfileQueryHandler(IAppDbContext context) : IRequestHandler<GetExpertProfileQuery, Result<ExpertProfileDto>>
 {
 
     public async Task<Result<ExpertProfileDto>> Handle(GetExpertProfileQuery request, CancellationToken cancellationToken)
     {
-        var usersQuery = userReadRepository.Query();
-        
-          var query = from expert in context.ExpertProfiles
-                    .Include(x => x.Availabilities)
-                    .Include(x => x.Governorate)  
-                    .AsNoTracking()
-                join user in usersQuery on expert.Id equals user.Id
-                where expert.Id == request.UserId 
-                select new { expert, user };
+       var expert = await context.ExpertProfiles
+        .Include(x => x.Governorate)
+        .AsNoTracking()
+        .FirstOrDefaultAsync(x => x.Id == request.UserId, cancellationToken);
 
-        var result = await query.FirstOrDefaultAsync(cancellationToken);
+        if(expert is null)
+        return ApplicationErrors.ExpertNotFound;
 
-        if (result is null)
-        {
-            
-            return ApplicationErrors.ExpertNotFound; 
-        }
-
-        
-           
-
-        return result.expert.ToDto(result.user.FullName);
+        return expert.ToDto();
     }
 }

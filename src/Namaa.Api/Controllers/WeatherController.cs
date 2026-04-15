@@ -6,7 +6,7 @@ using Namaa.Api.Extensions;
 using Namaa.Application.Features.Weather.Queries.GetLocalWeather;
 using Namaa.Domain.Common.Constants;
 namespace Namaa.Api.Controllers;
-[Route("api/[controller]")]
+[Route("api/weather")]
 [ApiController]
 [Authorize(Roles =AppRoles.Farmer)] 
 public class WeatherController(ISender sender):ControllerBase

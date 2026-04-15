@@ -6,7 +6,7 @@ using Namaa.Api.Extensions;
 using Namaa.Domain.Common.Constants;
 namespace Namaa.Api.Controllers;
 
-[Route("api/[controller]")]
+[Route("api/recommendations")]
 [ApiController]
 [Authorize(Roles =AppRoles.Farmer)]
 public class RecommendationsController(ISender sender) : ControllerBase

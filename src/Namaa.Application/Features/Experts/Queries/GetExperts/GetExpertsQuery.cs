@@ -10,4 +10,4 @@ public sealed record GetExpertsQuery(
     int PageSize,
     int? CityId, 
     ExpertSpecialization ? Specialization 
-) : IRequest<Result<PaginatedList<ExpertSummaryDto>>>;
+) : IRequest<Result<PaginatedList<ExpertListItemDto>>>;

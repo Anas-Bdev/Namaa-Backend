@@ -1,6 +1,5 @@
 
 using Namaa.Application.Common.Interfaces;
-using Namaa.Application.Features.Identity.Dtos;
 using Namaa.Domain.Common.Results;
 using Namaa.Domain.Common.Constants;
 
@@ -14,7 +13,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Namaa.Application.Features.Identity.Queries.GetOnboardingStatus;
+using Namaa.Application.Features.Account.Dtos;
+using Namaa.Application.Features.Account.Queries.IsProfileCompleted;
 
 public class IdentityService(
     UserManager<AppUser> userManager,
@@ -24,8 +24,8 @@ public class IdentityService(
     SignInManager<AppUser> signInManager,
     ISender sender) : IIdentityService
 {
-    private async Task<OnboardingStatus> GetStatus(Guid userId, string role) 
-        => await sender.Send(new GetOnboardingStatusQuery(userId, role));
+    private  async Task<bool> GetStatus(Guid userId, string role) 
+        =>  await sender.Send(new IsProfileCompletedQuery(userId, role));
     // Authenticates a user and returns their JWT-ready data
     public async Task<Result<AppUserDto>> AuthenticateAsync(string email, string password)
 {
@@ -45,7 +45,7 @@ public class IdentityService(
     if (!await userManager.IsEmailConfirmedAsync(user))
         return Error.Forbidden("Auth.EmailNotConfirmed", "Please confirm your email address before logging in.");
         
-    if (user.Status == UserStatus.Disabled || user.Status == UserStatus.Suspended)
+    if ( user.Status == UserStatus.Suspended)
         return Error.Forbidden("Auth.AccessDenied", $"Your account is currently '{user.Status}'. Please contact support.");
 
     
@@ -56,7 +56,7 @@ public class IdentityService(
 
     var onboarding = await GetStatus(user.Id, role);
         
-    return new AppUserDto(user.Id, user.Email!, role, user.FullName!, user.Status,onboarding.IsProfileComplete,onboarding.HasCv);
+    return new AppUserDto(user.Id, user.Email!, role, user.FirstName!,user.LastName,user.PhoneNumber, user.Status,onboarding,user.ProfileImageUrl);
 }
 
     // Creates a new user with a specific role (Experts start as Pending)
@@ -83,7 +83,8 @@ public class IdentityService(
         {
             UserName=email,
             Email = email,
-            FullName = $"{firstName} {lastName ?? string.Empty}".Trim(),
+            FirstName = firstName,
+            LastName=lastName,
             PhoneNumber = phoneNumber,
             Status = initialStatus
         };
@@ -163,7 +164,7 @@ public async Task<Result<AppUserDto>> GetUserByIdAsync(string userId)
 
      var onboarding = await GetStatus(user.Id, role);
     
-    return new AppUserDto(user.Id, user.Email!, role, user.FullName!, user.Status,onboarding.IsProfileComplete,onboarding.HasCv);
+    return new AppUserDto(user.Id, user.Email!, role, user.FirstName!,user.LastName,user.PhoneNumber, user.Status,onboarding,user.ProfileImageUrl);
 }
 
 public async Task<Result<AppUserDto>> GetUserByEmailAsync(string email)
@@ -180,7 +181,7 @@ public async Task<Result<AppUserDto>> GetUserByEmailAsync(string email)
 
       var onboarding = await GetStatus(user.Id, role);
 
-    return new AppUserDto(user.Id, user.Email!, role, user.FullName!, user.Status,onboarding.IsProfileComplete,onboarding.HasCv);
+    return new AppUserDto(user.Id, user.Email!, role, user.FirstName!,user.LastName,user.PhoneNumber, user.Status,onboarding,user.ProfileImageUrl);
 }
 
 public async Task<Result<string>> GetUserRoleAsync(string userId)
@@ -275,7 +276,7 @@ public async Task<bool> IsEmailConfirmedAsync(string email)
     return user?.EmailConfirmed ?? false;
 }
 
-    public async Task<Result<Success>> ChangePasswordAsync(string userId, string currentPassword, string newPassword)
+    public async Task<Result<Updated>> ChangePasswordAsync(string userId, string currentPassword, string newPassword)
     {
         var user=await userManager.FindByIdAsync(userId);
         if(user is null)
@@ -283,10 +284,49 @@ public async Task<bool> IsEmailConfirmedAsync(string email)
 
        var identityResult=await userManager.ChangePasswordAsync(user,currentPassword,newPassword);
        if(identityResult.Succeeded)
-       return Result.Success;
+       return Result.Updated;
        var errors=identityResult.Errors.Select(e => Error.Validation(e.Code,e.Description)).ToList();
        return errors;
 
 
      }
+
+    public async Task<Result<Updated>> UpdateAccountInfoAsync(string userId, string firstName, string? lastName, string? phoneNumber)
+    {
+        var user=await userManager.FindByIdAsync(userId);
+        if(user is null)
+      return Error.NotFound("User.NotFound", "The user account was not found.");
+      user.FirstName=firstName;
+      user.LastName=lastName;
+      user.PhoneNumber=phoneNumber;
+      var identityResult=await userManager.UpdateAsync(user);
+      if(!identityResult.Succeeded)
+      return identityResult.Errors.Select(e => Error.Validation(e.Code,e.Description)).ToList();
+      return Result.Updated;
+    }
+
+    public async Task<Result<Updated>> UpdateProfileImageUrlAsync(string userId, string? profileImageUrl)
+    {
+         var user=await userManager.FindByIdAsync(userId);
+        if(user is null)
+      return Error.NotFound("User.NotFound", "The user account was not found.");
+      user.ProfileImageUrl=profileImageUrl;
+      var identityResult=await userManager.UpdateAsync(user);
+      if(!identityResult.Succeeded)
+      return identityResult.Errors.Select(e => Error.Validation(e.Code,e.Description)).ToList();
+      return Result.Updated;
+
+    }
+
+    public async Task<Result<Deleted>> DeleteUserAsync(string userId)
+    {
+        
+         var user=await userManager.FindByIdAsync(userId);
+        if(user is null)
+      return Error.NotFound("User.NotFound", "The user account was not found.");
+      var result=await userManager.DeleteAsync(user);
+      if(!result.Succeeded)
+      return result.Errors.Select(e => Error.Failure(e.Code,e.Description)).ToList();
+      return Result.Deleted;
+    }
 }

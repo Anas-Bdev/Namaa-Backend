@@ -8,14 +8,14 @@ using Namaa.Domain.Enums;
 
 namespace Namaa.Application.Features.Experts.Queries.GetExperts;
 
-public class GetExpertsQueryHandler(IAppDbContext context,IUserReadRepository userReadRepository) : IRequestHandler<GetExpertsQuery, Result<PaginatedList<ExpertSummaryDto>>>
+public class GetExpertsQueryHandler(IAppDbContext context,IUserReadRepository userReadRepository) : IRequestHandler<GetExpertsQuery, Result<PaginatedList<ExpertListItemDto>>>
 {
-    public async Task<Result<PaginatedList<ExpertSummaryDto>>> Handle(GetExpertsQuery request, CancellationToken cancellationToken)
+    public async Task<Result<PaginatedList<ExpertListItemDto>>> Handle(GetExpertsQuery request, CancellationToken cancellationToken)
     {
         var usersQuery=userReadRepository.Query();
         var query=from expert in context.ExpertProfiles.AsNoTracking()
                   join user in usersQuery on expert.Id equals user.Id
-                  where user.Status==UserStatus.Active
+                  where user.Status==UserStatus.Active && expert.GovernorateId.HasValue
                   select new {expert,user};
 
        if(request.Specialization.HasValue)
@@ -35,17 +35,18 @@ public class GetExpertsQueryHandler(IAppDbContext context,IUserReadRepository us
                .ThenBy(x => x.expert.Id)
                .Skip((request.PageNumber-1)*request.PageSize)
                .Take(request.PageSize)
-               .Select(x => new ExpertSummaryDto
+               .Select(x => new ExpertListItemDto
                {
                 Governorate=x.expert.Governorate!.Name!,
                 Id=x.expert.Id,
                 FullName=x.user.FullName,
                 Specialization=x.expert.Specialization.ToString()!,
-                GovernorateId=x.expert.Governorate.Id,
-                YearsOfExperience=x.expert.YearsOfExperience ?? 0
+                YearsOfExperience=x.expert.YearsOfExperience!.Value,
+                ProfileImageUrl=x.user.ProfileImageUrl,
+                CanVisitOnSite=x.expert.CanVisitOnSite!.Value
            }).ToListAsync(cancellationToken);
 
-           var PaginatedList=new PaginatedList<ExpertSummaryDto>
+           var PaginatedList=new PaginatedList<ExpertListItemDto>
            {
                PageNumber=request.PageNumber,
                PageSize=request.PageSize,

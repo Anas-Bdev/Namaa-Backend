@@ -9,6 +9,7 @@ using Namaa.Domain.Common.Results;
 using System.Security.Cryptography;
 using Microsoft.EntityFrameworkCore;
 using Namaa.Domain.Identity;
+using Namaa.Application.Features.Account.Dtos;
 
 namespace Namaa.Infrastructure.Identity;
 
@@ -39,7 +40,7 @@ public class TokenProvider(IConfiguration configuration, IAppDbContext context) 
             new(JwtRegisteredClaimNames.Sub, user.UserId.ToString()),
             new(ClaimTypes.NameIdentifier, user.UserId.ToString()),
             new(JwtRegisteredClaimNames.Email, user.Email),
-            new(JwtRegisteredClaimNames.Name, user.FullName),
+            new(JwtRegisteredClaimNames.Name,$"{user.FirstName} {user.LastName ?? string.Empty}".Trim()),
             new(ClaimTypes.Role, user.Role)
         };
 

@@ -23,7 +23,7 @@ public class ResendConfirmationEmailCommandHandler(IIdentityService identityServ
         }
         // Assuming your AppUserDto has FirstName and LastName properties!
         var emailBody = emailTemplate.BuildConfirmEmailBody(
-            $"{user.FullName.Trim()}", 
+            $"{user.FirstName} {user.LastName ?? string.Empty}".Trim(), 
             linkResult.Value);
 
         // 6. Send Email (Reusing your exact logic)

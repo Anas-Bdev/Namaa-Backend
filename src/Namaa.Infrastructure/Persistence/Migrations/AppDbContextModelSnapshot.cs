@@ -1141,7 +1141,7 @@ namespace Namaa.Infrastructure.Persistence.Migrations
                     b.ToTable("RefreshTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Namaa.Domain.Land.Land", b =>
+            modelBuilder.Entity("Namaa.Domain.Lands.Land", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
@@ -1299,6 +1299,120 @@ namespace Namaa.Infrastructure.Persistence.Migrations
                     b.HasIndex("GovernorateId");
 
                     b.ToTable("ExpertProfiles", (string)null);
+                });
+
+            modelBuilder.Entity("Namaa.Domain.Profiles.Farmer.FarmerProfile", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("AddressDetail")
+                        .HasMaxLength(250)
+                        .HasColumnType("character varying(250)");
+
+                    b.Property<DateTimeOffset>("CreatedAtUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<int>("GovernorateId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset>("LastModifiedUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GovernorateId");
+
+                    b.ToTable("FarmerProfiles", (string)null);
+                });
+
+            modelBuilder.Entity("Namaa.Domain.Profiles.Investor.InvestorProfile", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("AddressDetail")
+                        .HasMaxLength(250)
+                        .HasColumnType("character varying(250)");
+
+                    b.Property<DateTimeOffset>("CreatedAtUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("text");
+
+                    b.Property<int>("GovernorateId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset>("LastModifiedUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("OrganizationName")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GovernorateId");
+
+                    b.ToTable("InvestorProfiles", (string)null);
+                });
+
+            modelBuilder.Entity("Namaa.Domain.Profiles.Trader.TraderProfile", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("AddressDetail")
+                        .HasMaxLength(250)
+                        .HasColumnType("character varying(250)");
+
+                    b.Property<string>("BusinessName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<string>("BusinessType")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset>("CreatedAtUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("text");
+
+                    b.Property<int>("GovernorateId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset>("LastModifiedUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GovernorateId");
+
+                    b.ToTable("TraderProfiles", (string)null);
                 });
 
             modelBuilder.Entity("Namaa.Domain.ReferenceData.Crop", b =>
@@ -3945,6 +4059,64 @@ namespace Namaa.Infrastructure.Persistence.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Namaa.Domain.SeedingCycles.SeedingCycle", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("ActualHarvestDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<double?>("ActualYield")
+                        .HasColumnType("double precision");
+
+                    b.Property<DateTimeOffset>("CreatedAtUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("text");
+
+                    b.Property<int>("CropId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("EstimatedHarvestDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<double>("ExpectedYield")
+                        .HasColumnType("double precision");
+
+                    b.Property<Guid>("LandId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset>("LastModifiedUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<double>("SeedQuantity")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("SeedingArea")
+                        .HasColumnType("double precision");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CropId");
+
+                    b.HasIndex("LandId");
+
+                    b.ToTable("SeedingCycles", (string)null);
+                });
+
             modelBuilder.Entity("Namaa.Infrastructure.Identity.AppRole", b =>
                 {
                     b.Property<Guid>("Id")
@@ -3992,7 +4164,12 @@ namespace Namaa.Infrastructure.Persistence.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("FullName")
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)");
+
+                    b.Property<string>("LastName")
                         .HasMaxLength(150)
                         .HasColumnType("character varying(150)");
 
@@ -4131,7 +4308,7 @@ namespace Namaa.Infrastructure.Persistence.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Namaa.Domain.Land.Land", b =>
+            modelBuilder.Entity("Namaa.Domain.Lands.Land", b =>
                 {
                     b.HasOne("Namaa.Infrastructure.Identity.AppUser", null)
                         .WithMany()
@@ -4177,6 +4354,39 @@ namespace Namaa.Infrastructure.Persistence.Migrations
                     b.Navigation("Governorate");
                 });
 
+            modelBuilder.Entity("Namaa.Domain.Profiles.Farmer.FarmerProfile", b =>
+                {
+                    b.HasOne("Namaa.Domain.ReferenceData.Governorate", "Governorate")
+                        .WithMany()
+                        .HasForeignKey("GovernorateId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Governorate");
+                });
+
+            modelBuilder.Entity("Namaa.Domain.Profiles.Investor.InvestorProfile", b =>
+                {
+                    b.HasOne("Namaa.Domain.ReferenceData.Governorate", "Governorate")
+                        .WithMany()
+                        .HasForeignKey("GovernorateId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Governorate");
+                });
+
+            modelBuilder.Entity("Namaa.Domain.Profiles.Trader.TraderProfile", b =>
+                {
+                    b.HasOne("Namaa.Domain.ReferenceData.Governorate", "Governorate")
+                        .WithMany()
+                        .HasForeignKey("GovernorateId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Governorate");
+                });
+
             modelBuilder.Entity("Namaa.Domain.ReferenceData.Crop", b =>
                 {
                     b.HasOne("Namaa.Domain.ReferenceData.Governorate", "Governorate")
@@ -4186,6 +4396,23 @@ namespace Namaa.Infrastructure.Persistence.Migrations
                         .IsRequired();
 
                     b.Navigation("Governorate");
+                });
+
+            modelBuilder.Entity("Namaa.Domain.SeedingCycles.SeedingCycle", b =>
+                {
+                    b.HasOne("Namaa.Domain.ReferenceData.Crop", null)
+                        .WithMany()
+                        .HasForeignKey("CropId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Namaa.Domain.Lands.Land", "Land")
+                        .WithMany()
+                        .HasForeignKey("LandId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Land");
                 });
 
             modelBuilder.Entity("Namaa.Domain.Profiles.Expert.ExpertProfile", b =>

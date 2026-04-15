@@ -1,7 +1,6 @@
 
 using Namaa.Application.Features.Experts.Queries.GetExperts;
 using Namaa.Domain.Enums;
-using Org.BouncyCastle.Ocsp;
 
 namespace Namaa.Api.Contracts.Requests.Experts;
 public class GetExpertsRequest
@@ -11,8 +10,4 @@ public class GetExpertsRequest
     public ExpertSpecialization? Specialization {get;init;}
     public int? CityId {get;init;}
 
-    public GetExpertsQuery ToQuery()
-    {
-        return new(PageNumber,PageSize,CityId,Specialization);
-    }
 } 

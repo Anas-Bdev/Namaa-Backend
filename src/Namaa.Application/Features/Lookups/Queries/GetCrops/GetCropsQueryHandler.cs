@@ -14,6 +14,7 @@ public class GetCropsQueryHandler(IAppDbContext context) : IRequestHandler<GetCr
     {
         var land = await context.Lands
             .AsNoTracking()
+            .Include(l => l.Governorate)
             .FirstOrDefaultAsync(l => l.Id == request.LandId, cancellationToken);
 
         if (land is null)

@@ -16,7 +16,8 @@ public class ForgotPasswordCommandHandler(IIdentityService service,IEmailTemplat
          if(!userResult.IsSuccess)
          return userResult.Errors;
          var resetCode=codeResult.Value;
-         var userName=userResult.Value.FullName;
+         var user=userResult.Value;
+         var userName=$"{user.FirstName} {user.LastName ?? string.Empty}".Trim();
          var emailBody=emailTemplate.BuildForgotPasswordBody(userName,resetCode);
          await sender.SendEmailAsync(request.Email,"Password Reset Request.",emailBody,cancellationToken);
          return Result.Success;

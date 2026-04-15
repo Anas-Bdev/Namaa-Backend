@@ -14,7 +14,21 @@ public static class ApplicationErrors
     public static readonly Error RegionCropsNotFound = Error.NotFound("Recommendations.NotFound", "The Governorate ID is invalid.");
     public static readonly Error AddressNotFound = Error.Validation("Land_Address_NotFound", "Could not find GPS coordinates for this address. Please try adding a nearby landmark or the city name.");
      public static readonly Error SeedingCycleNotFound=Error.NotFound("ApplicationErrors.SeedingCycle.NotFound","SeedingCycle does not exist.");
+    public static readonly Error AlreadyExists = Error.Conflict(
+        "Profile.AlreadyExists", "A profile of this type already exists for the current user.");
 
+    public static readonly Error FarmerNotFound = Error.NotFound(
+        "Farmer.NotFound", 
+        "The farmer profile you are looking for was not found.");
+
+    public static readonly Error TraderNotFound = Error.NotFound(
+        "Trader.NotFound", 
+        "The Trader profile you are looking for was not found.");
+
+    
+    public static readonly Error InvestorNotFound = Error.NotFound(
+        "Investor.NotFound", 
+        "The Investor profile you are looking for was not found.");
      
 }
     
