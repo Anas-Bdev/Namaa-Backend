@@ -3,13 +3,20 @@ namespace Namaa.Domain.ReferenceData;
 
 public sealed class Crop
 {
+<<<<<<< HEAD
     // --- Read-Only Properties ---
+=======
+>>>>>>> dev-alaa
     public int Id { get; } 
     public int GovernorateId { get; }
     public Governorate? Governorate { get; } 
     public string? ImageUrl { get; }
     public int DaysToHarvest { get; }
     
+<<<<<<< HEAD
+=======
+    // 🌍 Standard English Names
+>>>>>>> dev-alaa
     public string? Name { get; }
     public string? Category { get; } 
     
@@ -20,6 +27,7 @@ public sealed class Crop
     
     public int MinTemperature { get; } 
     public int MaxTemperature { get; } 
+<<<<<<< HEAD
     public List<string> SupportedIrrigationMethods {get;} =new();
     public List<string> SupportedEnvironmentTypes {get;}=new ();
     public string? IrrigationLevel { get; }
@@ -45,6 +53,26 @@ public sealed class Crop
     private Crop() { }
 
     // Public Constructor
+=======
+    
+    public string? IrrigationLevel { get; }
+    public string? WaterRequirementCategory { get; } 
+    public List<string> SuitableSoilTypes { get; } = new();
+
+    // ⚖️ Production (in Tons)
+    public double MinProductionPerDonum { get; }
+    public double MaxProductionPerDonum { get; }
+
+    // 💰 Financials (in ILS)
+    public decimal MinExpectedPrice { get; }
+    public decimal MaxExpectedPrice { get; }
+    
+    public decimal MinEstimatedCost { get; }
+    public decimal MaxEstimatedCost { get; }
+
+    private Crop() { }
+
+>>>>>>> dev-alaa
     public Crop(
         int id,
         int governorateId, 
@@ -58,9 +86,13 @@ public sealed class Crop
         int maxTemperature, 
         string? irrigationLevel, 
         string? waterRequirementCategory, 
+<<<<<<< HEAD
         List<SoilType> suitableSoilTypes,
         List<string> supportedIrrigationMethods,
         List<string> supportedEnvironmentTypes,
+=======
+        List<string> suitableSoilTypes,
+>>>>>>> dev-alaa
         double minProductionPerDonum, 
         double maxProductionPerDonum, 
         decimal minExpectedPrice, 
@@ -82,11 +114,15 @@ public sealed class Crop
         MaxTemperature = maxTemperature;
         IrrigationLevel = irrigationLevel;
         WaterRequirementCategory = waterRequirementCategory;
+<<<<<<< HEAD
         
         _suitableSoilTypes=suitableSoilTypes;       
         SupportedEnvironmentTypes=supportedEnvironmentTypes;
         SupportedIrrigationMethods=supportedIrrigationMethods;
 
+=======
+        SuitableSoilTypes = suitableSoilTypes ?? new List<string>();
+>>>>>>> dev-alaa
         MinProductionPerDonum = minProductionPerDonum;
         MaxProductionPerDonum = maxProductionPerDonum;
         MinExpectedPrice = minExpectedPrice;
@@ -96,5 +132,8 @@ public sealed class Crop
         ImageUrl = imageUrl;
         DaysToHarvest = daysToHarvest;
     }
+<<<<<<< HEAD
 
+=======
+>>>>>>> dev-alaa
 }

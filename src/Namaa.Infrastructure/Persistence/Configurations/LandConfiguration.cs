@@ -1,6 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+<<<<<<< HEAD
 using Namaa.Domain.Lands;
+=======
+using Namaa.Domain.Land;
+>>>>>>> dev-alaa
 using Namaa.Infrastructure.Identity;
 
 namespace Namaa.Infrastructure.Persistence.Configurations;
@@ -65,6 +69,7 @@ public class LandConfiguration : IEntityTypeConfiguration<Land>
             .HasForeignKey(l => l.FarmerId)
             .IsRequired()
             .OnDelete(DeleteBehavior.Restrict);
+<<<<<<< HEAD
 
             builder.Property(l => l.AddressDetail)
         .IsRequired()
@@ -77,5 +82,7 @@ public class LandConfiguration : IEntityTypeConfiguration<Land>
     // 3. Configure Longitude
     builder.Property(l => l.Longitude)
         .IsRequired();
+=======
+>>>>>>> dev-alaa
     }
 }

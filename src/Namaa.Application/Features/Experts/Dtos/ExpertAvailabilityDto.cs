@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+using System.ComponentModel.DataAnnotations;
+>>>>>>> dev-alaa
 
 namespace Namaa.Application.Features.Experts.Dtos;
 public class ExpertAvailabilityDto

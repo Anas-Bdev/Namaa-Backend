@@ -9,11 +9,14 @@ public sealed class UpdateLandCommandValidator : AbstractValidator<UpdateLandCom
             .NotEmpty()
             .WithMessage("Land ID is required for updating.");
 
+<<<<<<< HEAD
         RuleFor(x => x.AddressDetail)
             .NotEmpty().WithMessage("Address details are required.")
             .MinimumLength(5).WithMessage("Please provide a clearer address description.")
             .MaximumLength(250).WithMessage("Address description cannot exceed 250 characters.");    
 
+=======
+>>>>>>> dev-alaa
         RuleFor(x => x.Name)
             .NotEmpty()
             .WithMessage("Land name is required.")

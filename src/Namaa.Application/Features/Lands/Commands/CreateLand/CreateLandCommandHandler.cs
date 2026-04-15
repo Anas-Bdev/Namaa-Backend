@@ -1,10 +1,14 @@
 using MediatR;
+<<<<<<< HEAD
 using Microsoft.EntityFrameworkCore;
 using Namaa.Application.Common.Errors;
+=======
+>>>>>>> dev-alaa
 using Namaa.Application.Common.Interfaces;
 using Namaa.Application.Features.Lands.Dtos;
 using Namaa.Application.Features.Lands.Mappers;
 using Namaa.Domain.Common.Results;
+<<<<<<< HEAD
 using Namaa.Domain.Lands;
 
 namespace Namaa.Application.Features.Lands.Commands.CreateLand;
@@ -24,6 +28,17 @@ public class CreateLandCommandHandler(IAppDbContext context, IGeocodingService g
 
         // 2. Domain Logic (Create the entity securely)
         var createLandResult = Land.Create(
+=======
+using Namaa.Domain.Land;
+
+namespace Namaa.Application.Features.Lands.Commands.CreateLand;
+
+public class CreateLandCommandHandler(IAppDbContext context) : IRequestHandler<CreateLandCommand, Result<LandDto>>
+{
+    public async Task<Result<LandDto>> Handle(CreateLandCommand request, CancellationToken cancellationToken)
+    {
+    var createLandResult = Land.Create(
+>>>>>>> dev-alaa
             Guid.NewGuid(),
             request.FarmerId,
             request.CityId,
@@ -33,6 +48,7 @@ public class CreateLandCommandHandler(IAppDbContext context, IGeocodingService g
             request.WaterSourceType,
             request.WaterAvailability,
             request.EnvironmentType,
+<<<<<<< HEAD
             request.IrrigationMethod,
             latitude,
             longitude,
@@ -54,5 +70,16 @@ public class CreateLandCommandHandler(IAppDbContext context, IGeocodingService g
             .FirstOrDefaultAsync(l => l.Id == land.Id, cancellationToken);
 
         return landWithDetails!.ToDto();
+=======
+            request.IrrigationMethod
+        );
+       
+       if(createLandResult.IsError)
+       return createLandResult.Errors;
+       context.Lands.Add(createLandResult.Value);
+       await context.SaveChangesAsync(cancellationToken);
+        var land=createLandResult.Value;
+        return land.ToDto();
+>>>>>>> dev-alaa
     }
 }

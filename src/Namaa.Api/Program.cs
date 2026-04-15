@@ -37,4 +37,10 @@ app.MapOpenApi();
 app.MapScalarApiReference();
 app.MapControllers();
 
+<<<<<<< HEAD
 app.Run();
+=======
+
+app.Run();
+
+>>>>>>> dev-alaa

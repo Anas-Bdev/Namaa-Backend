@@ -28,21 +28,31 @@ public static class DependencyInjection
         services.Configure<SmtpOptions>(configuration.GetSection("Smtp"));
         services.Configure<CloudinarySettings>(configuration.GetSection("Cloudinary"));
         services.AddScoped<IFileService,CloudinaryFileService>();
+<<<<<<< HEAD
         services.AddHttpClient<IWeatherService,WeatherService>();
         services.AddHttpClient<IGeocodingService, NominatimGeocodingService>();
+=======
+
+>>>>>>> dev-alaa
 
         var connectionString = configuration.GetConnectionString("DefaultConnection");
         ArgumentNullException.ThrowIfNull(connectionString);
         
         services.AddScoped<ApplicationDbContextInitializer>();
+<<<<<<< HEAD
         services.AddScoped<IAiConsultantService,OpenAiConsultantService>();
+=======
+>>>>>>> dev-alaa
         
         services.AddDbContext<AppDbContext>((sp, options) =>
         {
             var interceptor = sp.GetRequiredService<ISaveChangesInterceptor>();
             options.UseNpgsql(connectionString)
                    .AddInterceptors(interceptor);
+<<<<<<< HEAD
             options.ConfigureWarnings(warnings => warnings.Ignore(RelationalEventId.PendingModelChangesWarning));
+=======
+>>>>>>> dev-alaa
         });
 
         services.AddScoped<IAppDbContext>(provider => provider.GetRequiredService<AppDbContext>());

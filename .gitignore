@@ -1,5 +1,27 @@
+<<<<<<< HEAD
 **/bin/
 **/obj/
 .vs/
 /Requests/
 .env
+=======
+# Visual Studio
+.vs/
+
+# Build folders
+bin/
+obj/
+
+# User-specific files
+*.user
+*.suo
+
+# Logs
+*.log
+
+# Custom
+**/bin/
+**/obj/
+Requests/
+.env
+>>>>>>> dev-alaa

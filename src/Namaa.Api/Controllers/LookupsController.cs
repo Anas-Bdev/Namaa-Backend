@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Namaa.Api.Extensions;
@@ -6,12 +7,19 @@ using Namaa.Application.Features.Lookups.Queries.GetGovernorates;
 using Namaa.Application.Features.Lookups.Queries.GetSoilTypes;
 using Namaa.Domain.Enums;
 using Namaa.Domain.SeedingCycles;
+=======
+
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using Namaa.Domain.Enums;
+>>>>>>> dev-alaa
 
 namespace Namaa.Api.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 public class LookupsController(ISender sender) : ControllerBase
 {
+<<<<<<< HEAD
     [HttpGet("water-sources")]
     public IActionResult GetWaterSources() => Ok(GetEnumList<WaterSourceType>());
 
@@ -76,6 +84,40 @@ public async Task<IActionResult> GetCrops(Guid landId, CancellationToken ct)
         var result = await sender.Send(new GetGovernoratesQuery());
         return result.Match(success => Ok(success), errors => this.ToProblem(errors));
     }
+=======
+  [HttpGet("water-sources")]
+    public IActionResult GetWaterSources()
+    {
+        return Ok(GetEnumList<WaterSourceType>());
+    }
+
+    [HttpGet("water-availabilities")]
+    public IActionResult GetWaterAvailabilities()
+    {
+        return Ok(GetEnumList<WaterAvailability>());
+    }
+
+    [HttpGet("environment-types")]
+    public IActionResult GetEnvironmentTypes()
+    {
+        return Ok(GetEnumList<EnvironmentType>());
+    }
+
+    [HttpGet("irrigation-methods")]
+    public IActionResult GetIrrigationMethods()
+    {
+        return Ok(GetEnumList<IrrigationMethod>());
+    }
+
+
+
+
+
+
+
+
+
+>>>>>>> dev-alaa
 
     private static IEnumerable<object> GetEnumList<T>() where T : Enum
     {
@@ -87,4 +129,9 @@ public async Task<IActionResult> GetCrops(Guid landId, CancellationToken ct)
                 Name = e.ToString() 
             });
     }
+<<<<<<< HEAD
 }
+=======
+}
+
+>>>>>>> dev-alaa
