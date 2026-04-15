@@ -5,9 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 using Namaa.Api.Contracts.Requests.Lands;
 using Namaa.Api.Extensions;
 using Namaa.Application.Features.Lands.Commands.DeleteLand;
+using Namaa.Application.Features.Lands.Queries.GetCrops;
 using Namaa.Application.Features.Lands.Queries.GetLandById;
 using Namaa.Application.Features.Lands.Queries.GetMyLands;
-using Namaa.Application.Features.Lookups.Queries.GetCrops;
 using Namaa.Domain.Common.Constants;
 
 namespace Namaa.Api.Controllers;

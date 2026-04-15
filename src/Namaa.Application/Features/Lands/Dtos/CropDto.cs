@@ -1,4 +1,4 @@
-namespace Namaa.Application.Features.Lookups.Dtos;
+namespace Namaa.Application.Features.Lands.Dtos;
 public class CropDto
 {
     public int CropId {get;set;}

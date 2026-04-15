@@ -1,7 +1,7 @@
-using Namaa.Application.Features.Lookups.Dtos;
+using Namaa.Application.Features.Lands.Dtos;
 using Namaa.Domain.ReferenceData;
 
-namespace Namaa.Application.Features.Lookups.Mappers;
+namespace Namaa.Application.Features.Lands.Mappers;
 public static class CropMapper{
 
     public static CropDto ToDto(this Crop entity)

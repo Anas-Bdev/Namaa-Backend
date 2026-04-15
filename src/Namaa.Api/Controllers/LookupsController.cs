@@ -1,7 +1,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Namaa.Api.Extensions;
-using Namaa.Application.Features.Lookups.Queries.GetCrops;
 using Namaa.Application.Features.Lookups.Queries.GetGovernorates;
 using Namaa.Application.Features.Lookups.Queries.GetSoilTypes;
 using Namaa.Domain.Enums;

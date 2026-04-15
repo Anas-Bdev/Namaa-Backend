@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace Namaa.Application.Features.Lookups.Queries.GetCrops;
+namespace Namaa.Application.Features.Lands.Queries.GetCrops;
 public class GetCropsQueryValidator : AbstractValidator<GetCropsQuery>
 {
     public GetCropsQueryValidator()
