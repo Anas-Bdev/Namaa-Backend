@@ -16,6 +16,11 @@ public class ExpertProfileConfiguration : IEntityTypeConfiguration<ExpertProfile
         .IsRequired()
         .HasMaxLength(500);
 
+        builder.Property(e => e.Specialization)
+        .IsRequired()
+        .HasMaxLength(500)
+        .HasConversion<string>();
+
         builder.Property(e => e.AddressDetail)
         .HasMaxLength(250);
 

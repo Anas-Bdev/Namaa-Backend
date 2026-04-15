@@ -33,9 +33,10 @@ public class ExpertAvailabilityConfiguration : IEntityTypeConfiguration<ExpertAv
             .HasForeignKey(a => a.ExpertProfileId)
             .OnDelete(DeleteBehavior.Cascade);
 
-    builder.Property(a => a.Day)
-    .IsRequired()
-    .HasConversion<string>()
-    .HasMaxLength(20);
+           builder.Property(a => a.Day)
+            .IsRequired()
+            .HasConversion<string>()
+            .HasMaxLength(20);
+            
     }
 }
