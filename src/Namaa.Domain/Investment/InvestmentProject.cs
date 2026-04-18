@@ -6,7 +6,7 @@ namespace Namaa.Domain.Investment;
 
 public sealed class InvestmentProject : AuditableEntity
 {
-    public Guid CreatorId { get; private set; }
+    public Guid CreatorId { get;  }
     public ProjectCreatorRole CreatorRole { get; private set; }
     public string Title { get; private set; } = string.Empty;
     public string? Description { get; private set; }
