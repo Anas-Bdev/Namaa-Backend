@@ -2,7 +2,11 @@ using FluentValidation;
 using FluentValidation.Validators;
 
 namespace Namaa.Application.Features.Experts.Commands.UpdateProfile;
+<<<<<<< HEAD
+public  class CreateExpertAvailabilityCommandValidator : AbstractValidator<UpdateExpertAvailabilityCommand>
+=======
 public  class CreateExpertAvailabilityCommandValidator : AbstractValidator<CreateExpertAvailabilityCommand>
+>>>>>>> dev-alaa
 {
     public CreateExpertAvailabilityCommandValidator()
     {

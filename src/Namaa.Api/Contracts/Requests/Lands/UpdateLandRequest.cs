@@ -20,6 +20,14 @@ public class UpdateLandRequest
     [Required(ErrorMessage = "Soil type is required.")]
     public int SoilId { get; init; }
 
+<<<<<<< HEAD
+    [Required(ErrorMessage = "Address details are required.")]
+    [MinLength(5, ErrorMessage = "Address description must be at least 5 characters.")]
+    [MaxLength(250, ErrorMessage = "Address description cannot exceed 250 characters.")]
+    public string AddressDetail { get; init; } = default!;
+
+=======
+>>>>>>> dev-alaa
     [Required(ErrorMessage = "Water source type is required.")]
     public WaterSourceType? WaterSourceType { get; init; }
 
@@ -36,6 +44,10 @@ public class UpdateLandRequest
     {
         return new UpdateLandCommand(
             farmerId,
+<<<<<<< HEAD
+            AddressDetail,
+=======
+>>>>>>> dev-alaa
             landId,
             Name,
             AreaDonum,

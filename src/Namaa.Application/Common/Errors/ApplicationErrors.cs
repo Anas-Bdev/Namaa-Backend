@@ -10,6 +10,17 @@ public static class ApplicationErrors
     public static readonly Error ExpertNotFound=Error.NotFound("Expert.NotFound","Profile not found. Please upload your CV first.");
     public static readonly Error ExpertAlreadyExists = Error.Conflict("Expert.AlreadyExists", "A profile already exists for this user.");
     public static readonly Error Forbidden = Error.Forbidden("General.Forbidden", "You do not have permission to access this resource.");
+<<<<<<< HEAD
+    public static readonly Error InvalidSoilType = Error.NotFound("SoilType.InvalidId", "The selected soil type does not exist.");
+    public static readonly Error RegionCropsNotFound = Error.NotFound("Recommendations.NotFound", "The Governorate ID is invalid.");
+    public static readonly Error AddressNotFound = Error.Validation("Land_Address_NotFound", "Could not find GPS coordinates for this address. Please try adding a nearby landmark or the city name.");
+     public static readonly Error SeedingCycleNotFound=Error.NotFound("ApplicationErrors.SeedingCycle.NotFound","SeedingCycle does not exist.");
+
+     
+}
+    
+
+=======
    
     public static readonly Error FarmerAlreadyExists = Error.Conflict(
         "Farmer.AlreadyExists", "Farmer profile already exists.");
@@ -32,3 +43,4 @@ public static class ApplicationErrors
     public static readonly Error ContributionNotFound = Error.NotFound(
     "Contribution.NotFound", "Contribution not found.");
 }
+>>>>>>> dev-alaa

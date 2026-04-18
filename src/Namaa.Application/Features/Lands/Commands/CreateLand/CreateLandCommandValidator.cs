@@ -10,6 +10,15 @@ public sealed class CreateLandCommandValidator : AbstractValidator<CreateLandCom
             .NotEmpty()
             .WithMessage("Farmer ID is required.");
 
+<<<<<<< HEAD
+       RuleFor(x => x.AddressDetail)
+            .NotEmpty().WithMessage("Address details are required.")
+            .MinimumLength(5).WithMessage("Please provide a clearer address description.")
+            .MaximumLength(250).WithMessage("Address description cannot exceed 250 characters.");
+
+
+=======
+>>>>>>> dev-alaa
         RuleFor(x => x.Name)
             .NotEmpty()
             .WithMessage("Land name is required.")
