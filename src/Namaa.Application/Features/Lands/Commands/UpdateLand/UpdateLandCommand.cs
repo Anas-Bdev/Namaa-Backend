@@ -5,6 +5,10 @@ using Namaa.Domain.Enums;
 namespace Namaa.Application.Features.Lands.Commands.UpdateLand;
 public sealed record UpdateLandCommand(
     Guid FarmerId,
+<<<<<<< HEAD
+    string AddressDetail,
+=======
+>>>>>>> dev-alaa
     Guid LandId,
     string Name,
     double AreaDonum,

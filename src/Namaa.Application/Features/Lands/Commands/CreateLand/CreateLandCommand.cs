@@ -7,6 +7,10 @@ namespace Namaa.Application.Features.Lands.Commands.CreateLand;
 
 public sealed record CreateLandCommand(
     Guid FarmerId,
+<<<<<<< HEAD
+    string AddressDetail,
+=======
+>>>>>>> dev-alaa
     string Name,
     double AreaDonum,
     int CityId,

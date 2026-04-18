@@ -1,3 +1,10 @@
+<<<<<<< HEAD
+**/bin/
+**/obj/
+.vs/
+/Requests/
+.env
+=======
 # Visual Studio
 .vs/
 
@@ -17,3 +24,4 @@ obj/
 **/obj/
 Requests/
 .env
+>>>>>>> dev-alaa

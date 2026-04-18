@@ -65,6 +65,11 @@ public sealed class ExpertProfile:AuditableEntity
     
   public Result<Updated> UpdatedAvailability(List<ExpertAvailability> incomingSlots)
     {
+<<<<<<< HEAD
+       _availabilities.Clear();
+       _availabilities.AddRange(incomingSlots);
+       return Result.Updated;
+=======
         _availabilities.RemoveAll(existing => !incomingSlots.Any(incoming => incoming.Id==existing.Id));
 
         foreach(var incoming in incomingSlots)
@@ -86,6 +91,7 @@ public sealed class ExpertProfile:AuditableEntity
             }
         }
         return Result.Updated;
+>>>>>>> dev-alaa
     }
         
     }

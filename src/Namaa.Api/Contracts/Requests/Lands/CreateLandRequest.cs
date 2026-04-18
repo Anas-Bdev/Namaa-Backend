@@ -4,6 +4,11 @@ using Namaa.Domain.Enums;
 
 namespace Namaa.Api.Contracts.Requests.Lands;
 
+<<<<<<< HEAD
+using System.ComponentModel.DataAnnotations;
+
+=======
+>>>>>>> dev-alaa
 public class CreateLandRequest
 {
     [Required(ErrorMessage = "Land name is required.")]
@@ -27,11 +32,37 @@ public class CreateLandRequest
     public WaterAvailability? WaterAvailability { get; init; }
     
     [Required(ErrorMessage ="Irrigation Method is required.")]
+<<<<<<< HEAD
+    public IrrigationMethod? IrrigationMethod { get; init; }
+=======
     public IrrigationMethod? IrrigationMethod {get;init;}
+>>>>>>> dev-alaa
 
     [Required(ErrorMessage = "Environment type is required.")]
     public EnvironmentType? EnvironmentType { get; init; }
 
+<<<<<<< HEAD
+    // 1. Added the new property with strict data annotations
+    [Required(ErrorMessage = "Address details are required.")]
+    [MinLength(5, ErrorMessage = "Address description must be at least 5 characters.")]
+    [MaxLength(250, ErrorMessage = "Address description cannot exceed 250 characters.")]
+    public string AddressDetail { get; init; } = default!;
+
+    public CreateLandCommand ToCommand(Guid farmerId)
+    {
+        return new CreateLandCommand(
+         farmerId,
+         AddressDetail,
+         Name,
+         AreaDonum,
+         CityId,
+         SoilId,
+         IrrigationMethod!.Value,
+         WaterSourceType!.Value,
+         WaterAvailability!.Value,
+         EnvironmentType!.Value
+
+=======
     public CreateLandCommand ToCommand(Guid farmerId)
     {
         return new CreateLandCommand(
@@ -44,6 +75,7 @@ public class CreateLandRequest
             WaterSourceType!.Value,
             WaterAvailability!.Value,
             EnvironmentType!.Value
+>>>>>>> dev-alaa
         );
     }
 }
