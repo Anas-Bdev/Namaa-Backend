@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Namaa.Application.Common.Interfaces;
 using Namaa.Domain.Identity;
+using Namaa.Domain.Investments;
 using Namaa.Domain.Lands;
 using Namaa.Domain.Profiles.Expert;
 using Namaa.Domain.Profiles.Farmer;
@@ -34,8 +35,10 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
 
     public DbSet<InvestorProfile> InvestorProfiles => Set<InvestorProfile>();
 
+    public DbSet<InvestmentProject> InvestmentProjects => Set<InvestmentProject>();
 
-   
+    public DbSet<InvestorContribution> InvestorContributions => Set<InvestorContribution>();
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
        base.OnModelCreating(builder);

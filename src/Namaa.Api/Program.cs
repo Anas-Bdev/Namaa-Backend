@@ -1,7 +1,6 @@
 using Namaa.Api;
 using Namaa.Application;
 using Namaa.Infrastructure;
-using Namaa.Infrastructure.Settings;
 using Scalar.AspNetCore;
 using DotNetEnv;
 using Namaa.Infrastructure.Persistence.Context;
@@ -31,10 +30,8 @@ using (var scope = app.Services.CreateScope())
 
 }
  await app.InitializeDatabaseAsync();
-
 app.UseCoreMiddlewares();
 app.MapOpenApi();
 app.MapScalarApiReference();
 app.MapControllers();
-
 app.Run();

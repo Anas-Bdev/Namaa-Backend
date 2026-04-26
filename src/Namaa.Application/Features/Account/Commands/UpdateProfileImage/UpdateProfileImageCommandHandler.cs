@@ -1,18 +1,23 @@
 using System.Security.Principal;
 using MediatR;
 using Namaa.Application.Common.Interfaces;
+using Namaa.Application.Features.Account.Dtos;
 using Namaa.Domain.Common.Results;
 
 namespace Namaa.Application.Features.Account.Commands.UpdateProfileImage;
 
-public class UpdateProfileImageCommandHandler(IIdentityService identityService,IFileService fileService) : IRequestHandler<UpdateProfileImageCommand, Result<Updated>>
+public class UpdateProfileImageCommandHandler(IIdentityService identityService,IFileService fileService) : IRequestHandler<UpdateProfileImageCommand, Result<UploadImageDto>>
 {
-    public async Task<Result<Updated>> Handle(UpdateProfileImageCommand request, CancellationToken cancellationToken)
+    public async Task<Result<UploadImageDto>> Handle(UpdateProfileImageCommand request, CancellationToken cancellationToken)
     {
-     var result=await fileService.UploadFileAsync(request.FormFile,"users/profile-images");
-     var updateResult=await identityService.UpdateProfileImageUrlAsync(request.UserId,result);
+     var imageUrl=await fileService.UploadFileAsync(request.FormFile,"users/profile-images",cancellationToken);
+     var updateResult=await identityService.UpdateProfileImageUrlAsync(request.UserId,imageUrl);
      if(updateResult.IsError)
      return updateResult.Errors;
-     return Result.Updated;
+     return new UploadImageDto
+     {
+         ImageUrl=imageUrl
+     };
+     
     }
 }
