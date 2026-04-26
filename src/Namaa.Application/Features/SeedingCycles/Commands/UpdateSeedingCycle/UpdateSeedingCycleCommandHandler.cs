@@ -14,8 +14,9 @@ public class UpdateSeedingCycleCommandHandler(IAppDbContext context) : IRequestH
         if(seedingCycle is null)
         return ApplicationErrors.SeedingCycleNotFound;
 
-        seedingCycle.Update(request.StartDate,request.EstimatedHarvestDate,request.SeedQuantity,request.SeedingArea,request.ExpectedYield);
-
+        var updateResult=seedingCycle.Update(request.StartDate,request.EstimatedHarvestDate,request.SeedQuantity,request.SeedingArea,request.ExpectedYield);
+         if(updateResult.IsError)
+         return updateResult.Errors;
         await context.SaveChangesAsync(cancellationToken);
         return Result.Updated;
 

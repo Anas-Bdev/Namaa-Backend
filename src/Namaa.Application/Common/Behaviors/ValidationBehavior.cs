@@ -14,8 +14,8 @@ public class ValidationBehavior<TRequest, TResponse>(IEnumerable<IValidator<TReq
         var errors=failures.SelectMany(r => r.Errors).Where(e => e is not null).ToList();
 
         if (errors.Count != 0)
-            throw new ValidationException(errors);
-            return await next();
+        throw new ValidationException(errors);
+        return await next();
        
     }
 }

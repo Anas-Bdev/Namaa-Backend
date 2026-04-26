@@ -29,6 +29,11 @@ public static class ApplicationErrors
     public static readonly Error InvestorNotFound = Error.NotFound(
         "Investor.NotFound", 
         "The Investor profile you are looking for was not found.");
+
+    public static readonly Error InvestmentProjectNotFound=Error.NotFound("ApplicationErrors.InvestmentProject.NotFound","InvestmentProject does not exist.");
+    public static readonly Error InvestorContributionNotFound=Error.NotFound("ApplicationErrors.InvestorContribution.NotFound","InvestorContribution does not exist.");
+
+
      
 }
     

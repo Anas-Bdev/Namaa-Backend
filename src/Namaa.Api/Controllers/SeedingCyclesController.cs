@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -6,6 +7,7 @@ using Namaa.Api.Extensions;
 using Namaa.Application.Features.SeedingCycles.Commands.ActivateSeedingCycle;
 using Namaa.Application.Features.SeedingCycles.Commands.CancelSeedingCycle;
 using Namaa.Application.Features.SeedingCycles.Commands.FailSeedingCycle;
+using Namaa.Application.Features.SeedingCycles.Queries.GetMySeedingCycles;
 using Namaa.Application.Features.SeedingCycles.Queries.GetSeedingCycleById;
 using Namaa.Application.Features.SeedingCycles.Queries.GetSeedingCyclesByLandId;
 using Namaa.Domain.Common.Constants;
@@ -15,6 +17,9 @@ namespace Namaa.Api.Controllers;
 [Authorize(Roles =$"{AppRoles.Farmer},{AppRoles.Admin},{AppRoles.Investor}")]
 public class SeedingCyclesController(ISender sender) : ControllerBase
 {
+
+   private Guid UserId => Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+
 
    [HttpGet("{id:guid}")] 
    public async Task<IActionResult> GetById(Guid id,CancellationToken cancellationToken)
@@ -28,6 +33,13 @@ public class SeedingCyclesController(ISender sender) : ControllerBase
     {
         var result=await sender.Send(new GetSeedingCyclesByLandIdQuery(landId),cancellationToken);
         return result.Match(response => Ok(response),errors => this.ToProblem(errors));
+    }
+
+    [HttpGet("my")]
+    public async Task<IActionResult> GetMy(CancellationToken cancellationToken)
+    {
+        var result=await sender.Send(new GetMySeedingCyclesQuery(UserId),cancellationToken);
+        return result.Match(response => Ok(response), errors => this.ToProblem(errors));
     }
 
     [HttpPost]
