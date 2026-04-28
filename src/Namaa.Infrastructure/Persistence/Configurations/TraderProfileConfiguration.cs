@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Namaa.Domain.Profiles.Trader;
+using Namaa.Infrastructure.Identity;
 
 namespace Namaa.Infrastructure.Persistence.Configurations;
 public sealed class TraderProfileConfiguration : IEntityTypeConfiguration<TraderProfile>
@@ -33,6 +34,11 @@ public sealed class TraderProfileConfiguration : IEntityTypeConfiguration<Trader
             .HasForeignKey(t => t.GovernorateId)
             .OnDelete(DeleteBehavior.Restrict); 
             // Restrict means you can't delete a city if a trader is still registered there.
+
+        builder.HasOne<AppUser>()
+        .WithOne()
+        .HasForeignKey<TraderProfile>(t => t.Id)
+        .OnDelete(DeleteBehavior.Cascade);
     }
 
     

@@ -56,7 +56,7 @@ public class IdentityService(
 
     var onboarding = await GetStatus(user.Id, role);
         
-    return new AppUserDto(user.Id, user.Email!, role, user.FirstName!,user.LastName,user.PhoneNumber, user.Status,onboarding,user.ProfileImageUrl);
+    return new AppUserDto(user.Id, user.Email!, role, user.FirstName!,user.LastName,user.PhoneNumber, user.Status,onboarding,user.ProfileImageUrl,user.StatusReason);
 }
 
     // Creates a new user with a specific role (Experts start as Pending)
@@ -68,7 +68,7 @@ public class IdentityService(
         return Error.Conflict("User.DuplicateEmail", "An account with this email address already exists.");
     }
 
-      var exactRole=AppRoles.RegistrationRoles.FirstOrDefault(r => r.Equals(role,StringComparison.OrdinalIgnoreCase));
+       var exactRole=AppRoles.RegistrationRoles.FirstOrDefault(r => r.Equals(role,StringComparison.OrdinalIgnoreCase));
         if (exactRole is null)
        return Error.Validation("Role.Invalid", "TThe specified role does not exist.");
 
@@ -164,7 +164,7 @@ public async Task<Result<AppUserDto>> GetUserByIdAsync(string userId)
 
      var onboarding = await GetStatus(user.Id, role);
     
-    return new AppUserDto(user.Id, user.Email!, role, user.FirstName!,user.LastName,user.PhoneNumber, user.Status,onboarding,user.ProfileImageUrl);
+    return new AppUserDto(user.Id, user.Email!, role, user.FirstName!,user.LastName,user.PhoneNumber, user.Status,onboarding,user.ProfileImageUrl,user.StatusReason);
 }
 
 public async Task<Result<AppUserDto>> GetUserByEmailAsync(string email)
@@ -181,7 +181,7 @@ public async Task<Result<AppUserDto>> GetUserByEmailAsync(string email)
 
       var onboarding = await GetStatus(user.Id, role);
 
-    return new AppUserDto(user.Id, user.Email!, role, user.FirstName!,user.LastName,user.PhoneNumber, user.Status,onboarding,user.ProfileImageUrl);
+    return new AppUserDto(user.Id, user.Email!, role, user.FirstName!,user.LastName,user.PhoneNumber, user.Status,onboarding,user.ProfileImageUrl,user.StatusReason);
 }
 
 public async Task<Result<string>> GetUserRoleAsync(string userId)
@@ -307,7 +307,7 @@ public async Task<bool> IsEmailConfirmedAsync(string email)
 
     public async Task<Result<Updated>> UpdateProfileImageUrlAsync(string userId, string? profileImageUrl)
     {
-         var user=await userManager.FindByIdAsync(userId);
+        var user=await userManager.FindByIdAsync(userId);
         if(user is null)
       return Error.NotFound("User.NotFound", "The user account was not found.");
       user.ProfileImageUrl=profileImageUrl;
@@ -319,14 +319,41 @@ public async Task<bool> IsEmailConfirmedAsync(string email)
     }
 
     public async Task<Result<Deleted>> DeleteUserAsync(string userId)
-    {
-        
-         var user=await userManager.FindByIdAsync(userId);
+    {  
+        var user=await userManager.FindByIdAsync(userId);
         if(user is null)
       return Error.NotFound("User.NotFound", "The user account was not found.");
       var result=await userManager.DeleteAsync(user);
       if(!result.Succeeded)
       return result.Errors.Select(e => Error.Failure(e.Code,e.Description)).ToList();
       return Result.Deleted;
+    }
+
+    public async Task<Result<Updated>> UpdateUserStatusAsync(string userId,UserStatus userStatus,string? statusReason=null)
+    {
+        var user=await userManager.FindByIdAsync(userId);
+        if(user is null)
+      return Error.NotFound("User.NotFound", "The user account was not found.");
+        user.Status=userStatus;
+        user.StatusReason= userStatus switch
+        {
+            UserStatus.Active => null,
+            UserStatus.Pending => null,
+            UserStatus.Rejected or UserStatus.Suspended => statusReason!.Trim(),
+            _ => null
+        };
+        var result=await userManager.UpdateAsync(user);
+        if(!result.Succeeded)
+        return result.Errors.Select(e => Error.Validation(e.Code,e.Description)).ToList();
+        return Result.Updated;
+
+    }
+
+    public async Task<Result<UserStatus>> GetUserStatusAsync(string userId)
+    {
+        var user=await userManager.FindByIdAsync(userId);
+        if(user is null)
+      return Error.NotFound("User.NotFound", "The user account was not found.");
+      return user.Status;
     }
 }

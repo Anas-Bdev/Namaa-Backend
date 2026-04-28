@@ -1,7 +1,8 @@
 namespace Namaa.Domain.Enums;
 public enum UserStatus
 {
-    Pending,
-    Active,
-    Suspended,
+    Pending=1,
+    Active=2,
+    Rejected=3,
+    Suspended=4,
 }

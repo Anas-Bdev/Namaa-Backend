@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Namaa.Domain.Profiles.Investor;
+using Namaa.Infrastructure.Identity;
 
 namespace Namaa.Infrastructure.Persistence.Configurations;
 
@@ -30,5 +31,10 @@ public class InvestorProfileConfiguration : IEntityTypeConfiguration<InvestorPro
             .WithMany() // One Governorate can have many Investors
             .HasForeignKey(i => i.GovernorateId)
             .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasOne<AppUser>()
+        .WithOne()
+        .HasForeignKey<InvestorProfile>(i => i.Id)
+        .OnDelete(DeleteBehavior.Cascade);
     }
 }

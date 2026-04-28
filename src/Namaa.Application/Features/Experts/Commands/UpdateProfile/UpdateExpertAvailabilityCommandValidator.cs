@@ -1,10 +1,9 @@
 using FluentValidation;
-using FluentValidation.Validators;
 
 namespace Namaa.Application.Features.Experts.Commands.UpdateProfile;
-public  class CreateExpertAvailabilityCommandValidator : AbstractValidator<UpdateExpertAvailabilityCommand>
+public  class UpdateExpertAvailabilityCommandValidator : AbstractValidator<UpdateExpertAvailabilityCommand>
 {
-    public CreateExpertAvailabilityCommandValidator()
+    public UpdateExpertAvailabilityCommandValidator()
     {
         RuleFor(x => x.Day)
             .IsInEnum().WithMessage("Invalid day of the week.");

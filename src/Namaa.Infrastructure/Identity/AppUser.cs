@@ -10,6 +10,7 @@ public class AppUser: IdentityUser<Guid>
     public string? FirstName {get;set;}
     public string? LastName {get;set;}
     public string? ResetCode {get;set;}
+    public string? StatusReason {get;set;}
     public DateTime? ResetCodeExpiresAt {get;set;}
     public string FullName => $"{FirstName} {LastName}".Trim();
 }

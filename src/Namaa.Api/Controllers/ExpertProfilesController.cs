@@ -10,6 +10,7 @@ using Namaa.Application.Features.Experts.Commands.UpdateCv;
 using Namaa.Application.Features.Experts.Queries.GetExperts;
 using Namaa.Application.Features.Experts.Commands.UpdateProfile;
 using Namaa.Application.Features.Experts.Queries.GetExpertProfileById;
+using Namaa.Application.Features.Experts.Queries.GetPendingExperts;
 namespace Namaa.Api.Controllers;
 [Route("api/expert-profiles")]
 [ApiController]
@@ -26,7 +27,7 @@ public class ExpertProfilesController(ISender sender) : ControllerBase
     {
         var command=new UpdateExpertCvCommand(UserId,formFile);
         var result=await sender.Send(command,ct);
-        return result.Match(_ => NoContent(),errors => this.ToProblem(errors));
+        return result.Match(response => Ok(response),errors => this.ToProblem(errors));
 
     }
 
@@ -53,7 +54,6 @@ public class ExpertProfilesController(ISender sender) : ControllerBase
 
     [HttpGet]
     [Authorize(Roles =$"{AppRoles.Admin}, {AppRoles.Farmer}")]
-
     public async Task<IActionResult> GetExperts([FromQuery] GetExpertsRequest request,CancellationToken cancellationToken)
     {
         var query=new GetExpertsQuery(request.PageNumber,request.PageSize,request.CityId,request.Specialization);
@@ -72,11 +72,11 @@ public class ExpertProfilesController(ISender sender) : ControllerBase
 
     [HttpGet("{id:guid}")]
     [Authorize(Roles =$"{AppRoles.Admin}, {AppRoles.Farmer}")]
-
-    
     public async Task<IActionResult> GetById(Guid id,CancellationToken cancellationToken)
     {
         var result=await sender.Send(new GetExpertProfileByIdQuery(id),cancellationToken);
         return result.Match(response => Ok(response),errors => this.ToProblem(errors));
     }
+
+    
 }

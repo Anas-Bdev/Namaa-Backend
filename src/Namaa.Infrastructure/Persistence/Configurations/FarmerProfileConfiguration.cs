@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Namaa.Domain.Profiles.Farmer;
+using Namaa.Infrastructure.Identity;
 
 namespace Namaa.Infrastructure.Persistence.Configurations;
 
@@ -23,6 +24,11 @@ public class FarmerProfileConfiguration : IEntityTypeConfiguration<FarmerProfile
         builder.HasOne(f => f.Governorate)
             .WithMany()
             .HasForeignKey(f => f.GovernorateId)
-            .OnDelete(DeleteBehavior.Restrict);        
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasOne<AppUser>()
+        .WithOne()
+        .HasForeignKey<FarmerProfile>(f => f.Id)
+        .OnDelete(DeleteBehavior.Cascade);;;
     }
 }
