@@ -13,9 +13,6 @@ public class RegisterRequest
     public string Email {get;init;}=default!;
 
     [Required(ErrorMessage = "Password is required.")]
-    [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$", 
-    ErrorMessage = "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one number.")]
-
     public string Password { get; init; }=default!;
     [Phone]
     public string? PhoneNumber {get;init;}

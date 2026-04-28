@@ -1,4 +1,5 @@
 using FluentValidation;
+using Namaa.Domain.Common.Constants;
 
 namespace Namaa.Application.Features.Identity.Commands.Register;
 public sealed class RegisterCommandValidator : AbstractValidator<RegisterCommand>
@@ -30,7 +31,9 @@ public sealed class RegisterCommandValidator : AbstractValidator<RegisterCommand
 
         // 4. Role Rules
         RuleFor(x => x.Role)
-            .NotEmpty().WithMessage("Role is required.");
+         .NotEmpty()
+         .Must(role => AppRoles.NormalRegistrationRoles.Contains(role))
+         .WithMessage("Invalid registration role.");
 
        RuleFor(x => x.PhoneNumber)
     .Matches(@"^(0|\+?970|\+?972)5[69]\d{7}$")

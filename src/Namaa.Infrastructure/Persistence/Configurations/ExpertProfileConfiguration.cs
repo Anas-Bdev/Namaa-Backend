@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Namaa.Domain.Profiles.Expert;
+using Namaa.Infrastructure.Identity;
 
 namespace Namaa.Infrastructure.Persistence.Configurations;
 
@@ -36,6 +37,11 @@ public class ExpertProfileConfiguration : IEntityTypeConfiguration<ExpertProfile
 
         builder.Navigation(e => e.Availabilities)
             .UsePropertyAccessMode(PropertyAccessMode.Field);
+        
+        builder.HasOne<AppUser>()
+        .WithOne()
+        .HasForeignKey<ExpertProfile>(e => e.Id)
+        .OnDelete(DeleteBehavior.Cascade);
 
     }
 }

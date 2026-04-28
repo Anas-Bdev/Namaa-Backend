@@ -7,8 +7,7 @@ using Namaa.Domain.Profiles.Expert;
 
 namespace Namaa.Application.Features.Experts.Commands.UpdateProfile;
 public class UpdateExpertProfileCommandHandler(
-    IAppDbContext context,
-    IUserReadRepository userReadRepository) 
+    IAppDbContext context) 
     : IRequestHandler<UpdateExpertProfileCommand, Result<Updated>>
 {
     public async Task<Result<Updated>> Handle(UpdateExpertProfileCommand request, CancellationToken cancellationToken)
@@ -38,13 +37,11 @@ public class UpdateExpertProfileCommandHandler(
             
         if (profileResult.IsError) return profileResult.Errors;
 
-        var expertUpdateAvailability = expert.UpdatedAvailability(newAvailabilityEntities);
+        var expertUpdateAvailability = expert.ReplaceAvailabilities(newAvailabilityEntities);
         if (expertUpdateAvailability.IsError) return expertUpdateAvailability.Errors;
 
         await context.SaveChangesAsync(cancellationToken);
-
-        var user = await userReadRepository.Query()
-            .FirstOrDefaultAsync(u => u.Id == expert.Id, cancellationToken);
+           
      return Result.Updated;
     }
 }

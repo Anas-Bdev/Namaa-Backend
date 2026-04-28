@@ -2,6 +2,7 @@ using Namaa.Application.Features.Identity.Commands.ResendConfirmationEmail;
 using Namaa.Application.Features.Account.Dtos;
 using Namaa.Domain.Common.Constants;
 using Namaa.Domain.Common.Results;
+using Namaa.Domain.Enums;
 
 namespace Namaa.Application.Common.Interfaces;
 public interface IIdentityService{
@@ -33,5 +34,7 @@ Task<Result<string>> CreateUserAsync(string password,string email,string role,st
 
  Task<Result<Updated>> UpdateAccountInfoAsync(string userId,string firstName,string? lastName,string? phoneNumber);
  Task<Result<Updated>> UpdateProfileImageUrlAsync(string userId,string? profileImageUrl);
+ Task<Result<Updated>> UpdateUserStatusAsync(string userId,UserStatus userStatus,string? statusReason=null);
+ Task<Result<UserStatus>> GetUserStatusAsync(string userId);
 
 }

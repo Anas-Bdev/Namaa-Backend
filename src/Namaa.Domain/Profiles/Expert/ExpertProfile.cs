@@ -63,7 +63,7 @@ public sealed class ExpertProfile:AuditableEntity
         return Result.Updated;
     }
     
-  public Result<Updated> UpdatedAvailability(List<ExpertAvailability> incomingSlots)
+  public Result<Updated> ReplaceAvailabilities(List<ExpertAvailability> incomingSlots)
     {
        _availabilities.Clear();
        _availabilities.AddRange(incomingSlots);

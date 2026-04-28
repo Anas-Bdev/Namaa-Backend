@@ -35,16 +35,4 @@ public sealed class ExpertAvailability:AuditableEntity
 
          return new ExpertAvailability(id, day, startTime, endTime);
     }
-
-    public Result<Updated> Update(DayOfWeek day, TimeSpan startTime, TimeSpan endTime)
-    {
-        if (startTime >= endTime)
-            return ExpertErrors.InvalidTimeRange;
-
-        Day = day;
-        StartTime = startTime;
-        EndTime = endTime;
-
-        return Result.Updated;
-    }
 }

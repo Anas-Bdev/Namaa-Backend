@@ -27,7 +27,7 @@ public class UpdateExpertProfileCommandValidator : AbstractValidator<UpdateExper
             .Must(x => x.Count <= 50).WithMessage("Too many availability slots provided.");
 
         RuleForEach(x => x.Availabilities)
-            .SetValidator(new CreateExpertAvailabilityCommandValidator());
+            .SetValidator(new UpdateExpertAvailabilityCommandValidator());
 
       
     }

@@ -20,7 +20,7 @@ public class GetExpertProfileByIdQueryHandler(IAppDbContext context, IUserReadRe
         return ApplicationErrors.ExpertNotFound;
         var user=await userReadRepository.GetByIdAsync(request.ExpertId,cancellationToken);
          if (user is null || user.Status != UserStatus.Active)
-            return ApplicationErrors.ExpertNotFound;
+        return ApplicationErrors.ExpertNotFound;
 
        return new ExpertListItemDto
         {

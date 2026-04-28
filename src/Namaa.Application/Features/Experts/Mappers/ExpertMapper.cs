@@ -8,12 +8,12 @@ public static class ExpertMapper
     {
         return new ExpertProfileDto
         {
-            Governorate=expert.Governorate?.Name,
+            Governorate=expert.Governorate?.Name!,
             Id=expert.Id,
-            Specialization=expert.Specialization.ToString(),
+            Specialization=expert.Specialization.ToString()!,
             YearsOfExperience=expert.YearsOfExperience,
             GovernorateId=expert.GovernorateId,
-            AddressDetail=expert.AddressDetail,
+            AddressDetail=expert.AddressDetail!,
             CanVisitOnSite=expert.CanVisitOnSite,
             CvUrl=expert.CvUrl!,
             Availabilities=expert.Availabilities.Select(e => e.ToDto()).ToList()
