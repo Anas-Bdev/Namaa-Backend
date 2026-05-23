@@ -28,7 +28,11 @@ public class CreateFarmerProfileCommandHandler(IAppDbContext context)
 
         context.FarmerProfiles.Add(result.Value);
         await context.SaveChangesAsync(cancellationToken);
-        return result.Value.ToDto();
+         var farmer = await context.FarmerProfiles
+        .Include(x => x.Governorate)
+        .FirstAsync(x => x.Id == request.UserId, cancellationToken);
+
+     return farmer.ToDto();
 
     }
 }

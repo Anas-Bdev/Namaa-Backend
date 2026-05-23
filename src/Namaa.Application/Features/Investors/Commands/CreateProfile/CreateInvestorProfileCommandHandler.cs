@@ -26,6 +26,10 @@ public class CreateInvestorCommandHandler(IAppDbContext context) : IRequestHandl
 
         context.InvestorProfiles.Add(result.Value);
         await context.SaveChangesAsync(cancellationToken);
-        return result.Value.ToDto();
+         var investor = await context.InvestorProfiles
+        .Include(x => x.Governorate)
+        .FirstAsync(x => x.Id == request.UserId, cancellationToken);
+
+       return investor.ToDto();
     }
 }

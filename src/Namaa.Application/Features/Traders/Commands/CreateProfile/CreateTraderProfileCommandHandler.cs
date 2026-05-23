@@ -26,8 +26,13 @@ public class CreateTraderProfileCommandHandler(IAppDbContext context) : IRequest
 
         context.TraderProfiles.Add(result.Value);
         await context.SaveChangesAsync(cancellationToken);
+
+         var trader = await context.TraderProfiles
+        .Include(x => x.Governorate)
+        .FirstAsync(x => x.Id == request.UserId, cancellationToken);
+
+      return trader.ToDto();
         
-        return result.Value.ToDto();
         
     }
 }
