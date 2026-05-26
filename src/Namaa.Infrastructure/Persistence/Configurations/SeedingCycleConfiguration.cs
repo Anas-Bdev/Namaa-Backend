@@ -40,7 +40,7 @@ public class SeedingCycleConfiguration : IEntityTypeConfiguration<SeedingCycle>
         .HasForeignKey(sc => sc.LandId)
         .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasOne<Crop>()
+        builder.HasOne(sc => sc.Crop)
         .WithMany()
         .HasForeignKey(sc => sc.CropId)
         .OnDelete(DeleteBehavior.Restrict);

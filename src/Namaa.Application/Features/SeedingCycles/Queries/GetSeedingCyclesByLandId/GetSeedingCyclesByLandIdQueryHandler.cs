@@ -12,6 +12,8 @@ public class GetSeedingCyclesByLandIdQueryHandler(IAppDbContext context) : IRequ
     public async Task<Result<List<SeedingCycleDto>>> Handle(GetSeedingCyclesByLandIdQuery request, CancellationToken cancellationToken)
     {
         var seedingCycles=await context.SeedingCycles.AsNoTracking().Where(sc => sc.LandId==request.LandId)
+                                .Include(x => x.Land)
+                                .Include(x => x.Crop)
                                 .OrderByDescending(sc => sc.StartDate).ToListAsync(cancellationToken);
         
         return seedingCycles.ToDtos();

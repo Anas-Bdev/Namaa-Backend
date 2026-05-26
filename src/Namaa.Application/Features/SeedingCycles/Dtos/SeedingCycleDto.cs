@@ -5,6 +5,7 @@ public class SeedingCycleDto
 {
     public Guid SeedingCycleId {get;set;}
     public Guid LandId {get;set;}
+    public string CropName {get;set;}
     public int CropId {get;set;}
     public DateTime StartDate {get;set;}
     public DateTime EstimatedHarvestDate {get;set;}

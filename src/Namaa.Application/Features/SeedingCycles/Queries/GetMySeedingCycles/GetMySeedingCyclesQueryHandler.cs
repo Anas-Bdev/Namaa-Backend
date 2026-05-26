@@ -14,6 +14,8 @@ public class GetMySeedingCyclesQueryHandler(IAppDbContext context) : IRequestHan
        var seedingCycles=await context.SeedingCycles
                                 .AsNoTracking()
                                 .Where(x => x.Land!.FarmerId==request.FarmerId)
+                                .Include(x => x.Crop)
+                                .Include(x => x.Land)
                                 .OrderByDescending(x => x.CreatedAtUtc)
                                 .ToListAsync(cancellationToken);
       return seedingCycles.ToDtos();

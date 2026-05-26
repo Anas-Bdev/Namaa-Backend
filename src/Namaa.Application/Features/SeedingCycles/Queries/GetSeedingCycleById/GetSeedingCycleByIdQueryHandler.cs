@@ -12,7 +12,10 @@ public class GetSeedingCycleByIdQueryHandler(IAppDbContext context) : IRequestHa
 {
     public async Task<Result<SeedingCycleDto>> Handle(GetSeedingCycleByIdQuery request, CancellationToken cancellationToken)
     {
-        var seedingCycle=await context.SeedingCycles.AsNoTracking().FirstOrDefaultAsync(sc => sc.Id==request.Id,cancellationToken);
+        var seedingCycle=await context.SeedingCycles.AsNoTracking()
+        .Include(x => x.Land)
+        .Include(x => x.Crop)
+        .FirstOrDefaultAsync(sc => sc.Id==request.Id,cancellationToken);
         if(seedingCycle is null)
         return ApplicationErrors.SeedingCycleNotFound;
         return seedingCycle.ToDto();

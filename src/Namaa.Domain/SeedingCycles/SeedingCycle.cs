@@ -1,11 +1,13 @@
 using Namaa.Domain.Common;
 using Namaa.Domain.Common.Results;
 using Namaa.Domain.Lands;
+using Namaa.Domain.ReferenceData;
 
 namespace Namaa.Domain.SeedingCycles;
 public sealed class SeedingCycle : AuditableEntity
 {
     public Guid LandId {get;} 
+    public Crop? Crop {get;private set;}
     public int CropId {get;}
     public DateTime StartDate {get;private set;}
     public DateTime EstimatedHarvestDate {get;private set;}

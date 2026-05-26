@@ -25,7 +25,11 @@ public class CreateSeedingCycleCommandHandler(IAppDbContext context) : IRequestH
       var cycle=seedingCycleResult.Value;
       context.SeedingCycles.Add(cycle);
       await context.SaveChangesAsync(cancellationToken);
-      return cycle.ToDto();
+      var createdCycle = await context.SeedingCycles
+     .Include(x => x.Crop)
+     .Include(x => x.Land)
+    . FirstAsync(x => x.Id == cycle.Id, cancellationToken);
+      return createdCycle.ToDto();
       
       
     }
