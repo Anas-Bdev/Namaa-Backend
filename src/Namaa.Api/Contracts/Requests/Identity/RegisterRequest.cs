@@ -1,0 +1,26 @@
+using System.ComponentModel.DataAnnotations;
+using Namaa.Application.Features.Identity.Commands.Register;
+
+namespace Namaa.Api.Contracts.Requests.Identity;
+public class RegisterRequest
+{
+    [Required(ErrorMessage = "First name is required.")]
+    public string FirstName {get;init;}=default!;
+    public string? LastName {get;init;}
+
+    [Required(ErrorMessage = "Email is required.")]
+    [EmailAddress(ErrorMessage = "Please provide a valid email address.")]
+    public string Email {get;init;}=default!;
+
+    [Required(ErrorMessage = "Password is required.")]
+    public string Password { get; init; }=default!;
+    [Phone]
+    public string? PhoneNumber {get;init;}
+
+    [Required(ErrorMessage = "Role is required.")]
+    public string Role {get;init;}=default!;
+    public RegisterCommand ToCommand()
+    {
+        return new (Email,Password,Role,FirstName,LastName,PhoneNumber);
+    }
+}
