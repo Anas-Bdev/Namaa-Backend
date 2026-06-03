@@ -32,7 +32,12 @@ public static class ApplicationErrors
 
     public static readonly Error InvestmentProjectNotFound=Error.NotFound("ApplicationErrors.InvestmentProject.NotFound","InvestmentProject does not exist.");
     public static readonly Error InvestorContributionNotFound=Error.NotFound("ApplicationErrors.InvestorContribution.NotFound","InvestorContribution does not exist.");
-
+    public static  readonly Error CropNotFound = Error.NotFound("Crop.NotFound", "The selected crop does not exist in the master database.");
+    public static readonly Error ListingNotFound=Error.NotFound("Listing.NotFound", "The product listing could not be found.");
+    public static readonly Error ListingNotActive=Error.Conflict("Listing.NotActive", "This listing is not currently active and cannot be purchased.");
+    public static readonly Error OrderNotFound=Error.NotFound("ProductOrder.NotFound", "The order could not be found.");
+    public static readonly Error InvalidRatingState=Error.Validation("Rating.InvalidState", "You can only leave a rating after the order is delivered.");
+    public static readonly Error OrderAlreadyReviewed=Error.Conflict("Rating.Duplicate", "You have already submitted a rating for this order.");
 
      
 }

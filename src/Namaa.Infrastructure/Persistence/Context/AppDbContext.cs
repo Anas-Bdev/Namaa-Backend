@@ -4,6 +4,7 @@ using Namaa.Application.Common.Interfaces;
 using Namaa.Domain.Identity;
 using Namaa.Domain.Investments;
 using Namaa.Domain.Lands;
+using Namaa.Domain.MarketPlace;
 using Namaa.Domain.Profiles.Expert;
 using Namaa.Domain.Profiles.Farmer;
 using Namaa.Domain.Profiles.Investor;
@@ -38,6 +39,12 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
     public DbSet<InvestmentProject> InvestmentProjects => Set<InvestmentProject>();
 
     public DbSet<InvestorContribution> InvestorContributions => Set<InvestorContribution>();
+
+    public DbSet<ProductListing> ProductListings => Set<ProductListing>();
+
+    public DbSet<ProductOrder> ProductOrders => Set<ProductOrder>();
+
+    public DbSet<FarmerRating> FarmerRatings => Set<FarmerRating>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

@@ -18,7 +18,6 @@ public class ExpertProfileConfiguration : IEntityTypeConfiguration<ExpertProfile
         .HasMaxLength(500);
 
         builder.Property(e => e.Specialization)
-        .IsRequired()
         .HasMaxLength(500)
         .HasConversion<string>();
 
