@@ -29,7 +29,7 @@ using (var scope = app.Services.CreateScope())
     await dbContext.Database.MigrateAsync();
 
 }
- await app.InitializeDatabaseAsync();
+await app.InitializeDatabaseAsync();
 app.UseCoreMiddlewares();
 app.MapOpenApi();
 app.MapScalarApiReference();

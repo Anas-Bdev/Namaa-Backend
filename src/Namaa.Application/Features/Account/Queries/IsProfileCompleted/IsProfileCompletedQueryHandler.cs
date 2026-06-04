@@ -4,9 +4,9 @@ using Namaa.Application.Common.Interfaces;
 
 namespace Namaa.Application.Features.Account.Queries.IsProfileCompleted;
 public class IsProfileCompletedQueryHandler(IAppDbContext context) 
-    : IRequestHandler<IsProfileCompletedQuery, bool>
+    : IRequestHandler<IsProfileCompletedQuery, bool?>
 {
-    public async Task<bool> Handle(IsProfileCompletedQuery request, CancellationToken ct)
+    public async Task<bool?> Handle(IsProfileCompletedQuery request, CancellationToken ct)
     {
         switch (request.Role)
         {
@@ -26,7 +26,7 @@ public class IsProfileCompletedQueryHandler(IAppDbContext context)
                 return investorComplete;
 
             default:
-                return false;
+                return null;
         }
     }
 

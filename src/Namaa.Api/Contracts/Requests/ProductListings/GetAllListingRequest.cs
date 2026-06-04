@@ -13,7 +13,7 @@ public class GetAllListingsRequest
     public decimal? MaxPrice { get; set; }
     
     [Range(1, int.MaxValue)]
-    public int PageNumber { get; set; } = 5;
+    public int PageNumber { get; set; } = 1;
     
     [Range(1, 100)] // Limit page size to 100 to prevent database exhaustion
     public int PageSize { get; set; } = 10;

@@ -24,7 +24,7 @@ public class IdentityService(
     SignInManager<AppUser> signInManager,
     ISender sender) : IIdentityService
 {
-    private  async Task<bool> GetStatus(Guid userId, string role) 
+    private  async Task<bool?> GetStatus(Guid userId, string role) 
         =>  await sender.Send(new IsProfileCompletedQuery(userId, role));
     // Authenticates a user and returns their JWT-ready data
     public async Task<Result<AppUserDto>> AuthenticateAsync(string email, string password)

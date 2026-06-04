@@ -3,8 +3,6 @@ using System.ComponentModel.DataAnnotations;
 namespace Namaa.Api.Contracts.Requests.ProductListings;
 public class CreateProductListingRequest
 {
-    [Required]
-    public Guid FarmerId { get; set; }
 
     public Guid? SeedingCycleId { get; set; }
 

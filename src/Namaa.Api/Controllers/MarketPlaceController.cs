@@ -43,7 +43,7 @@ public class MarketPlaceController(ISender sender) : ControllerBase
     public async Task<IActionResult> CreateListing([FromBody] CreateProductListingRequest request, CancellationToken ct)
     {
         var command = new CreateProductListingCommand(
-            request.FarmerId, request.SeedingCycleId, request.CropId, request.Title, request.Description, 
+            UserId, request.SeedingCycleId, request.CropId, request.Title, request.Description, 
             request.Unit, request.PricePerUnit, request.DiscountPrice, request.QuantityAvailable, 
             request.ImageUrl, request.HarvestDate
         );

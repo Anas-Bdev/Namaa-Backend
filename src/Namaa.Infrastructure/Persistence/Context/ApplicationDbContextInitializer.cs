@@ -5,7 +5,7 @@ using Namaa.Domain.Common.Constants;
 using Namaa.Infrastructure.Identity;
 
 namespace Namaa.Infrastructure.Persistence.Context;
-public class ApplicationDbContextInitializer(RoleManager<AppRole> roleManager)
+public class ApplicationDbContextInitializer(RoleManager<AppRole> roleManager, UserManager<AppUser> userManager)
 {
     public async Task TrySeedAsync()
     {
@@ -17,6 +17,33 @@ public class ApplicationDbContextInitializer(RoleManager<AppRole> roleManager)
                 await roleManager.CreateAsync(new AppRole {Name=role});
             }
         }
+
+        var adminEmail="admin@namaa.com";
+        var adminPassword="Admin@123456";
+        if(await userManager.FindByEmailAsync(adminEmail) is null)
+        {
+            var adminUser= new AppUser
+            {
+                UserName=adminEmail,
+                Email=adminEmail,
+               EmailConfirmed=true,
+               FirstName="Admin",
+               LastName="Namaa",
+            };
+
+            var result=await userManager.CreateAsync(adminUser,adminPassword);
+            if (result.Succeeded)
+            {
+                await userManager.AddToRoleAsync(adminUser,AppRoles.Admin);
+            }
+
+            else
+            {
+                var errors=string.Join(",", result.Errors.Select(e => e.Description));
+                Console.WriteLine($"Failed to create admin user: {errors}");
+            }
+        }
+
     }
 }
 public static class InitializerExtensions

@@ -16,7 +16,10 @@ public class WeatherService(IConfiguration configuration,HttpClient httpClient) 
             {
                 TemperatureCelsius = response!.Main.Temp,
                 ConditionText = response.Weather[0].Description,
-                IconCode = response.Weather[0].Icon
+                IconCode = response.Weather[0].Icon,
+                Humidity=response.Main.Humidity,
+                Pressure=response.Main.Pressure,
+                WindSpeed=response.Wind.Speed
             };
             return dto;
     }
@@ -27,16 +30,24 @@ public class WeatherService(IConfiguration configuration,HttpClient httpClient) 
     {
         public MainData Main { get; set; } = default!;
         public WeatherData[] Weather { get; set; } = Array.Empty<WeatherData>();
+        public WindData Wind {get;set;}=default!;
     }
 
     private class MainData 
     { 
         public double Temp { get; set; } 
+        public int Humidity {get;set;}
+        public int Pressure {get;set;}
     }
 
     private class WeatherData 
     { 
         public string Description { get; set; } = default!; 
         public string Icon { get; set; } = default!; 
+    }
+
+    private class WindData
+    {
+        public double Speed { get; set; }
     }
 }
