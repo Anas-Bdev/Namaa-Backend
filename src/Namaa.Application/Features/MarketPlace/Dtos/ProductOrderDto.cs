@@ -12,4 +12,5 @@ public class ProductOrderDto
     public OrderStatus Status {get;set;}
     public Address DeliveryAddress {get;set;}=default!;
     public string? DeliveryNotes {get;set;}
+    public DateTime? EstimatedArrivalDate {get;set;}
 }

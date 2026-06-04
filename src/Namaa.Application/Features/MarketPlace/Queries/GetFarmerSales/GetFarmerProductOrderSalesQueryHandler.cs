@@ -13,7 +13,7 @@ public class GetFarmerProductOrderSalesQueryHandler(IAppDbContext context) : IRe
     {
         var query = await context.ProductOrders
             .AsNoTracking()
-            .Where(o => o.ProductListing.FarmerId == request.FarmerId)
+            .Where(o => o.ProductListing!.FarmerId == request.FarmerId)
             .ToListAsync(cancellationToken);
 
         return query.ToDtos();

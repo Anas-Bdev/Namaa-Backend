@@ -33,7 +33,6 @@ public class ExpertProfilesController(ISender sender) : ControllerBase
 
     [HttpPut("profile")]
     [Authorize(Roles =AppRoles.Expert)]
-
     public async Task<IActionResult> UpdateProfile(UpdateExpertProfileRequest request,CancellationToken cancellationToken)
     {
 

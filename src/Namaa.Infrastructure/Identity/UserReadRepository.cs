@@ -36,7 +36,7 @@ public class UserReadRepository(AppDbContext context) : IUserReadRepository
             Status=u.Status,
             PhoneNumber=u.PhoneNumber,
             ProfileImageUrl=u.ProfileImageUrl,
-            Email=u.Email
+            Email=u.Email!
         }
     );
     }

@@ -17,6 +17,7 @@ using Namaa.Application.Features.MarketPlace.Commands.DeliverOrder;
 using Namaa.Application.Features.MarketPlace.Commands.PauseListing;
 using Namaa.Application.Features.MarketPlace.Commands.PayOrder;
 using Namaa.Application.Features.MarketPlace.Commands.ResumeListing;
+using Namaa.Application.Features.MarketPlace.Commands.ShipOrder;
 using Namaa.Application.Features.MarketPlace.Commands.UpdateListing;
 using Namaa.Application.Features.MarketPlace.Commands.UploadProductImage;
 using Namaa.Application.Features.MarketPlace.Queries.GetAllListings;
@@ -28,6 +29,7 @@ using Namaa.Application.Features.MarketPlace.Queries.GetOrderById;
 using Namaa.Application.Features.MarketPlace.Queries.GetPendingOrders;
 using Namaa.Application.Features.MarketPlace.Queries.GetTraderOrders;
 using Namaa.Domain.Common.Constants;
+using Org.BouncyCastle.Ocsp;
 namespace Namaa.Api;
 [Route("api/marketplace")]
 [ApiController]
@@ -132,6 +134,19 @@ public class MarketPlaceController(ISender sender) : ControllerBase
     public async Task<IActionResult> PayOrder(Guid orderId, CancellationToken ct)
     {
         var result = await sender.Send(new PayProductOrderCommand(orderId, UserId), ct);
+        return result.Match(_ => NoContent(), errors => this.ToProblem(errors));
+    }
+
+    [HttpPut("orders/{orderId:guid}/ship")]
+    [Authorize(Roles = AppRoles.Farmer)]
+    public async Task<IActionResult> ShipOrder(Guid orderId, [FromBody] ShipProductOrderRequest request, CancellationToken ct)
+    {
+        var command=new ShipProductOrderCommand(
+          orderId,
+          request.EstimatedArrivalDate  
+        );
+        
+        var result=await sender.Send(command,ct);
         return result.Match(_ => NoContent(), errors => this.ToProblem(errors));
     }
 

@@ -1,4 +1,5 @@
 
+using System.Buffers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,6 +14,9 @@ using Namaa.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Namaa.Infrastructure.Persistence.Interceptors;
 using Namaa.Infrastructure.Settings;
+using Microsoft.Extensions.Caching.Hybrid;
+using Microsoft.Extensions.Options;
+using Org.BouncyCastle.Asn1.Cms;
 
 namespace Namaa.Infrastructure;
 
@@ -36,6 +40,19 @@ public static class DependencyInjection
         
         services.AddScoped<ApplicationDbContextInitializer>();
         services.AddScoped<IAiConsultantService,OpenAiConsultantService>();
+
+        services.AddHybridCache(options =>
+        {
+            options.DefaultEntryOptions=new HybridCacheEntryOptions
+            {
+                Expiration=TimeSpan.FromMinutes(30),
+                LocalCacheExpiration=TimeSpan.FromMinutes(5)
+            };
+           
+           options.MaximumPayloadBytes=1024*1024;
+
+           options.MaximumKeyLength=256;
+        });
         
         services.AddDbContext<AppDbContext>((sp, options) =>
         {

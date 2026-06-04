@@ -41,7 +41,8 @@ public static class MarketPlaceMapper
       TotalPrice=entity.TotalPrice,
       Status=entity.Status,
       DeliveryAddress=entity.DeliveryAddress,
-      DeliveryNotes=entity.DeliveryNotes
+      DeliveryNotes=entity.DeliveryNotes,
+      EstimatedArrivalDate=entity.EstimatedArrivalDate
     };
   }
   

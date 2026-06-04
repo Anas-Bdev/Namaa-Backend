@@ -9,7 +9,7 @@ public sealed class ProductOrder : AuditableEntity
     // 1. Relationships (Strictly IDs)
     public Guid TraderId { get; private set; }
     public Guid ProductListingId { get; private set; } 
-    public ProductListing ProductListing {get;private set;}
+    public ProductListing? ProductListing {get;private set;}
 
     // 2. Financial Snapshot
     public decimal Quantity { get; private set; } 
@@ -19,6 +19,7 @@ public sealed class ProductOrder : AuditableEntity
     // 3. Lifecycle & Payment Tracking
     public OrderStatus Status { get; private set; }
     public DateTime? PurchasedAt { get; private set; }
+    public DateTime? EstimatedArrivalDate { get; private set; }
     
     // 4. Logistics 
     public string? DeliveryNotes { get; private set; } // The beautiful touch!
@@ -89,12 +90,28 @@ public sealed class ProductOrder : AuditableEntity
         return Result.Updated;
     }
 
+    public Result<Updated> Ship(DateTime estimatedArrival)
+    {
+       if(Status!=OrderStatus.Paid) 
+       return ProductOrderErrors.InvalidStatusTransition;
+
+       if(estimatedArrival < DateTime.UtcNow)
+       return ProductOrderErrors.InvalidArrivalDate;
+
+       Status=OrderStatus.Shipped;
+       EstimatedArrivalDate=estimatedArrival;
+       return Result.Updated;
+    }
+
+
+
+
+
     // NEW: The physical handover step
     public Result<Updated> Deliver()
     {
-        // Can only deliver an order that has been successfully paid for
-        if (Status != OrderStatus.Paid)
-            return ProductOrderErrors.InvalidStatusTransition;
+        if (Status != OrderStatus.Shipped)
+        return ProductOrderErrors.InvalidStatusTransition;
 
         Status = OrderStatus.Delivered;
         return Result.Updated;

@@ -4,6 +4,7 @@ using Namaa.Api.ExceptionHandling;
 using Namaa.Api.OpenApi.Transformer;
 using Namaa.Api.Services;
 using Namaa.Application.Common.Interfaces;
+using Serilog;
 
 namespace Namaa.Api;
 public static class DependencyInjection
@@ -83,13 +84,15 @@ public static class DependencyInjection
         app.UseExceptionHandler();
         app.UseForwardedHeaders(new ForwardedHeadersOptions
        {
-    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+       ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
        });
+
+        app.UseSerilogRequestLogging();
         app.UseHttpsRedirection();
         app.UseCors("NamaaCorsPolicy");
         app.UseAuthentication();
         app.UseAuthorization();
-
+       
         return app;
     }
 }

@@ -20,4 +20,5 @@ public static class ProductOrderErrors
     public static readonly Error CannotCancelPaidOrder = Error.Conflict(
         "ProductOrder.CannotCancelPaidOrder", "Cannot cancel an order that has already been paid for.");
     public static readonly Error AddressRequired = Error.Validation("ProductOrder.AddressRequired", "A delivery address is required.");
+    public static readonly Error InvalidArrivalDate= Error.Validation("ProductOrder.InvalidArrivalDate","The estimated arrival date must be in the future");
 }

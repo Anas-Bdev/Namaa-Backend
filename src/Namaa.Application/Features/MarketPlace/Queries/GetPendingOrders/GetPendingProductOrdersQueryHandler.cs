@@ -14,7 +14,7 @@ public class GetPendingProductOrdersQueryHandler(IAppDbContext context) : IReque
     {
         var pendingOrders = await context.ProductOrders
             .AsNoTracking()
-            .Where(x => x.ProductListing.FarmerId == request.FarmerId 
+            .Where(x => x.ProductListing!.FarmerId == request.FarmerId 
                      && x.Status == OrderStatus.Pending)
             .OrderByDescending(o => o.CreatedAtUtc)
             .ToListAsync(cancellationToken);
