@@ -1,5 +1,3 @@
-using System.Runtime.InteropServices;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Namaa.Application.Common.Interfaces;
 using Namaa.Application.Common.Models;
@@ -17,7 +15,7 @@ public class UserReadRepository(AppDbContext context) : IUserReadRepository
         ProfileImageUrl=u.ProfileImageUrl,
         FullName=u.FullName,
         PhoneNumber=u.PhoneNumber,
-        Status=u.Status
+        Status=u.Status,
         }
         ).FirstOrDefaultAsync(ct);
     }

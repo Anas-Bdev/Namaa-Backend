@@ -63,7 +63,6 @@ public class ExpertProfilesController(ISender sender) : ControllerBase
    
    [HttpGet("me")]
    [Authorize(Roles =AppRoles.Expert)]
-
    public async Task<IActionResult> GetProfile(CancellationToken cancellationToken)
     {
         var result=await sender.Send(new GetExpertProfileQuery(UserId),cancellationToken);

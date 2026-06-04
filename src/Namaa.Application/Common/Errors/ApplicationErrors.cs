@@ -38,6 +38,7 @@ public static class ApplicationErrors
     public static readonly Error OrderNotFound=Error.NotFound("ProductOrder.NotFound", "The order could not be found.");
     public static readonly Error InvalidRatingState=Error.Validation("Rating.InvalidState", "You can only leave a rating after the order is delivered.");
     public static readonly Error OrderAlreadyReviewed=Error.Conflict("Rating.Duplicate", "You have already submitted a rating for this order.");
+    public static readonly Error UserNotFound=Error.Failure("User.NotFound","The requested user could not be found in the system");
 
      
 }

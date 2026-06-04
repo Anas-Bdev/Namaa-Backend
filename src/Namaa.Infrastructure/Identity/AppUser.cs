@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Identity;
 using Namaa.Domain.Enums;
-using Namaa.Domain.Identity;
 
 namespace Namaa.Infrastructure.Identity;
 public class AppUser: IdentityUser<Guid>
