@@ -23,7 +23,8 @@ public class GetPendingExpertsQueryHandler(IAppDbContext context, IUserReadRepos
                  FullName=user.FullName,
                  Email=user.Email!,
                  PhoneNumber=user.PhoneNumber,
-                 CvUrl=expert.CvUrl!
+                 CvUrl=expert.CvUrl!,
+                 ProfileImageUrl=user.ProfileImageUrl
                  }
                  )
                 .ToListAsync(cancellationToken);

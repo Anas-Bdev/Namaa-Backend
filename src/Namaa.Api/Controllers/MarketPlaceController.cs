@@ -29,7 +29,6 @@ using Namaa.Application.Features.MarketPlace.Queries.GetOrderById;
 using Namaa.Application.Features.MarketPlace.Queries.GetPendingOrders;
 using Namaa.Application.Features.MarketPlace.Queries.GetTraderOrders;
 using Namaa.Domain.Common.Constants;
-using Org.BouncyCastle.Ocsp;
 namespace Namaa.Api;
 [Route("api/marketplace")]
 [ApiController]

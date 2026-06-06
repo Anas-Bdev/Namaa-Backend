@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 namespace Namaa.Application.Common.Behaviors;
 
 public class UnhandledExceptionBehavior<TRequest, TResponse>(
-    ILogger<TRequest> logger)
+    ILogger<UnhandledExceptionBehavior<TRequest, TResponse>> logger)
     : IPipelineBehavior<TRequest, TResponse>
     where TRequest : notnull
 {
