@@ -4,28 +4,100 @@
 [![Architecture](https://img.shields.io/badge/Architecture-Clean_/_CQRS-blue.svg)](#)
 [![Status](https://img.shields.io/badge/Status-Active_Development-orange.svg)](#)
 
-Namaa is a modular agricultural management platform designed to digitize and improve collaboration between farmers, traders, investors, and agricultural experts.
+---
 
-The system provides a scalable backend API built with **Clean Architecture + CQRS**, focusing on maintainability, separation of concerns, and real-world backend engineering practices.
+# 📌 Project Overview
 
-> 🚧 **Note:** This project is part of a final-year Computer Engineering graduation project. It is actively under development, but the core architecture, pipelines, and system design are already implemented and stable.
+**Namaa** is a backend agricultural platform designed to modernize and digitize the agricultural ecosystem by connecting farmers, traders, investors, agricultural experts, and administrators in one unified system.
+
+In traditional systems, each stakeholder operates in isolation. Farmers struggle to access markets, traders lack direct sourcing transparency, and experts are disconnected from real-time agricultural needs. Namaa was built to solve this fragmentation by creating a structured, scalable backend system that simulates a real-world agricultural marketplace.
+
+---
+
+## 🌱 The Idea Behind the Project
+
+This project started as a graduation-level engineering initiative aimed at solving real-world inefficiencies in agriculture.
+
+Instead of building a simple CRUD application, the goal was to design a **production-style backend system** that reflects real software engineering practices used in modern companies.
+
+The focus was not only on implementing features, but on building a **clean, maintainable, and scalable architecture** that could support future expansion.
+
+---
+
+## 🏗️ How the System Was Built
+
+The system was designed using modern backend engineering principles:
+
+### 🧱 Clean Architecture
+The project is divided into clear layers:
+- **API Layer** → Handles HTTP requests, controllers, and middleware
+- **Application Layer** → Contains business logic, CQRS handlers, validation
+- **Domain Layer** → Core business entities and rules
+- **Infrastructure Layer** → Database, external APIs, and integrations
+
+This ensures full separation of concerns and high maintainability.
+
+---
+
+### ⚡ CQRS + MediatR Pattern
+The system follows CQRS principles:
+- Commands handle write operations
+- Queries handle read operations
+- MediatR manages request pipelines
+
+This improves scalability and keeps business logic organized.
+
+---
+
+### 🧠 Engineering Practices
+The project includes production-level backend concepts such as:
+- Centralized error handling system
+- FluentValidation for request validation
+- JWT authentication & authorization
+- Tag-based caching strategy for performance optimization
+- Structured logging using Serilog
+
+---
+
+### 🔌 External Integrations
+To simulate a real production system, multiple external services are integrated:
+
+- 🤖 OpenAI API → AI-based agricultural consultation
+- 🌦️ OpenWeatherMap API → Weather and environmental insights
+- ☁️ Cloudinary → Image and media storage
+- 📧 Brevo SMTP → Email notifications system
 
 ---
 
 # 🚀 Features
 
-- 🔐 Authentication & Authorization (JWT)
+- 🔐 Secure authentication & authorization (JWT)
 - 👨‍🌾 Farmer management system
-- 🌾 Agricultural listings marketplace
+- 🌾 Agricultural marketplace (listings)
 - ⭐ Farmer rating & review system
-- 📦 Product order tracking system
-- ☁️ Media upload & management (Cloudinary)
-- 🤖 AI agricultural consultation (OpenAI API)
-- 🌦️ Weather insights integration (OpenWeatherMap)
-- 📧 Email notifications (Brevo SMTP)
-- ⚡ Global caching with tag-based invalidation
-- 🧠 Centralized error handling system
-- 📊 Clean CQRS-based request pipeline
+- 📦 Order and trading workflow system
+- ☁️ Media upload system (Cloudinary)
+- 🤖 AI agricultural assistant (OpenAI)
+- 🌦️ Weather insights integration
+- 📧 Email notification system
+- ⚡ Hybrid caching with tag-based invalidation
+- 🧠 Centralized error handling
+- 📊 Fully structured CQRS architecture
+
+---
+
+# 👥 System Roles
+
+The system is designed around multiple user roles:
+
+| Role | Description |
+|------|------------|
+| 👨‍🌾 Farmer | Creates listings, manages products, receives ratings |
+| 🛒 Trader | Purchases agricultural products |
+| 💰 Investor | Funds agricultural opportunities |
+| 🌱 Expert | Provides agricultural consultation |
+| 🛠️ Admin | System moderation and management |
+| 👤 Guest | Public browsing access |
 
 ---
 
@@ -50,7 +122,7 @@ The system provides a scalable backend API built with **Clean Architecture + CQR
 
 # 🧭 Architecture Overview
 
-The system follows **Clean Architecture** to ensure strict separation between business logic and infrastructure concerns.
+The system follows Clean Architecture principles to ensure strict separation between layers.
 
 ### 📌 Request Flow
 
@@ -68,55 +140,12 @@ Infrastructure Layer (Database + External Services)
 
 ---
 
-### 🧱 Layers
-
-#### 🟢 Namaa.API
-- REST API endpoints
-- Global exception handling
-- Middleware pipeline
-
-#### 🔵 Namaa.Application
-- CQRS Commands & Queries
-- MediatR handlers
-- FluentValidation rules
-- DTOs & mapping logic
-
-#### 🟣 Namaa.Domain
-- Core business entities (Farmer, Listing, Order, etc.)
-- Value objects
-- Domain rules & exceptions
-
-#### 🟠 Namaa.Infrastructure
-- EF Core database access
-- External integrations (OpenAI, Cloudinary, Weather API)
-- Email services (Brevo SMTP)
-- JWT authentication services
-
----
-
-# 🧩 System Design Highlights
-
-- ✔ Fully decoupled Clean Architecture
-- ✔ CQRS separation (read/write optimization)
-- ✔ Centralized error handling pipeline
-- ✔ Tag-based caching invalidation strategy
-- ✔ Domain-driven modular structure
-- ✔ Extensible integration layer for external services
-
----
-
 # 📋 Prerequisites
 
-Before running the project:
-
 - .NET 9 SDK
-- PostgreSQL (running locally)
-- IDE (Visual Studio / Rider / VS Code)
-- API keys:
-  - OpenAI
-  - Cloudinary
-  - Brevo SMTP
-  - OpenWeatherMap
+- PostgreSQL installed and running
+- Visual Studio / Rider / VS Code
+- API keys for external services (OpenAI, Cloudinary, Brevo, Weather API)
 
 ---
 
@@ -132,14 +161,9 @@ Example configuration:
 
 ```json
 {
-  "Logging": {
-    "LogLevel": {
-      "Default": "Information",
-      "Microsoft.AspNetCore": "Warning"
-    }
+  "ConnectionStrings": {
+    "DefaultConnection": "Host=localhost;Port=5432;Database=NamaaDb;Username=postgres;Password=your_password;"
   },
-
-  "AllowedHosts": "*",
 
   "JwtSettings": {
     "Issuer": "localhost",
@@ -148,36 +172,18 @@ Example configuration:
     "Secret": "YOUR_JWT_SECRET_KEY"
   },
 
-  "ConnectionStrings": {
-    "DefaultConnection": "Host=localhost;Port=5432;Database=NamaaDb;Username=postgres;Password=your_password;"
-  },
-
-  "App": {
-    "BaseUrl": "https://localhost:7070"
-  },
-
-  "Serilog": {
-    "Using": ["Serilog.Sinks.Console"],
-    "MinimumLevel": {
-      "Default": "Information",
-      "Override": {
-        "Microsoft": "Warning"
-      }
-    }
-  },
-
   "Cloudinary": {
     "CloudName": "your_cloud_name",
     "ApiKey": "your_api_key",
     "ApiSecret": "your_api_secret"
   },
 
-  "WeatherApi": {
-    "OpenWeatherMapKey": "your_api_key"
-  },
-
   "OpenAi": {
     "ApiKey": "your_api_key"
+  },
+
+  "WeatherApi": {
+    "OpenWeatherMapKey": "your_api_key"
   },
 
   "Smtp": {
@@ -201,33 +207,43 @@ git clone https://github.com/YourUsername/Namaa-Backend.git
 cd Namaa-Backend
 ```
 
-### 2. Restore packages
+---
+
+### 2. Restore dependencies
 ```bash
 dotnet restore
 ```
 
-### 3. Apply migrations
-```bash
-dotnet ef database update --project src/Namaa.Infrastructure --startup-project src/Namaa.API
-```
+---
 
-### 4. Run project
+### 3. Run the application
+> The system automatically applies database migrations on startup.
+
 ```bash
 dotnet run --project src/Namaa.API
 ```
 
-### 5. Swagger
+---
+
+### 4. Access Swagger API
 ```
 https://localhost:7070/swagger
 ```
 
 ---
 
+# 🧩 System Design Highlights
+
+- ✔ Clean Architecture with strict separation of concerns
+- ✔ CQRS pattern for scalable read/write operations
+- ✔ Centralized error handling pipeline
+- ✔ Tag-based caching strategy for performance optimization
+- ✔ Modular multi-role system design
+- ✔ External service integrations (AI, Weather, Email)
+- ✔ Production-level backend architecture
+
+---
+
 # ⭐ Final Note
 
-This project demonstrates:
-- real-world backend architecture design
-- scalable CQRS implementation
-- production-style API structure
-- integration with external services
-- clean separation of concerns
+Namaa is a real-world backend system built using modern .NET architecture principles. It demonstrates scalable system design, clean engineering practices, and production-level backend development skills suitable for real industry applications.
