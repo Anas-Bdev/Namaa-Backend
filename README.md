@@ -8,21 +8,21 @@
 
 # 📌 Project Overview
 
-**Namaa** is a backend agricultural platform designed to modernize and digitize the agricultural ecosystem by connecting farmers, traders, investors, agricultural experts, and administrators in one unified system.
+**Namaa** is a backend agricultural platform designed to modernize and digitize the agricultural ecosystem by connecting farmers, traders, investors, agricultural experts, and administrators in a unified system.
 
-In traditional systems, stakeholders operate in isolation. Farmers struggle with market access, traders lack transparency in sourcing, and experts are disconnected from real-time agricultural needs. Namaa was built to solve this fragmentation by creating a structured, scalable backend system that simulates a real-world agricultural marketplace.
+In traditional systems, each stakeholder operates independently. Farmers face difficulties accessing markets, traders lack transparency in sourcing, and experts are disconnected from real-time agricultural needs. Namaa was built to reduce this fragmentation by introducing a structured backend system that simulates a real agricultural marketplace.
 
-> 🚧 **Important Note:** This project is currently under active development as part of a final-year Computer Engineering graduation project. The core architecture and backend foundation are stable, while some domain-specific features are still being developed.
+> 🚧 **Important Note:** This project is currently under active development as part of a final-year Computer Engineering graduation project. The core backend architecture is stable and implemented, while some domain features are still being developed.
 
 ---
 
 ## 🌱 The Idea Behind the Project
 
-This project started as a graduation engineering initiative focused on solving real-world inefficiencies in agriculture.
+This project started as a graduation engineering initiative aimed at solving real-world inefficiencies in the agricultural sector.
 
-Instead of building a simple CRUD system, the goal was to design a **production-style backend architecture** that reflects real-world software engineering practices used in scalable systems.
+Instead of building a simple CRUD application, the goal was to design a **production-style backend system** using modern software engineering principles.
 
-The focus is not only on features, but on building a **clean, maintainable, and extensible backend system**.
+The focus is not only on implementing features, but on building a **clean, scalable, and maintainable architecture** suitable for real-world systems.
 
 ---
 
@@ -31,30 +31,30 @@ The focus is not only on features, but on building a **clean, maintainable, and 
 The system is designed using modern backend engineering principles:
 
 ### 🧱 Clean Architecture
-The system is structured into four layers:
+The system is divided into four main layers:
 
 - **Namaa.API** → Controllers, middleware, request handling
 - **Namaa.Application** → Business logic, CQRS, validation, handlers
-- **Namaa.Domain** → Core business entities and rules
-- **Namaa.Infrastructure** → Database, external APIs, integrations
+- **Namaa.Domain** → Core entities and business rules
+- **Namaa.Infrastructure** → Database access and external integrations
 
 This ensures strong separation of concerns and long-term maintainability.
 
 ---
 
 ### ⚡ CQRS + MediatR
-The system follows CQRS principles:
+The system follows the CQRS pattern:
 
-- Commands → write operations
-- Queries → read operations
-- MediatR → request pipeline orchestration
+- Commands → handle write operations
+- Queries → handle read operations
+- MediatR → orchestrates request pipeline
 
-This improves scalability and keeps business logic clean and organized.
+This improves scalability and keeps business logic structured and clean.
 
 ---
 
 ### 🧠 Engineering Practices
-The project includes production-level backend concepts:
+The project implements several production-level backend concepts:
 
 - Centralized error handling system
 - FluentValidation for request validation
@@ -65,12 +65,12 @@ The project includes production-level backend concepts:
 ---
 
 ### 🔌 External Integrations
-To simulate a real production system, the project integrates:
+The system integrates external services to simulate real-world production behavior:
 
-- 🤖 OpenAI API → AI agricultural assistant
-- 🌦️ OpenWeatherMap API → Weather insights
-- ☁️ Cloudinary → Media storage
-- 📧 Brevo SMTP → Email notifications
+- 🤖 OpenAI API → agricultural assistant (AI support)
+- 🌦️ OpenWeatherMap API → weather insights
+- ☁️ Cloudinary → image/media storage
+- 📧 Email service → password reset system (OTP verification)
 
 ---
 
@@ -80,13 +80,13 @@ To simulate a real production system, the project integrates:
 - 👨‍🌾 Farmer management system
 - 🌾 Agricultural marketplace (listings)
 - ⭐ Farmer rating & review system
-- 📦 Order & trading workflow system
+- 📦 Order and trading workflow system
 - ☁️ Media upload system (Cloudinary)
-- 🤖 AI agricultural consultation
-- 🌦️ Weather integration
-- 📧 Email notification system
+- 🤖 AI agricultural assistant (OpenAI)
+- 🌦️ Weather data integration
+- 📧 Password reset system (email OTP verification)
 - ⚡ Hybrid caching with tag-based invalidation
-- 🧠 Centralized error handling
+- 🧠 Centralized error handling system
 - 📊 CQRS-based architecture
 
 ---
@@ -125,7 +125,7 @@ To simulate a real production system, the project integrates:
 
 # 🧭 Architecture Overview
 
-The system follows Clean Architecture principles for strict separation of concerns.
+The system follows Clean Architecture principles to ensure separation of concerns.
 
 ### 📌 Request Flow
 
@@ -147,9 +147,9 @@ Infrastructure Layer (Database + External Services)
 
 Before running the application, ensure required settings are configured in `appsettings.Development.json`.
 
-You must provide:
+Required:
 
-- Database connection string (PostgreSQL)
+- PostgreSQL connection string
 - JWT secret key
 - External API keys (if used)
 
@@ -177,9 +177,9 @@ You must provide:
 ## ⚠️ Important Note
 
 - 🚧 This project is still under active development
-- Core backend architecture is stable and implemented
-- Some domain features are still in progress
-- Do NOT commit real secrets or API keys
+- Core backend architecture is stable and fully implemented
+- Some domain-specific features are still in progress
+- Do not commit real secrets or API keys
 
 ---
 
@@ -209,7 +209,7 @@ dotnet run --project src/Namaa.API
 
 ---
 
-### 4. Open Swagger
+### 4. Access Swagger
 ```
 https://localhost:7070/swagger
 ```
@@ -218,13 +218,13 @@ https://localhost:7070/swagger
 
 # 🧩 System Design Highlights
 
-- ✔ Clean Architecture with strict separation of layers
+- ✔ Clean Architecture with strict layer separation
 - ✔ CQRS pattern for scalable request handling
 - ✔ Centralized error handling pipeline
 - ✔ Tag-based caching strategy
-- ✔ Modular multi-role system design
+- ✔ Multi-role system design
 - ✔ External integrations (AI, Weather, Email)
-- ✔ Production-style backend architecture
+- ✔ Production-style backend structure
 
 ---
 
