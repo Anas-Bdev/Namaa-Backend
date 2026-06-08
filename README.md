@@ -15,13 +15,9 @@ Namaa is an enterprise-grade, integrated agricultural management platform design
 * [Architectural Lifecycle & Request Flow](#%EF%B8%8F-architectural-lifecycle--request-flow)
 * [Core Engineering Features](#-core-engineering-features)
 * [Configuration & Local Environment](#-configuration--local-environment)
+* [🚀 Getting Started & How to Run](#-getting-started--how-to-run)
 * [🗂️ Project Architecture & Folder Structure](#%EF%B8%8F-project-architecture--folder-structure)
 * [📚 API Documentation](#-api-documentation)
-  * [Authentications](#authentications)
-  * [User & Profile Management](#user--profile-management)
-  * [Farmer Operations](#farmer-operations)
-  * [Expert Consultations](#expert-consultations)
-  * [Marketplace & Trade](#marketplace--trade)
 
 ---
 
