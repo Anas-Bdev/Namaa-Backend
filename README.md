@@ -10,7 +10,7 @@
 
 **Namaa** is a backend agricultural platform designed to modernize and digitize the agricultural ecosystem by connecting farmers, traders, investors, agricultural experts, and administrators in one unified system.
 
-In traditional systems, each stakeholder operates in isolation. Farmers struggle to access markets, traders lack direct sourcing transparency, and experts are disconnected from real-time agricultural needs. Namaa was built to solve this fragmentation by creating a structured, scalable backend system that simulates a real-world agricultural marketplace.
+In traditional systems, each stakeholder operates in isolation. Farmers struggle to access markets, traders lack transparency in sourcing, and experts are disconnected from real-time agricultural needs. Namaa was built to solve this fragmentation by creating a structured, scalable backend system that simulates a real-world agricultural marketplace.
 
 ---
 
@@ -20,41 +20,44 @@ This project started as a graduation-level engineering initiative aimed at solvi
 
 Instead of building a simple CRUD application, the goal was to design a **production-style backend system** that reflects real software engineering practices used in modern companies.
 
-The focus was not only on implementing features, but on building a **clean, maintainable, and scalable architecture** that could support future expansion.
+The focus was not only on implementing features, but on building a **clean, maintainable, and scalable architecture** that can grow into a full production system.
 
 ---
 
 ## 🏗️ How the System Was Built
 
-The system was designed using modern backend engineering principles:
+The system is designed using modern backend engineering principles:
 
 ### 🧱 Clean Architecture
-The project is divided into clear layers:
-- **API Layer** → Handles HTTP requests, controllers, and middleware
-- **Application Layer** → Contains business logic, CQRS handlers, validation
-- **Domain Layer** → Core business entities and rules
-- **Infrastructure Layer** → Database, external APIs, and integrations
+The system is structured into clear layers:
 
-This ensures full separation of concerns and high maintainability.
+- **Namaa.API** → Controllers, middleware, request handling
+- **Namaa.Application** → Business logic, CQRS, validation, handlers
+- **Namaa.Domain** → Core business entities and rules
+- **Namaa.Infrastructure** → Database, external APIs, integrations
+
+This ensures strong separation of concerns and maintainability.
 
 ---
 
-### ⚡ CQRS + MediatR Pattern
+### ⚡ CQRS + MediatR
 The system follows CQRS principles:
-- Commands handle write operations
-- Queries handle read operations
-- MediatR manages request pipelines
 
-This improves scalability and keeps business logic organized.
+- Commands → write operations
+- Queries → read operations
+- MediatR → request pipeline orchestration
+
+This improves scalability and keeps business logic clean and organized.
 
 ---
 
 ### 🧠 Engineering Practices
-The project includes production-level backend concepts such as:
+The project includes production-level backend concepts:
+
 - Centralized error handling system
 - FluentValidation for request validation
 - JWT authentication & authorization
-- Tag-based caching strategy for performance optimization
+- Tag-based caching strategy
 - Structured logging using Serilog
 
 ---
@@ -62,33 +65,31 @@ The project includes production-level backend concepts such as:
 ### 🔌 External Integrations
 To simulate a real production system, multiple external services are integrated:
 
-- 🤖 OpenAI API → AI-based agricultural consultation
-- 🌦️ OpenWeatherMap API → Weather and environmental insights
-- ☁️ Cloudinary → Image and media storage
-- 📧 Brevo SMTP → Email notifications system
+- 🤖 OpenAI API → AI agricultural assistant
+- 🌦️ OpenWeatherMap API → Weather insights
+- ☁️ Cloudinary → Media storage
+- 📧 Brevo SMTP → Email notifications
 
 ---
 
 # 🚀 Features
 
-- 🔐 Secure authentication & authorization (JWT)
+- 🔐 Authentication & Authorization (JWT)
 - 👨‍🌾 Farmer management system
 - 🌾 Agricultural marketplace (listings)
 - ⭐ Farmer rating & review system
-- 📦 Order and trading workflow system
+- 📦 Order & trading workflow system
 - ☁️ Media upload system (Cloudinary)
-- 🤖 AI agricultural assistant (OpenAI)
-- 🌦️ Weather insights integration
+- 🤖 AI agricultural consultation
+- 🌦️ Weather integration
 - 📧 Email notification system
-- ⚡ Hybrid caching with tag-based invalidation
+- ⚡ Hybrid caching with tag invalidation
 - 🧠 Centralized error handling
-- 📊 Fully structured CQRS architecture
+- 📊 CQRS-based architecture
 
 ---
 
 # 👥 System Roles
-
-The system is designed around multiple user roles:
 
 | Role | Description |
 |------|------------|
@@ -96,7 +97,7 @@ The system is designed around multiple user roles:
 | 🛒 Trader | Purchases agricultural products |
 | 💰 Investor | Funds agricultural opportunities |
 | 🌱 Expert | Provides agricultural consultation |
-| 🛠️ Admin | System moderation and management |
+| 🛠️ Admin | System management and moderation |
 | 👤 Guest | Public browsing access |
 
 ---
@@ -122,7 +123,7 @@ The system is designed around multiple user roles:
 
 # 🧭 Architecture Overview
 
-The system follows Clean Architecture principles to ensure strict separation between layers.
+The system follows Clean Architecture principles for strict separation of concerns.
 
 ### 📌 Request Flow
 
@@ -133,7 +134,7 @@ Namaa.API (Controllers + Middleware)
      ↓
 Application Layer (CQRS + MediatR Pipeline)
      ↓
-Domain Layer (Business Rules & Entities)
+Domain Layer (Business Rules)
      ↓
 Infrastructure Layer (Database + External Services)
 ```
@@ -145,19 +146,35 @@ Infrastructure Layer (Database + External Services)
 - .NET 9 SDK
 - PostgreSQL installed and running
 - Visual Studio / Rider / VS Code
-- API keys for external services (OpenAI, Cloudinary, Brevo, Weather API)
+- Required API keys (OpenAI, Cloudinary, Brevo, OpenWeatherMap)
 
 ---
 
 # ⚙️ Configuration
 
-Create or update:
+Before running the application, you must configure the environment settings.
+
+Inside the `Namaa.API` project, locate:
 
 ```
-Namaa.API/appsettings.Development.json
+appsettings.Development.json
 ```
 
-Example configuration:
+or create it if missing.
+
+---
+
+## 🔐 Required Settings
+
+Replace all placeholder values with your own local or development credentials:
+
+- PostgreSQL connection string
+- JWT secret key
+- External API keys (if used)
+
+---
+
+## 📌 Example Configuration
 
 ```json
 {
@@ -170,32 +187,17 @@ Example configuration:
     "Audience": "localhost",
     "TokenExpirationInMinutes": 60,
     "Secret": "YOUR_JWT_SECRET_KEY"
-  },
-
-  "Cloudinary": {
-    "CloudName": "your_cloud_name",
-    "ApiKey": "your_api_key",
-    "ApiSecret": "your_api_secret"
-  },
-
-  "OpenAi": {
-    "ApiKey": "your_api_key"
-  },
-
-  "WeatherApi": {
-    "OpenWeatherMapKey": "your_api_key"
-  },
-
-  "Smtp": {
-    "SmtpServer": "smtp-relay.brevo.com",
-    "Port": 587,
-    "Username": "your_username",
-    "Password": "your_password",
-    "SenderEmail": "your_email",
-    "SenderName": "Namaa System"
   }
 }
 ```
+
+---
+
+## ⚠️ Important Note
+
+- Never commit real secrets or API keys to the repository
+- Use development configuration for local testing only
+- In production, use environment variables or secure secret storage
 
 ---
 
@@ -234,16 +236,16 @@ https://localhost:7070/swagger
 
 # 🧩 System Design Highlights
 
-- ✔ Clean Architecture with strict separation of concerns
-- ✔ CQRS pattern for scalable read/write operations
+- ✔ Clean Architecture with strict separation of layers
+- ✔ CQRS pattern for scalable request handling
 - ✔ Centralized error handling pipeline
-- ✔ Tag-based caching strategy for performance optimization
+- ✔ Tag-based caching strategy
 - ✔ Modular multi-role system design
-- ✔ External service integrations (AI, Weather, Email)
-- ✔ Production-level backend architecture
+- ✔ External integrations (AI, Weather, Email)
+- ✔ Production-level backend structure
 
 ---
 
 # ⭐ Final Note
 
-Namaa is a real-world backend system built using modern .NET architecture principles. It demonstrates scalable system design, clean engineering practices, and production-level backend development skills suitable for real industry applications.
+Namaa is a real-world backend system built using modern .NET architecture principles. It demonstrates scalable system design, clean engineering practices, and production-ready backend development suitable for real industry applications.
