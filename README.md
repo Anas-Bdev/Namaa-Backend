@@ -11,10 +11,10 @@ Namaa is an enterprise-grade, integrated agricultural management platform design
 ---
 
 ## 📌 Table of Contents
-* [Overview](#-overview)
+* [Overview & Thesis](#-project-overview--thesis)
+* [Architectural Lifecycle & Request Flow](#%EF%B8%8F-architectural-lifecycle--request-flow)
 * [Core Engineering Features](#-core-engineering-features)
-* [Tech Stack](#-tech-stack)
-* [Configuration & Local Environment (`appsettings.json`)](#-configuration--local-environment-appsettingsjson)
+* [Configuration & Local Environment](#-configuration--local-environment)
 * [🗂️ Project Architecture & Folder Structure](#%EF%B8%8F-project-architecture--folder-structure)
 * [📚 API Documentation](#-api-documentation)
   * [Authentications](#authentications)
@@ -59,4 +59,4 @@ To maintain absolute separation of concerns, data transfers strictly respect lay
  [ Handlers (CQRS) ] ────► Domain Entities / Aggregates (Namaa.Domain)
        │
        ▼
- [ Namaa.Infrastructure ]► EF Core 9 ──► Microsoft SQL Server & Cache Pools
+ [ Namaa.Infrastructure ]► EF Core 9 ──► PostgreSQL & Cache Pools
