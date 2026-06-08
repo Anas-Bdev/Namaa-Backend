@@ -1,3 +1,4 @@
+
 # 🌾 Namaa Agricultural Backend API 🚜
 
 [![Backend Core](https://img.shields.io/badge/.NET-9.0-purple.svg)](#)
@@ -10,7 +11,7 @@
 
 **Namaa** is a backend agricultural platform designed to modernize and digitize the agricultural ecosystem by connecting farmers, traders, investors, agricultural experts, and administrators in a unified system.
 
-In traditional systems, each stakeholder operates in isolation. Farmers face difficulties accessing markets, traders lack transparency in sourcing, and experts are disconnected from real-time agricultural needs. Namaa was built to solve this fragmentation by introducing a structured backend system that simulates a real-world agricultural marketplace.
+In traditional systems, stakeholders operate in isolation. Farmers face difficulties accessing markets, traders lack transparency in sourcing, and experts are disconnected from real-time agricultural needs. Namaa was built to solve this fragmentation by introducing a structured backend system that simulates a real-world agricultural marketplace.
 
 > 🚧 **Important Note:** This project is currently under active development as part of a final-year Computer Engineering graduation project. The core backend architecture is stable and fully implemented, while some domain-specific features are still being developed.
 
@@ -252,6 +253,18 @@ https://localhost:7070/swagger
 - ✔ Multi-role system design  
 - ✔ External integrations (AI, Weather, Email)  
 - ✔ Production-style backend structure  
+
+---
+
+# 👥 Contributors
+
+This project was developed as a collaborative graduation engineering project.
+
+- 👨‍💻 Anas Haj Mohammad — Software Engineer (Backend Development: Clean Architecture, CQRS, API Design, Core System Implementation)
+- 👨‍💻 Ala'a Abu Musa — Software Engineer (Backend Development)  
+  GitHub: https://github.com/alaaabumusa
+
+Both contributors worked together to design and implement the system as part of their final-year Computer Engineering graduation requirements.
 
 ---
 
