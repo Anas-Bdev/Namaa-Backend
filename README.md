@@ -4,55 +4,230 @@
 [![Architecture](https://img.shields.io/badge/Architecture-Clean_/_CQRS-blue.svg)](#)
 [![Status](https://img.shields.io/badge/Status-Active_Development-orange.svg)](#)
 
-Namaa is an enterprise-grade, integrated agricultural management platform designed to digitize and scale the agricultural ecosystem. The system provides a robust, decoupled, and secure backend API that bridges communication, tracking, and transactional pipelines across six core system roles: **Farmers, Investors, Agricultural Experts, Traders, Administrators, and Guests**. 
+Namaa is a modular agricultural management platform designed to digitize and improve collaboration between farmers, traders, investors, and agricultural experts.
 
-> 🚧 **Note to Engineering Reviewers:** This project is actively under development as part of my final-year computer engineering graduation requirements at Palestine Technical University - Kadoorie (Expected Graduation: June 2026). While certain domain-specific features are being actively built out, the entire structural blueprint, security filters, data persistence layers, and advanced cache invalidation pipelines are 100% established, functional, and ready for code review.
+The system provides a scalable backend API built with **Clean Architecture + CQRS**, focusing on maintainability, separation of concerns, and real-world backend engineering practices.
 
----
-
-## 📌 Table of Contents
-* [Overview & Thesis](#-project-overview--thesis)
-* [Architectural Lifecycle & Request Flow](#%EF%B8%8F-architectural-lifecycle--request-flow)
-* [Core Engineering Features](#-core-engineering-features)
-* [Configuration & Local Environment](#-configuration--local-environment)
-* [🚀 Getting Started & How to Run](#-getting-started--how-to-run)
-* [🗂️ Project Architecture & Folder Structure](#%EF%B8%8F-project-architecture--folder-structure)
-* [📚 API Documentation](#-api-documentation)
+> 🚧 **Note:** This project is part of a final-year Computer Engineering graduation project. It is actively under development, but the core architecture, pipelines, and system design are already implemented and stable.
 
 ---
 
-## 📝 Project Overview & Thesis
+# 🚀 Features
 
-### 🛑 The Problem
-The Palestinian agricultural sector is a vital economic and cultural pillar, yet its contribution to national GDP has steeply declined from roughly 13.3% in 1994 to 5.75% in 2022. This decline is driven by critical structural inefficiencies:
-* **Data Silos:** Farmers, agronomic experts, wholesale traders, and investors operate in isolated communication channels.
-* **Resource Optimization Bottlenecks:** A distinct lack of data-driven tracking tools for crop life cycles, soil metrics, and optimal crop scheduling.
-* **Market Access Barriers:** Physical movement restrictions and predatory intermediary markups heavily penalize local farm profit margins.
-
-### 💡 The Solution: Namaa
-**Namaa** is an integrated web platform built to modernize agricultural management in Palestine. Engineered using an architecture-first approach with **.NET 9**, the backend serves as a secure, decoupled coordinator across the entire agricultural lifecycle.
-
-By basing the platform on **Clean Architecture** and **CQRS**, core business rules remain strictly isolated from volatile infrastructure concerns. High-traffic read operations are fully decoupled from mutation commands, guaranteeing system stability and enterprise-grade testability.
+- 🔐 Authentication & Authorization (JWT)
+- 👨‍🌾 Farmer management system
+- 🌾 Agricultural listings marketplace
+- ⭐ Farmer rating & review system
+- 📦 Product order tracking system
+- ☁️ Media upload & management (Cloudinary)
+- 🤖 AI agricultural consultation (OpenAI API)
+- 🌦️ Weather insights integration (OpenWeatherMap)
+- 📧 Email notifications (Brevo SMTP)
+- ⚡ Global caching with tag-based invalidation
+- 🧠 Centralized error handling system
+- 📊 Clean CQRS-based request pipeline
 
 ---
 
-## 🏗️ Architectural Lifecycle & Request Flow
+# </> Tech Stack
 
-To maintain absolute separation of concerns, data transfers strictly respect layer boundaries. Every API request passes through a defensive pipeline before executing business logic:
+| Layer | Technology |
+|------|------------|
+| Backend | ASP.NET Core 9 (Web API) |
+| ORM | Entity Framework Core 9 |
+| Database | PostgreSQL |
+| Authentication | JWT Bearer Authentication |
+| Validation | FluentValidation |
+| Mapping | Manual Mapping (Extension Methods) |
+| Architecture | Clean Architecture + CQRS + MediatR |
+| Logging | Serilog |
+| Cloud Storage | Cloudinary |
+| External APIs | OpenAI, OpenWeatherMap |
+| Email Service | MailKit + Brevo SMTP |
+| Caching | Hybrid Cache with Tag Invalidation |
 
-```text
-[ Client Request ]
-       │
-       ▼
- [ Namaa.API ] ──────────► Global Exception Middleware (RFC Error Sanitizer)
-       │
-       ▼
- [ Namaa.Application ] ──► MediatR Pipeline Interceptors
-       │                      │
-       │                      ├──► FluentValidation Behavior (Defensive Short-Circuit)
-       │                      └──► Performance Caching Engine
-       ▼
- [ Handlers (CQRS) ] ────► Domain Entities / Aggregates (Namaa.Domain)
-       │
-       ▼
- [ Namaa.Infrastructure ]► EF Core 9 ──► PostgreSQL & Cache Pools
+---
+
+# 🧭 Architecture Overview
+
+The system follows **Clean Architecture** to ensure strict separation between business logic and infrastructure concerns.
+
+### 📌 Request Flow
+
+```
+Client Request
+     ↓
+Namaa.API (Controllers + Middleware)
+     ↓
+Application Layer (CQRS + MediatR Pipeline)
+     ↓
+Domain Layer (Business Rules & Entities)
+     ↓
+Infrastructure Layer (Database + External Services)
+```
+
+---
+
+### 🧱 Layers
+
+#### 🟢 Namaa.API
+- REST API endpoints
+- Global exception handling
+- Middleware pipeline
+
+#### 🔵 Namaa.Application
+- CQRS Commands & Queries
+- MediatR handlers
+- FluentValidation rules
+- DTOs & mapping logic
+
+#### 🟣 Namaa.Domain
+- Core business entities (Farmer, Listing, Order, etc.)
+- Value objects
+- Domain rules & exceptions
+
+#### 🟠 Namaa.Infrastructure
+- EF Core database access
+- External integrations (OpenAI, Cloudinary, Weather API)
+- Email services (Brevo SMTP)
+- JWT authentication services
+
+---
+
+# 🧩 System Design Highlights
+
+- ✔ Fully decoupled Clean Architecture
+- ✔ CQRS separation (read/write optimization)
+- ✔ Centralized error handling pipeline
+- ✔ Tag-based caching invalidation strategy
+- ✔ Domain-driven modular structure
+- ✔ Extensible integration layer for external services
+
+---
+
+# 📋 Prerequisites
+
+Before running the project:
+
+- .NET 9 SDK
+- PostgreSQL (running locally)
+- IDE (Visual Studio / Rider / VS Code)
+- API keys:
+  - OpenAI
+  - Cloudinary
+  - Brevo SMTP
+  - OpenWeatherMap
+
+---
+
+# ⚙️ Configuration
+
+Create or update:
+
+```
+Namaa.API/appsettings.Development.json
+```
+
+Example configuration:
+
+```json
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+
+  "AllowedHosts": "*",
+
+  "JwtSettings": {
+    "Issuer": "localhost",
+    "Audience": "localhost",
+    "TokenExpirationInMinutes": 60,
+    "Secret": "YOUR_JWT_SECRET_KEY"
+  },
+
+  "ConnectionStrings": {
+    "DefaultConnection": "Host=localhost;Port=5432;Database=NamaaDb;Username=postgres;Password=your_password;"
+  },
+
+  "App": {
+    "BaseUrl": "https://localhost:7070"
+  },
+
+  "Serilog": {
+    "Using": ["Serilog.Sinks.Console"],
+    "MinimumLevel": {
+      "Default": "Information",
+      "Override": {
+        "Microsoft": "Warning"
+      }
+    }
+  },
+
+  "Cloudinary": {
+    "CloudName": "your_cloud_name",
+    "ApiKey": "your_api_key",
+    "ApiSecret": "your_api_secret"
+  },
+
+  "WeatherApi": {
+    "OpenWeatherMapKey": "your_api_key"
+  },
+
+  "OpenAi": {
+    "ApiKey": "your_api_key"
+  },
+
+  "Smtp": {
+    "SmtpServer": "smtp-relay.brevo.com",
+    "Port": 587,
+    "Username": "your_username",
+    "Password": "your_password",
+    "SenderEmail": "your_email",
+    "SenderName": "Namaa System"
+  }
+}
+```
+
+---
+
+# 🚀 How to Run
+
+### 1. Clone repository
+```bash
+git clone https://github.com/YourUsername/Namaa-Backend.git
+cd Namaa-Backend
+```
+
+### 2. Restore packages
+```bash
+dotnet restore
+```
+
+### 3. Apply migrations
+```bash
+dotnet ef database update --project src/Namaa.Infrastructure --startup-project src/Namaa.API
+```
+
+### 4. Run project
+```bash
+dotnet run --project src/Namaa.API
+```
+
+### 5. Swagger
+```
+https://localhost:7070/swagger
+```
+
+---
+
+# ⭐ Final Note
+
+This project demonstrates:
+- real-world backend architecture design
+- scalable CQRS implementation
+- production-style API structure
+- integration with external services
+- clean separation of concerns
