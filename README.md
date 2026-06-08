@@ -60,7 +60,7 @@ To maintain absolute separation of concerns, data transfers strictly respect lay
        │
        ▼
  [ Namaa.Infrastructure ]► EF Core 9 ──► Microsoft SQL Server & Cache Pools
-
+---
 ## ⚡ Core Engineering Features
 
 *   **Clean Architecture Blueprint:** Complete decoupling into Domain, Application, Infrastructure, and Web API projects to protect core domain logic from external changes.
