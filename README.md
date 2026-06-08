@@ -136,7 +136,7 @@ The exception handler maps exceptions into RFC 7807 Problem Details responses to
 
 ---
 
-# 🧠 Engineering Practices
+### 🧠 Engineering Practices
 
 The project incorporates several production-oriented backend practices:
 
@@ -150,6 +150,8 @@ The project incorporates several production-oriented backend practices:
 - 🔐 JWT Authentication & Authorization
 - ⚡ Hybrid Cache with tag-based invalidation
 - 📝 Structured logging using Serilog
+- ⏱️ Request performance monitoring via MediatR pipeline behaviors
+- 👤 Active-user authorization checks via MediatR pipeline behaviors
 
 ---
 
@@ -217,9 +219,11 @@ API Controllers
       ▼
 MediatR Pipeline
       │
-      ├── Validation
-      ├── Caching
-      └── Logging
+      ├── 🛡️ Unhandled Exception Behavior
+      ├── ⏱️ Performance Monitoring Behavior
+      ├── 👤 Active User Authorization Behavior
+      ├── ⚡ Caching Behavior
+      └── ✔️ Validation Behavior
       │
       ▼
 CQRS Handler
