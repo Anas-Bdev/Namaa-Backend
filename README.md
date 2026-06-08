@@ -10,9 +10,9 @@
 
 **Namaa** is a backend agricultural platform designed to modernize and digitize the agricultural ecosystem by connecting farmers, traders, investors, agricultural experts, and administrators in a unified system.
 
-In traditional systems, each stakeholder operates independently. Farmers face difficulties accessing markets, traders lack transparency in sourcing, and experts are disconnected from real-time agricultural needs. Namaa was built to reduce this fragmentation by introducing a structured backend system that simulates a real agricultural marketplace.
+In traditional systems, stakeholders operate in isolation. Farmers face difficulties accessing markets, traders lack transparency in sourcing, and experts are disconnected from real-time agricultural needs. Namaa was built to solve this fragmentation by introducing a structured backend system that simulates a real agricultural marketplace.
 
-> 🚧 **Important Note:** This project is currently under active development as part of a final-year Computer Engineering graduation project. The core backend architecture is stable and implemented, while some domain features are still being developed.
+> 🚧 **Important Note:** This project is currently under active development as part of a final-year Computer Engineering graduation project. The core backend architecture is stable and fully implemented, while some domain-specific features are still being developed.
 
 ---
 
@@ -22,7 +22,7 @@ This project started as a graduation engineering initiative aimed at solving rea
 
 Instead of building a simple CRUD application, the goal was to design a **production-style backend system** using modern software engineering principles.
 
-The focus is not only on implementing features, but on building a **clean, scalable, and maintainable architecture** suitable for real-world systems.
+The focus is on building a **clean, scalable, and maintainable architecture** that reflects real-world backend systems.
 
 ---
 
@@ -31,30 +31,30 @@ The focus is not only on implementing features, but on building a **clean, scala
 The system is designed using modern backend engineering principles:
 
 ### 🧱 Clean Architecture
-The system is divided into four main layers:
+The system is structured into four layers:
 
 - **Namaa.API** → Controllers, middleware, request handling
 - **Namaa.Application** → Business logic, CQRS, validation, handlers
-- **Namaa.Domain** → Core entities and business rules
-- **Namaa.Infrastructure** → Database access and external integrations
+- **Namaa.Domain** → Core business entities and rules
+- **Namaa.Infrastructure** → Database, external APIs, integrations
 
-This ensures strong separation of concerns and long-term maintainability.
+This ensures strong separation of concerns and scalability.
 
 ---
 
 ### ⚡ CQRS + MediatR
-The system follows the CQRS pattern:
+The system follows CQRS principles:
 
-- Commands → handle write operations
-- Queries → handle read operations
-- MediatR → orchestrates request pipeline
+- Commands → write operations
+- Queries → read operations
+- MediatR → request pipeline orchestration
 
-This improves scalability and keeps business logic structured and clean.
+This improves scalability and keeps business logic organized.
 
 ---
 
 ### 🧠 Engineering Practices
-The project implements several production-level backend concepts:
+The project includes production-level backend concepts:
 
 - Centralized error handling system
 - FluentValidation for request validation
@@ -65,12 +65,12 @@ The project implements several production-level backend concepts:
 ---
 
 ### 🔌 External Integrations
-The system integrates external services to simulate real-world production behavior:
+The system integrates external services to simulate real production behavior:
 
-- 🤖 OpenAI API → agricultural assistant (AI support)
+- 🤖 OpenAI API → agricultural AI assistant
 - 🌦️ OpenWeatherMap API → weather insights
-- ☁️ Cloudinary → image/media storage
-- 📧 Email service → password reset system (OTP verification)
+- ☁️ Cloudinary → media storage and management
+- 📧 Email system → email verification link + password reset OTP
 
 ---
 
@@ -84,7 +84,7 @@ The system integrates external services to simulate real-world production behavi
 - ☁️ Media upload system (Cloudinary)
 - 🤖 AI agricultural assistant (OpenAI)
 - 🌦️ Weather data integration
-- 📧 Password reset system (email OTP verification)
+- 📧 Account security email system (verification link + password reset OTP)
 - ⚡ Hybrid caching with tag-based invalidation
 - 🧠 Centralized error handling system
 - 📊 CQRS-based architecture
@@ -125,7 +125,7 @@ The system integrates external services to simulate real-world production behavi
 
 # 🧭 Architecture Overview
 
-The system follows Clean Architecture principles to ensure separation of concerns.
+The system follows Clean Architecture principles for strict separation of concerns.
 
 ### 📌 Request Flow
 
