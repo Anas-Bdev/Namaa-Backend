@@ -12,6 +12,8 @@
 
 In traditional systems, each stakeholder operates in isolation. Farmers struggle to access markets, traders lack transparency in sourcing, and experts are disconnected from real-time agricultural needs. Namaa was built to solve this fragmentation by creating a structured, scalable backend system that simulates a real-world agricultural marketplace.
 
+> 🚧 **Important Note:** This project is currently under active development as part of a final-year Computer Engineering graduation project. While the core architecture, system design, and backend infrastructure are fully implemented and stable, some domain-specific features are still being actively developed.
+
 ---
 
 ## 🌱 The Idea Behind the Project
@@ -20,7 +22,7 @@ This project started as a graduation-level engineering initiative aimed at solvi
 
 Instead of building a simple CRUD application, the goal was to design a **production-style backend system** that reflects real software engineering practices used in modern companies.
 
-The focus was not only on implementing features, but on building a **clean, maintainable, and scalable architecture** that can grow into a full production system.
+The focus was not only on implementing features, but on building a **clean, maintainable, and scalable architecture** that can evolve into a complete production system.
 
 ---
 
@@ -160,13 +162,13 @@ Inside the `Namaa.API` project, locate:
 appsettings.Development.json
 ```
 
-or create it if missing.
+or create it if it does not exist.
 
 ---
 
 ## 🔐 Required Settings
 
-Replace all placeholder values with your own local or development credentials:
+You must replace all placeholder values with your own local or development credentials:
 
 - PostgreSQL connection string
 - JWT secret key
@@ -195,9 +197,10 @@ Replace all placeholder values with your own local or development credentials:
 
 ## ⚠️ Important Note
 
-- Never commit real secrets or API keys to the repository
-- Use development configuration for local testing only
-- In production, use environment variables or secure secret storage
+- 🚧 This project is still under active development
+- Do NOT expect all features to be fully complete yet
+- Core architecture and backend foundation are stable and working
+- Do NOT commit real secrets or API keys to the repository
 
 ---
 
@@ -248,4 +251,4 @@ https://localhost:7070/swagger
 
 # ⭐ Final Note
 
-Namaa is a real-world backend system built using modern .NET architecture principles. It demonstrates scalable system design, clean engineering practices, and production-ready backend development suitable for real industry applications.
+Namaa is a real-world backend system built using modern .NET architecture principles. It demonstrates scalable system design, clean engineering practices, and production-ready backend development suitable for real industry applications — while still being actively developed as a graduation project.
