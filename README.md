@@ -10,7 +10,7 @@
 
 **Namaa** is a backend agricultural platform designed to modernize and digitize the agricultural ecosystem by connecting farmers, traders, investors, agricultural experts, and administrators in a unified system.
 
-In traditional systems, stakeholders operate in isolation. Farmers face difficulties accessing markets, traders lack transparency in sourcing, and experts are disconnected from real-time agricultural needs. Namaa was built to solve this fragmentation by introducing a structured backend system that simulates a real agricultural marketplace.
+In traditional systems, each stakeholder operates in isolation. Farmers face difficulties accessing markets, traders lack transparency in sourcing, and experts are disconnected from real-time agricultural needs. Namaa was built to solve this fragmentation by introducing a structured backend system that simulates a real-world agricultural marketplace.
 
 > 🚧 **Important Note:** This project is currently under active development as part of a final-year Computer Engineering graduation project. The core backend architecture is stable and fully implemented, while some domain-specific features are still being developed.
 
@@ -38,7 +38,7 @@ The system is structured into four layers:
 - **Namaa.Domain** → Core business entities and rules
 - **Namaa.Infrastructure** → Database, external APIs, integrations
 
-This ensures strong separation of concerns and scalability.
+This ensures strong separation of concerns and long-term maintainability.
 
 ---
 
@@ -67,10 +67,10 @@ The project includes production-level backend concepts:
 ### 🔌 External Integrations
 The system integrates external services to simulate real production behavior:
 
-- 🤖 OpenAI API → agricultural AI assistant
-- 🌦️ OpenWeatherMap API → weather insights
-- ☁️ Cloudinary → media storage and management
-- 📧 Email system → email verification link + password reset OTP
+- 🤖 OpenAI API → AI agricultural assistant
+- 🌦️ OpenWeatherMap API → Weather insights
+- ☁️ Cloudinary → Media storage and management
+- 📧 Email system → Email verification link + password reset OTP
 
 ---
 
@@ -125,7 +125,7 @@ The system integrates external services to simulate real production behavior:
 
 # 🧭 Architecture Overview
 
-The system follows Clean Architecture principles for strict separation of concerns.
+The system follows Clean Architecture principles to ensure separation of concerns.
 
 ### 📌 Request Flow
 
@@ -145,17 +145,21 @@ Infrastructure Layer (Database + External Services)
 
 # ⚙️ Configuration
 
-Before running the application, ensure required settings are configured in `appsettings.Development.json`.
+Before running the application, ensure all required settings are configured in `appsettings.json`.
 
-Required:
+You only need to modify this file with your local or development values.
 
-- PostgreSQL connection string
-- JWT secret key
+---
+
+## 📌 Required Settings
+
+- PostgreSQL connection string  
+- JWT secret key  
 - External API keys (if used)
 
 ---
 
-## 📌 Example Configuration
+## 📌 Full Example Configuration
 
 ```json
 {
@@ -168,6 +172,29 @@ Required:
     "Audience": "localhost",
     "TokenExpirationInMinutes": 60,
     "Secret": "YOUR_JWT_SECRET_KEY"
+  },
+
+  "Cloudinary": {
+    "CloudName": "your_cloud_name",
+    "ApiKey": "your_api_key",
+    "ApiSecret": "your_api_secret"
+  },
+
+  "OpenAi": {
+    "ApiKey": "your_api_key"
+  },
+
+  "WeatherApi": {
+    "OpenWeatherMapKey": "your_api_key"
+  },
+
+  "Smtp": {
+    "SmtpServer": "smtp-relay.brevo.com",
+    "Port": 587,
+    "Username": "your_username",
+    "Password": "your_password",
+    "SenderEmail": "your_email",
+    "SenderName": "Namaa System"
   }
 }
 ```
@@ -176,10 +203,10 @@ Required:
 
 ## ⚠️ Important Note
 
-- 🚧 This project is still under active development
-- Core backend architecture is stable and fully implemented
-- Some domain-specific features are still in progress
-- Do not commit real secrets or API keys
+- 🚧 This project is still under active development  
+- Core backend architecture is stable and fully implemented  
+- Some domain-specific features are still in progress  
+- Do not commit real secrets or API keys  
 
 ---
 
@@ -201,7 +228,7 @@ dotnet restore
 ---
 
 ### 3. Run application
-> The system automatically applies database migrations on startup.
+The system automatically applies database migrations on startup.
 
 ```bash
 dotnet run --project src/Namaa.API
@@ -218,13 +245,13 @@ https://localhost:7070/swagger
 
 # 🧩 System Design Highlights
 
-- ✔ Clean Architecture with strict layer separation
-- ✔ CQRS pattern for scalable request handling
-- ✔ Centralized error handling pipeline
-- ✔ Tag-based caching strategy
-- ✔ Multi-role system design
-- ✔ External integrations (AI, Weather, Email)
-- ✔ Production-style backend structure
+- ✔ Clean Architecture with strict layer separation  
+- ✔ CQRS pattern for scalable request handling  
+- ✔ Centralized error handling pipeline  
+- ✔ Tag-based caching strategy  
+- ✔ Multi-role system design  
+- ✔ External integrations (AI, Weather, Email)  
+- ✔ Production-style backend structure  
 
 ---
 
