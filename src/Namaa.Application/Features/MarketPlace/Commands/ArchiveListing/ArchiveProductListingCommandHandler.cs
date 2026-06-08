@@ -1,11 +1,12 @@
 using MediatR;
+using Microsoft.Extensions.Caching.Hybrid;
 using Namaa.Application.Common.Errors;
 using Namaa.Application.Common.Interfaces;
 using Namaa.Domain.Common.Results;
 
 namespace Namaa.Application.Features.MarketPlace.Commands.ArchiveListing;
 
-public class ArchiveProductListingCommandHandler(IAppDbContext context) : IRequestHandler<ArchiveProductListingCommand, Result<Updated>>
+public class ArchiveProductListingCommandHandler(IAppDbContext context,HybridCache cache) : IRequestHandler<ArchiveProductListingCommand, Result<Updated>>
 {
     public async Task<Result<Updated>> Handle(ArchiveProductListingCommand request, CancellationToken cancellationToken)
     {
@@ -18,6 +19,7 @@ public class ArchiveProductListingCommandHandler(IAppDbContext context) : IReque
         if(result.IsError)
         return result.Errors;
         await context.SaveChangesAsync(cancellationToken);
+        await cache.RemoveByTagAsync("listings",cancellationToken);
         return Result.Updated;
     }
 }

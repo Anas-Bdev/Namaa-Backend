@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Namaa.Application.Common.Interfaces;
+using Namaa.Domain.Consultations;
 using Namaa.Domain.Identity;
 using Namaa.Domain.Investments;
 using Namaa.Domain.Lands;
@@ -45,6 +46,10 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
     public DbSet<ProductOrder> ProductOrders => Set<ProductOrder>();
 
     public DbSet<FarmerRating> FarmerRatings => Set<FarmerRating>();
+
+    public DbSet<ConsultationMessage> ConsultationMessages => Set<ConsultationMessage>();
+
+    public DbSet<ConsultationRequest> ConsultationRequests => Set<ConsultationRequest>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
