@@ -1,0 +1,59 @@
+using System.ComponentModel.DataAnnotations;
+using Namaa.Application.Features.Lands.Commands.CreateLand;
+using Namaa.Domain.Enums;
+
+namespace Namaa.Api.Contracts.Requests.Lands;
+
+using System.ComponentModel.DataAnnotations;
+
+public class CreateLandRequest
+{
+    [Required(ErrorMessage = "Land name is required.")]
+    [MinLength(3, ErrorMessage = "Land name must be at least 3 characters.")]
+    public string Name { get; init; } = default!;
+
+    [Required(ErrorMessage = "Area in donums is required.")]
+    [Range(0.1, 100000.0, ErrorMessage = "Area must be greater than 0.")]
+    public double AreaDonum { get; init; }
+
+    [Required(ErrorMessage = "City is required.")]
+    public int CityId { get; init; }
+
+    [Required(ErrorMessage = "Soil type is required.")]
+    public int SoilId { get; init; }
+
+    [Required(ErrorMessage = "Water source type is required.")]
+    public WaterSourceType? WaterSourceType { get; init; }
+
+    [Required(ErrorMessage = "Water availability is required.")]
+    public WaterAvailability? WaterAvailability { get; init; }
+    
+    [Required(ErrorMessage ="Irrigation Method is required.")]
+    public IrrigationMethod? IrrigationMethod { get; init; }
+
+    [Required(ErrorMessage = "Environment type is required.")]
+    public EnvironmentType? EnvironmentType { get; init; }
+
+    // 1. Added the new property with strict data annotations
+    [Required(ErrorMessage = "Address details are required.")]
+    [MinLength(5, ErrorMessage = "Address description must be at least 5 characters.")]
+    [MaxLength(250, ErrorMessage = "Address description cannot exceed 250 characters.")]
+    public string AddressDetail { get; init; } = default!;
+
+    public CreateLandCommand ToCommand(Guid farmerId)
+    {
+        return new CreateLandCommand(
+         farmerId,
+         AddressDetail,
+         Name,
+         AreaDonum,
+         CityId,
+         SoilId,
+         IrrigationMethod!.Value,
+         WaterSourceType!.Value,
+         WaterAvailability!.Value,
+         EnvironmentType!.Value
+
+        );
+    }
+}

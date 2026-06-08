@@ -1,7 +1,7 @@
 namespace Namaa.Domain.Common.Results.Abstractions;
 public interface IResult
 {
-    public Error Error {get;}
+    public List<Error> Errors {get;}
     public bool IsSuccess {get;}
 
 
