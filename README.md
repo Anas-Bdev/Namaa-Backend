@@ -4,7 +4,7 @@
 [![Architecture](https://img.shields.io/badge/Architecture-Clean_/_CQRS-blue.svg)](#)
 [![Status](https://img.shields.io/badge/Status-Active_Development-orange.svg)](#)
 
-Namaa is an enterprise-grade, integrated agricultural management platform designed to digitize and scale the agricultural ecosystem. The system provides a robust, decoupled, and secure backend API that bridges communication, tracking, and transactional pipelines between **Farmers, Agricultural Experts, Traders, and Investors**. 
+Namaa is an enterprise-grade, integrated agricultural management platform designed to digitize and scale the agricultural ecosystem. The system provides a robust, decoupled, and secure backend API that bridges communication, tracking, and transactional pipelines across six core system roles: **Farmers, Investors, Agricultural Experts, Traders, Administrators, and Guests**. 
 
 > 🚧 **Note to Engineering Reviewers:** This project is actively under development as part of my final-year computer engineering graduation requirements at Palestine Technical University - Kadoorie (Expected Graduation: June 2026). While certain domain-specific features are being actively built out, the entire structural blueprint, security filters, data persistence layers, and advanced cache invalidation pipelines are 100% established, functional, and ready for code review.
 
@@ -33,14 +33,14 @@ The Palestinian agricultural sector is a vital economic and cultural pillar, yet
 * **Resource Optimization Bottlenecks:** A distinct lack of data-driven tracking tools for crop life cycles, soil metrics, and optimal crop scheduling.
 * **Market Access Barriers:** Physical movement restrictions and predatory intermediary markups heavily penalize local farm profit margins.
 
-### 💡 The Solution: NAMA'A
-**NAMA'A** is an integrated web platform built to modernize agricultural management in Palestine. Engineered using an architecture-first approach with **.NET 9**, the backend serves as a secure, decoupled coordinator across six core user roles: **Farmers, Investors, Agricultural Experts, Traders, Administrators, and Guests**.
+### 💡 The Solution: Namaa
+**Namaa** is an integrated web platform built to modernize agricultural management in Palestine. Engineered using an architecture-first approach with **.NET 9**, the backend serves as a secure, decoupled coordinator across the entire agricultural lifecycle.
 
 By basing the platform on **Clean Architecture** and **CQRS**, core business rules remain strictly isolated from volatile infrastructure concerns. High-traffic read operations are fully decoupled from mutation commands, guaranteeing system stability and enterprise-grade testability.
 
 ---
 
-## 🏗️ Architectural Lifecyle & Request Flow
+## 🏗️ Architectural Lifecycle & Request Flow
 
 To maintain absolute separation of concerns, data transfers strictly respect layer boundaries. Every API request passes through a defensive pipeline before executing business logic:
 
@@ -60,54 +60,3 @@ To maintain absolute separation of concerns, data transfers strictly respect lay
        │
        ▼
  [ Namaa.Infrastructure ]► EF Core 9 ──► Microsoft SQL Server & Cache Pools
----
-## ⚡ Core Engineering Features
-
-*   **Clean Architecture Blueprint:** Complete decoupling into Domain, Application, Infrastructure, and Web API projects to protect core domain logic from external changes.
-*   **CQRS Orchestration:** Utilizing **MediatR** to split system operations into specialized Read Queries and Write Commands, eliminating fat services and bloated controllers.
-*   **Defensive Pipeline Filters:** Implementation of global **FluentValidation** pipeline behaviors inside MediatR to instantly capture and short-circuit malformed API requests before they penetrate the business layers.
-*   **Modern .NET 9 HybridCache:** Optimized request management utilizing the new native `.NET 9 HybridCache` engine coupled with proactive, tag-based eviction strategies to deliver sub-millisecond responses while protecting persistence layers.
-*   **Global Error Handling Middleware:** Centralized middleware filtering that intercepts exceptions across all architectural layers, sanitizes logs, and returns standard RFC-compliant error responses to clients.
-
----
-
-## 🛠️ Tech Stack
-*   **Framework:** ASP.NET Core Web API (.NET 9)
-*   **Data Persistence:** Entity Framework Core 9 (Code-First Approach)
-*   **Databases:** SQL Server / PostgreSQL compatibility
-*   **Caching Layer:** .NET 9 Microsoft.Extensions.Caching.Hybrid
-*   **Security & Identity:** JSON Web Tokens (JWT) & Role-Based Authorization Filter Engines
-*   **Libraries:** MediatR, FluentValidation, AutoMapper, MailKit
-
----
-
-## ⚙️ Configuration & Local Environment (`appsettings.json`)
-
-To run this project locally, copy the foundational keys listed in the template below. 
-
-⚠️ **Security Enforcement:** Production secret certificates and live connection strings are completely decoupled from source control using environment variable overrides. The `appsettings.json` file contains only safe placeholder mocks.
-
-```json
-{
-  "Logging": {
-    "LogLevel": {
-      "Default": "Information",
-      "Microsoft.AspNetCore": "Warning"
-    }
-  },
-  "ConnectionStrings": {
-    "DefaultConnection": "Server=YOUR_LOCAL_SERVER;Database=NamaaDB;Trusted_Connection=True;TrustServerCertificate=True;"
-  },
-  "JwtSettings": {
-    "Secret": "YOUR_SUPER_SECRET_UNSHAKEABLE_DEVELOPMENT_KEY_MIN_256_BITS",
-    "Issuer": "NamaaIdentityServer",
-    "Audience": "NamaaGateway",
-    "ExpiryMinutes": 60
-  },
-  "MailSettings": {
-    "Host": "smtp.mailtrap.io",
-    "Port": 587,
-    "UserName": "MOCK_DEVELOPMENT_USERNAME",
-    "Password": "MOCK_DEVELOPMENT_PASSWORD"
-  }
-}
