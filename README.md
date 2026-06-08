@@ -10,19 +10,19 @@
 
 **Namaa** is a backend agricultural platform designed to modernize and digitize the agricultural ecosystem by connecting farmers, traders, investors, agricultural experts, and administrators in one unified system.
 
-In traditional systems, each stakeholder operates in isolation. Farmers struggle to access markets, traders lack transparency in sourcing, and experts are disconnected from real-time agricultural needs. Namaa was built to solve this fragmentation by creating a structured, scalable backend system that simulates a real-world agricultural marketplace.
+In traditional systems, stakeholders operate in isolation. Farmers struggle with market access, traders lack transparency in sourcing, and experts are disconnected from real-time agricultural needs. Namaa was built to solve this fragmentation by creating a structured, scalable backend system that simulates a real-world agricultural marketplace.
 
-> 🚧 **Important Note:** This project is currently under active development as part of a final-year Computer Engineering graduation project. While the core architecture, system design, and backend infrastructure are fully implemented and stable, some domain-specific features are still being actively developed.
+> 🚧 **Important Note:** This project is currently under active development as part of a final-year Computer Engineering graduation project. The core architecture and backend foundation are stable, while some domain-specific features are still being developed.
 
 ---
 
 ## 🌱 The Idea Behind the Project
 
-This project started as a graduation-level engineering initiative aimed at solving real-world inefficiencies in agriculture.
+This project started as a graduation engineering initiative focused on solving real-world inefficiencies in agriculture.
 
-Instead of building a simple CRUD application, the goal was to design a **production-style backend system** that reflects real software engineering practices used in modern companies.
+Instead of building a simple CRUD system, the goal was to design a **production-style backend architecture** that reflects real-world software engineering practices used in scalable systems.
 
-The focus was not only on implementing features, but on building a **clean, maintainable, and scalable architecture** that can evolve into a complete production system.
+The focus is not only on features, but on building a **clean, maintainable, and extensible backend system**.
 
 ---
 
@@ -31,14 +31,14 @@ The focus was not only on implementing features, but on building a **clean, main
 The system is designed using modern backend engineering principles:
 
 ### 🧱 Clean Architecture
-The system is structured into clear layers:
+The system is structured into four layers:
 
 - **Namaa.API** → Controllers, middleware, request handling
 - **Namaa.Application** → Business logic, CQRS, validation, handlers
 - **Namaa.Domain** → Core business entities and rules
 - **Namaa.Infrastructure** → Database, external APIs, integrations
 
-This ensures strong separation of concerns and maintainability.
+This ensures strong separation of concerns and long-term maintainability.
 
 ---
 
@@ -65,7 +65,7 @@ The project includes production-level backend concepts:
 ---
 
 ### 🔌 External Integrations
-To simulate a real production system, multiple external services are integrated:
+To simulate a real production system, the project integrates:
 
 - 🤖 OpenAI API → AI agricultural assistant
 - 🌦️ OpenWeatherMap API → Weather insights
@@ -85,7 +85,7 @@ To simulate a real production system, multiple external services are integrated:
 - 🤖 AI agricultural consultation
 - 🌦️ Weather integration
 - 📧 Email notification system
-- ⚡ Hybrid caching with tag invalidation
+- ⚡ Hybrid caching with tag-based invalidation
 - 🧠 Centralized error handling
 - 📊 CQRS-based architecture
 
@@ -143,34 +143,13 @@ Infrastructure Layer (Database + External Services)
 
 ---
 
-# 📋 Prerequisites
-
-- .NET 9 SDK
-- PostgreSQL installed and running
-- Visual Studio / Rider / VS Code
-- Required API keys (OpenAI, Cloudinary, Brevo, OpenWeatherMap)
-
----
-
 # ⚙️ Configuration
 
-Before running the application, you must configure the environment settings.
+Before running the application, ensure required settings are configured in `appsettings.Development.json`.
 
-Inside the `Namaa.API` project, locate:
+You must provide:
 
-```
-appsettings.Development.json
-```
-
-or create it if it does not exist.
-
----
-
-## 🔐 Required Settings
-
-You must replace all placeholder values with your own local or development credentials:
-
-- PostgreSQL connection string
+- Database connection string (PostgreSQL)
 - JWT secret key
 - External API keys (if used)
 
@@ -198,9 +177,9 @@ You must replace all placeholder values with your own local or development crede
 ## ⚠️ Important Note
 
 - 🚧 This project is still under active development
-- Do NOT expect all features to be fully complete yet
-- Core architecture and backend foundation are stable and working
-- Do NOT commit real secrets or API keys to the repository
+- Core backend architecture is stable and implemented
+- Some domain features are still in progress
+- Do NOT commit real secrets or API keys
 
 ---
 
@@ -221,7 +200,7 @@ dotnet restore
 
 ---
 
-### 3. Run the application
+### 3. Run application
 > The system automatically applies database migrations on startup.
 
 ```bash
@@ -230,7 +209,7 @@ dotnet run --project src/Namaa.API
 
 ---
 
-### 4. Access Swagger API
+### 4. Open Swagger
 ```
 https://localhost:7070/swagger
 ```
@@ -245,10 +224,10 @@ https://localhost:7070/swagger
 - ✔ Tag-based caching strategy
 - ✔ Modular multi-role system design
 - ✔ External integrations (AI, Weather, Email)
-- ✔ Production-level backend structure
+- ✔ Production-style backend architecture
 
 ---
 
 # ⭐ Final Note
 
-Namaa is a real-world backend system built using modern .NET architecture principles. It demonstrates scalable system design, clean engineering practices, and production-ready backend development suitable for real industry applications — while still being actively developed as a graduation project.
+Namaa is a real-world backend system built using modern .NET architecture principles. It demonstrates scalable system design, clean engineering practices, and production-ready backend development suitable for real industry applications, while still being actively developed as a graduation project.
