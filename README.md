@@ -1,4 +1,3 @@
-
 # 🌾 Namaa Agricultural Backend API 🚜
 
 [![Backend Core](https://img.shields.io/badge/.NET-9.0-purple.svg)](#)
@@ -11,66 +10,72 @@
 
 **Namaa** is a backend agricultural platform designed to modernize and digitize the agricultural ecosystem by connecting farmers, traders, investors, agricultural experts, and administrators in a unified system.
 
-In traditional systems, stakeholders operate in isolation. Farmers face difficulties accessing markets, traders lack transparency in sourcing, and experts are disconnected from real-time agricultural needs. Namaa was built to solve this fragmentation by introducing a structured backend system that simulates a real-world agricultural marketplace.
+In traditional systems, stakeholders often operate in isolation. Farmers face difficulties accessing markets, traders lack transparency in sourcing, and experts are disconnected from real-time agricultural needs. Namaa was created to help bridge these gaps through a scalable backend platform that supports communication, transactions, and agricultural services.
 
-> 🚧 **Important Note:** This project is currently under active development as part of a final-year Computer Engineering graduation project. The core backend architecture is stable and fully implemented, while some domain-specific features are still being developed.
+> 🚧 **Important Note:** This project is currently under active development as part of a final-year Computer Engineering graduation project. The core backend architecture and infrastructure are implemented and functional, while some domain-specific features are still being developed.
 
 ---
 
 ## 🌱 The Idea Behind the Project
 
-This project started as a graduation engineering initiative aimed at solving real-world inefficiencies in the agricultural sector.
+Namaa began as a graduation engineering initiative focused on addressing real-world challenges in the agricultural sector.
 
-Instead of building a simple CRUD application, the goal was to design a **production-style backend system** using modern software engineering principles.
+Rather than building a simple CRUD application, the objective was to design and implement a backend system using modern software engineering practices, emphasizing maintainability, scalability, and clean architecture principles.
 
-The focus is on building a **clean, scalable, and maintainable architecture** that reflects real-world backend systems.
+The project serves as both an academic endeavor and a practical exploration of production-style backend development.
 
 ---
 
 ## 🏗️ How the System Was Built
 
-The system is designed using modern backend engineering principles:
+The application follows modern backend engineering practices and architectural patterns.
 
 ### 🧱 Clean Architecture
-The system is structured into four layers:
 
-- **Namaa.API** → Controllers, middleware, request handling
-- **Namaa.Application** → Business logic, CQRS, validation, handlers
-- **Namaa.Domain** → Core business entities and rules
-- **Namaa.Infrastructure** → Database, external APIs, integrations
+The solution is organized into four primary layers:
 
-This ensures strong separation of concerns and long-term maintainability.
+- **Namaa.API** → Controllers, middleware, request handling, and API endpoints
+- **Namaa.Application** → CQRS handlers, business logic, DTOs, validation, and application services
+- **Namaa.Domain** → Core entities, business rules, value objects, and domain abstractions
+- **Namaa.Infrastructure** → Database access, authentication, external integrations, caching, and storage services
+
+This structure promotes separation of concerns and long-term maintainability.
 
 ---
 
 ### ⚡ CQRS + MediatR
-The system follows CQRS principles:
 
-- Commands → write operations
-- Queries → read operations
-- MediatR → request pipeline orchestration
+The system follows the Command Query Responsibility Segregation (CQRS) pattern:
 
-This improves scalability and keeps business logic organized.
+- Commands → Write operations
+- Queries → Read operations
+- MediatR → Request dispatching and pipeline orchestration
+
+This keeps application logic organized and scalable.
 
 ---
 
 ### 🧠 Engineering Practices
-The project includes production-level backend concepts:
 
-- Centralized error handling system
-- FluentValidation for request validation
-- JWT authentication & authorization
-- Tag-based caching strategy
-- Structured logging using Serilog
+The project incorporates several production-oriented backend practices:
+
+- ✅ Result Pattern for predictable operation outcomes
+- 🛡️ Global exception handling middleware
+- 🚨 Typed error system with categorized error types
+- ✔️ FluentValidation for request validation
+- 🔐 JWT authentication & authorization
+- ⚡ Tag-based caching strategy
+- 📝 Structured logging using Serilog
 
 ---
 
 ### 🔌 External Integrations
-The system integrates external services to simulate real production behavior:
 
-- 🤖 OpenAI API → AI agricultural assistant
+The platform integrates multiple external services:
+
+- 🤖 OpenAI API → Agricultural AI assistant
 - 🌦️ OpenWeatherMap API → Weather insights
-- ☁️ Cloudinary → Media storage and management
+- ☁️ Cloudinary → Image and media storage
 - 📧 Email system → Email verification link + password reset OTP
 
 ---
@@ -87,7 +92,8 @@ The system integrates external services to simulate real production behavior:
 - 🌦️ Weather data integration
 - 📧 Account security email system (verification link + password reset OTP)
 - ⚡ Hybrid caching with tag-based invalidation
-- 🧠 Centralized error handling system
+- ✅ Result Pattern–based error handling
+- 🛡️ Global exception handling middleware
 - 📊 CQRS-based architecture
 
 ---
@@ -95,7 +101,7 @@ The system integrates external services to simulate real production behavior:
 # 👥 System Roles
 
 | Role | Description |
-|------|------------|
+|--------|--------|
 | 👨‍🌾 Farmer | Creates listings, manages products, receives ratings |
 | 🛒 Trader | Purchases agricultural products |
 | 💰 Investor | Funds agricultural opportunities |
@@ -108,7 +114,7 @@ The system integrates external services to simulate real production behavior:
 # </> Tech Stack
 
 | Layer | Technology |
-|------|------------|
+|--------|--------|
 | Backend | ASP.NET Core 9 (Web API) |
 | ORM | Entity Framework Core 9 |
 | Database | PostgreSQL |
@@ -130,7 +136,7 @@ The system follows Clean Architecture principles to ensure separation of concern
 
 ### 📌 Request Flow
 
-```
+```text
 Client Request
      ↓
 Namaa.API (Controllers + Middleware)
@@ -148,19 +154,11 @@ Infrastructure Layer (Database + External Services)
 
 Before running the application, ensure all required settings are configured in `appsettings.json`.
 
-You only need to modify this file with your local or development values.
+Modify the values according to your local or development environment.
 
 ---
 
-## 📌 Required Settings
-
-- PostgreSQL connection string  
-- JWT secret key  
-- External API keys (if used)
-
----
-
-## 📌 Full Example Configuration
+## 📌 Example Configuration
 
 ```json
 {
@@ -202,43 +200,41 @@ You only need to modify this file with your local or development values.
 
 ---
 
-## ⚠️ Important Note
+## ⚠️ Notes
 
-- 🚧 This project is still under active development  
-- Core backend architecture is stable and fully implemented  
-- Some domain-specific features are still in progress  
-- Do not commit real secrets or API keys  
+- 🚧 This project is still under active development
+- Core backend architecture is stable and functional
+- Some domain-specific features are still in progress
+- Never commit real secrets or API keys to source control
 
 ---
 
 # 🚀 How to Run
 
-### 1. Clone repository
+### 1. Clone the Repository
+
 ```bash
 git clone https://github.com/YourUsername/Namaa-Backend.git
 cd Namaa-Backend
 ```
 
----
+### 2. Restore Dependencies
 
-### 2. Restore dependencies
 ```bash
 dotnet restore
 ```
 
----
+### 3. Run the Application
 
-### 3. Run application
-The system automatically applies database migrations on startup.
+Database migrations are automatically applied on startup.
 
 ```bash
 dotnet run --project src/Namaa.API
 ```
 
----
-
 ### 4. Access Swagger
-```
+
+```text
 https://localhost:7070/swagger
 ```
 
@@ -246,13 +242,15 @@ https://localhost:7070/swagger
 
 # 🧩 System Design Highlights
 
-- ✔ Clean Architecture with strict layer separation  
-- ✔ CQRS pattern for scalable request handling  
-- ✔ Centralized error handling pipeline  
-- ✔ Tag-based caching strategy  
-- ✔ Multi-role system design  
-- ✔ External integrations (AI, Weather, Email)  
-- ✔ Production-style backend structure  
+- ✔️ Clean Architecture with strict layer separation
+- ⚡ CQRS pattern for scalable request handling
+- ✅ Result Pattern for consistent error propagation
+- 🛡️ Global exception handling middleware
+- 🚨 Typed error system with categorized error types
+- ⚡ Tag-based caching strategy
+- 👥 Multi-role system design
+- 🔌 External integrations (AI, Weather, Email)
+- 🏗️ Production-style backend structure
 
 ---
 
@@ -260,8 +258,8 @@ https://localhost:7070/swagger
 
 This project was developed as a collaborative graduation engineering project.
 
-- 👨‍💻 Anas Haj Mohammad — Software Engineer (Backend Development: Clean Architecture, CQRS, API Design, Core System Implementation)
-- 👨‍💻 Ala'a Abu Musa — Software Engineer (Backend Development)  
+- 👨‍💻 **Anas Haj Mohammad** — Software Engineer (Backend Architecture, CQRS, API Design, Core System Implementation)
+- 👨‍💻 **Ala'a Abu Musa** — Software Engineer (Backend Development)  
   GitHub: https://github.com/alaaabumusa
 
 Both contributors worked together to design and implement the system as part of their final-year Computer Engineering graduation requirements.
@@ -270,4 +268,4 @@ Both contributors worked together to design and implement the system as part of 
 
 # ⭐ Final Note
 
-Namaa is a real-world backend system built using modern .NET architecture principles. It demonstrates scalable system design, clean engineering practices, and production-ready backend development suitable for real industry applications, while still being actively developed as a graduation project.
+Namaa is a backend system built using modern .NET development practices and architectural patterns. The project emphasizes maintainability, scalability, clean design, and real-world backend engineering concepts while continuing to evolve as a graduation project.
