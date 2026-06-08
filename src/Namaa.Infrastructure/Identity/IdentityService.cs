@@ -46,7 +46,7 @@ public class IdentityService(
         return Error.Forbidden("Auth.EmailNotConfirmed", "Please confirm your email address before logging in.");
         
     if ( user.Status == UserStatus.Suspended)
-        return Error.Forbidden("Auth.AccessDenied", $"Your account is currently '{user.Status}'. Please contact support.");
+        return Error.Forbidden("Auth.AccessDenied", $"Your account is currently '{user.Status.ToString().ToLower()}'. Reason: {user.StatusReason} please contact support.");
 
     
     var roles = await userManager.GetRolesAsync(user);

@@ -8,51 +8,70 @@ using Namaa.Domain.SeedingCycles;
 
 namespace Namaa.Application.Features.Weather.Queries.GetWeatherAlerts;
 
-public class GetWeatherAlertsQueryHandler(IAppDbContext context,IWeatherService weatherService) : IRequestHandler<GetWeatherAlertsQuery, Result<List<WeatherAlertDto>>>
+public class GetWeatherAlertsQueryHandler(IAppDbContext context, IWeatherService weatherService) : IRequestHandler<GetWeatherAlertsQuery, Result<List<WeatherAlertDto>>>
 {
     public async Task<Result<List<WeatherAlertDto>>> Handle(GetWeatherAlertsQuery request, CancellationToken cancellationToken)
     {
         var vulnerableCycles = await context.SeedingCycles
-        .AsNoTracking()
-        .Include(sc => sc.Land)
-        .Include(sc => sc.Crop)
-        .Where(sc => sc.Land!.FarmerId == request.FarmerId)          
-        .Where(sc => sc.Status ==CycleStatus.Active)                       
-        .Where(sc => sc.Land!.EnvironmentType == EnvironmentType.OpenField)                 
-        .ToListAsync(cancellationToken);
+            .AsNoTracking()
+            .Include(sc => sc.Land)
+            .Include(sc => sc.Crop)
+            .Where(sc => sc.Land!.FarmerId == request.FarmerId)          
+            .Where(sc => sc.Status == CycleStatus.Active)                      
+            .Where(sc => sc.Land!.EnvironmentType == EnvironmentType.OpenField)                 
+            .ToListAsync(cancellationToken);
 
-        if(!vulnerableCycles.Any())
-        return new List<WeatherAlertDto>();
+        if (!vulnerableCycles.Any())
+            return new List<WeatherAlertDto>();
 
-        var alerts=new List<WeatherAlertDto>();
-
+        var alerts = new List<WeatherAlertDto>();
         var uniqueLands = vulnerableCycles.Select(sc => sc.Land).DistinctBy(l => l!.Id).ToList();
 
-        foreach(var land in uniqueLands)
+        var weatherTasks = uniqueLands.Select(async land =>
         {
-            var liveWeather=await weatherService.GetWeatherByCityAsync(land!.Latitude,land.Longitude,cancellationToken);
-            var currentTemp=(decimal)liveWeather.TemperatureCelsius;
+            var forecast = await weatherService.GetWeatherForecastAsync(land!.Latitude, land.Longitude, cancellationToken);
+            return (Land: land, Forecast: forecast);
+        }).ToList();
 
-            var endangeredCropsOnThisLand=vulnerableCycles.Where(sc => sc.LandId==land.Id).Where(sc => currentTemp > sc.Crop!.MaxTemperature || currentTemp < sc.Crop!.MinTemperature);
-            
-            foreach(var cycle in endangeredCropsOnThisLand)
+        var weatherResults = await Task.WhenAll(weatherTasks);
+
+        foreach (var result in weatherResults)
+        {
+            var land = result.Land;
+            var next24HoursForecast = result.Forecast
+                .Where(f => f.ForecastTime <= DateTime.UtcNow.AddDays(1))
+                .ToList();
+
+            var cropsOnThisLand = vulnerableCycles.Where(sc => sc.LandId == land.Id).ToList();            
+            foreach (var cycle in cropsOnThisLand)
             {
-                alerts.Add(new WeatherAlertDto
+                var dangerousInterval = next24HoursForecast
+                    .FirstOrDefault(f => (decimal)f.TemperatureCelsius > cycle.Crop!.MaxTemperature 
+                                      || (decimal)f.TemperatureCelsius < cycle.Crop!.MinTemperature);
+
+                if (dangerousInterval != null)
                 {
-                    SeedingCycleId=cycle.Id,
-                    CropName=cycle.Crop!.Name!,
-                    LandName=cycle.Land!.Name!,
-                    CurrentTemperature=currentTemp,
-                    MaxTolerableTemp=cycle.Crop.MaxTemperature,
-                    MinTolerableTemp=cycle.Crop.MinTemperature,
-                    AlertMessage=currentTemp > cycle.Crop.MaxTemperature 
-                    ? $"HEAT WARNING: {land.Name} ({currentTemp}°C) exceeds {cycle.Crop.Name}'s max of {cycle.Crop.MaxTemperature}°C." 
-                    : $"FROST WARNING: {land.Name} ({currentTemp}°C) drops below {cycle.Crop.Name}'s min of {cycle.Crop.MinTemperature}°C."
-                });
+                    var predictedTemp = (decimal)dangerousInterval.TemperatureCelsius;
+                    var localTimeDisplay = dangerousInterval.ForecastTime.ToLocalTime().ToString("dd MMM, h:mm tt");
+                    
+                    alerts.Add(new WeatherAlertDto
+                    {
+                        SeedingCycleId = cycle.Id,
+                        CropName = cycle.Crop!.Name!,
+                        LandName = land.Name!,
+                        CurrentTemperature = predictedTemp, 
+                        MaxTolerableTemp = cycle.Crop.MaxTemperature,
+                        MinTolerableTemp = cycle.Crop.MinTemperature,
+                        AlertTime = dangerousInterval.ForecastTime,
+                        AlertMessage = predictedTemp > cycle.Crop.MaxTemperature 
+                            ? $"PREDICTIVE HEAT WARNING: High temperatures ({predictedTemp}°C) are expected to exceed {cycle.Crop.Name}'s max limit on {localTimeDisplay}." 
+                            : $"PREDICTIVE FROST WARNING: Freezing risk ({predictedTemp}°C) is expected to fall below {cycle.Crop.Name}'s minimum on {localTimeDisplay}. Please apply crop shielding covers.",
+                        AlertType = predictedTemp > cycle.Crop.MaxTemperature ? "Heat" : "Frost"
+                    });
+                }
             }
         }
         
         return alerts;
-
     }
 }

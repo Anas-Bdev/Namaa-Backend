@@ -1,5 +1,6 @@
 namespace Namaa.Application.Common.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Namaa.Domain.Consultations;
 using Namaa.Domain.Identity;
 using Namaa.Domain.Investments;
 using Namaa.Domain.Lands;
@@ -30,6 +31,8 @@ DbSet<ExpertAvailability> ExpertAvailabilities { get; }
  DbSet<ProductListing> ProductListings {get;}
  DbSet<ProductOrder> ProductOrders {get;}
  DbSet<FarmerRating> FarmerRatings {get;}
+ DbSet<ConsultationMessage> ConsultationMessages {get;}
+ DbSet<ConsultationRequest> ConsultationRequests {get;}
 Task<int> SaveChangesAsync(CancellationToken ct=default);
 
 }
