@@ -8,93 +8,166 @@
 
 # 📌 Project Overview
 
-**Namaa** is a backend agricultural platform designed to modernize and digitize the agricultural ecosystem by connecting farmers, traders, investors, agricultural experts, and administrators in a unified system.
+**Namaa** is a backend agricultural platform designed to modernize and digitize the agricultural ecosystem by connecting farmers, traders, investors, agricultural experts, and administrators through a unified system.
 
-In traditional systems, stakeholders often operate in isolation. Farmers face difficulties accessing markets, traders lack transparency in sourcing, and experts are disconnected from real-time agricultural needs. Namaa was created to help bridge these gaps through a scalable backend platform that supports communication, transactions, and agricultural services.
+The platform aims to address common challenges in the agricultural sector, including fragmented communication, limited market accessibility, and the lack of centralized digital services. By providing a scalable backend infrastructure, Namaa enables stakeholders to interact through a single platform that supports agricultural trading, consultations, investment opportunities, and intelligent services.
 
-> 🚧 **Important Note:** This project is currently under active development as part of a final-year Computer Engineering graduation project. The core backend architecture and infrastructure are implemented and functional, while some domain-specific features are still being developed.
-
----
-
-## 🌱 The Idea Behind the Project
-
-Namaa began as a graduation engineering initiative focused on addressing real-world challenges in the agricultural sector.
-
-Rather than building a simple CRUD application, the objective was to design and implement a backend system using modern software engineering practices, emphasizing maintainability, scalability, and clean architecture principles.
-
-The project serves as both an academic endeavor and a practical exploration of production-style backend development.
+> 🚧 **Project Status:** This project is currently under active development as part of a final-year Computer Engineering graduation project. While some business features are still being expanded, the core architecture, security, caching, validation, and infrastructure layers are fully implemented and operational.
 
 ---
 
-## 🏗️ How the System Was Built
+# 🌱 Vision
 
-The application follows modern backend engineering practices and architectural patterns.
+Namaa was created to help digitize agricultural workflows and provide a foundation for modern agricultural services.
 
-### 🧱 Clean Architecture
+Rather than focusing solely on CRUD operations, the project emphasizes:
 
-The solution is organized into four primary layers:
-
-- **Namaa.API** → Controllers, middleware, request handling, and API endpoints
-- **Namaa.Application** → CQRS handlers, business logic, DTOs, validation, and application services
-- **Namaa.Domain** → Core entities, business rules, value objects, and domain abstractions
-- **Namaa.Infrastructure** → Database access, authentication, external integrations, caching, and storage services
-
-This structure promotes separation of concerns and long-term maintainability.
+- Scalable backend architecture
+- Maintainable business logic
+- Secure API design
+- Production-oriented engineering practices
+- Integration with external services
 
 ---
 
-### ⚡ CQRS + MediatR
+# 🏗️ Architecture & Design
 
-The system follows the Command Query Responsibility Segregation (CQRS) pattern:
+The project follows **Clean Architecture** principles and is organized into four distinct layers.
 
-- Commands → Write operations
-- Queries → Read operations
-- MediatR → Request dispatching and pipeline orchestration
+### 🧱 Namaa.API
 
-This keeps application logic organized and scalable.
+Responsible for:
+
+- Controllers
+- Request handling
+- Authentication
+- ProblemDetails responses
+- Exception handling registration
+- Swagger/OpenAPI configuration
+
+### ⚙️ Namaa.Application
+
+Responsible for:
+
+- CQRS Commands & Queries
+- MediatR handlers
+- DTOs
+- Business use cases
+- Validation rules
+- Application contracts
+
+### 🧠 Namaa.Domain
+
+Responsible for:
+
+- Entities
+- Value Objects
+- Domain Rules
+- Enumerations
+- Domain Errors
+
+### 🔌 Namaa.Infrastructure
+
+Responsible for:
+
+- Entity Framework Core
+- PostgreSQL
+- JWT services
+- Cloudinary integration
+- OpenAI integration
+- Weather integration
+- Email services
+- Caching services
 
 ---
 
-### 🧠 Engineering Practices
+# ⚡ Architectural Patterns
+
+### CQRS + MediatR
+
+The system separates read and write operations through CQRS:
+
+- Commands → Mutate state
+- Queries → Read data
+- MediatR → Request orchestration
+
+This improves maintainability and scalability.
+
+---
+
+### Result Pattern
+
+Business operations return strongly typed results rather than relying on exceptions for flow control.
+
+Benefits:
+
+- Predictable operation outcomes
+- Explicit success/failure handling
+- Consistent API responses
+- Improved maintainability
+
+---
+
+### Typed Error System
+
+The application uses a centralized error model with categorized error types.
+
+Examples include:
+
+- Validation Errors
+- Not Found Errors
+- Conflict Errors
+- Unauthorized Errors
+- Forbidden Errors
+
+This enables consistent error propagation throughout the application.
+
+---
+
+### Global Exception Handling
+
+Unhandled exceptions are processed through ASP.NET Core's:
+
+```csharp
+IExceptionHandler
+```
+
+The exception handler maps exceptions into RFC 7807 Problem Details responses to ensure consistent API behavior.
+
+---
+
+# 🧠 Engineering Practices
 
 The project incorporates several production-oriented backend practices:
 
-- ✅ Result Pattern for predictable operation outcomes
-- 🛡️ Global exception handling middleware
+- ✅ Clean Architecture
+- ✅ CQRS + MediatR
+- ✅ Result Pattern
+- 🛡️ Centralized exception handling using ASP.NET Core IExceptionHandler
 - 🚨 Typed error system with categorized error types
-- ✔️ FluentValidation for request validation
-- 🔐 JWT authentication & authorization
-- ⚡ Tag-based caching strategy
+- 📄 RFC 7807 Problem Details responses
+- ✔️ FluentValidation
+- 🔐 JWT Authentication & Authorization
+- ⚡ Hybrid Cache with tag-based invalidation
 - 📝 Structured logging using Serilog
-
----
-
-### 🔌 External Integrations
-
-The platform integrates multiple external services:
-
-- 🤖 OpenAI API → Agricultural AI assistant
-- 🌦️ OpenWeatherMap API → Weather insights
-- ☁️ Cloudinary → Image and media storage
-- 📧 Email system → Email verification link + password reset OTP
 
 ---
 
 # 🚀 Features
 
 - 🔐 Authentication & Authorization (JWT)
-- 👨‍🌾 Farmer management system
-- 🌾 Agricultural marketplace (listings)
-- ⭐ Farmer rating & review system
-- 📦 Order and trading workflow system
-- ☁️ Media upload system (Cloudinary)
+- 👨‍🌾 Farmer management
+- 🌾 Product listings marketplace
+- 📦 Order management workflow
+- ⭐ Farmer ratings and reviews
 - 🤖 AI agricultural assistant (OpenAI)
-- 🌦️ Weather data integration
-- 📧 Account security email system (verification link + password reset OTP)
-- ⚡ Hybrid caching with tag-based invalidation
-- ✅ Result Pattern–based error handling
-- 🛡️ Global exception handling middleware
+- 🌦️ Weather information integration
+- ☁️ Cloudinary image storage
+- 📧 Email verification links
+- 🔑 Password reset via OTP
+- ⚡ Hybrid caching with tag invalidation
 - 📊 CQRS-based architecture
+- 📄 RFC 7807 Problem Details responses
 
 ---
 
@@ -106,7 +179,7 @@ The platform integrates multiple external services:
 | 🛒 Trader | Purchases agricultural products |
 | 💰 Investor | Funds agricultural opportunities |
 | 🌱 Expert | Provides agricultural consultation |
-| 🛠️ Admin | System management and moderation |
+| 🛠️ Administrator | Manages and moderates the platform |
 | 👤 Guest | Public browsing access |
 
 ---
@@ -114,51 +187,66 @@ The platform integrates multiple external services:
 # </> Tech Stack
 
 | Layer | Technology |
-|--------|--------|
-| Backend | ASP.NET Core 9 (Web API) |
+|---------|---------|
+| Backend | ASP.NET Core 9 |
 | ORM | Entity Framework Core 9 |
 | Database | PostgreSQL |
 | Authentication | JWT Bearer Authentication |
 | Validation | FluentValidation |
-| Mapping | Manual Mapping (Extension Methods) |
-| Architecture | Clean Architecture + CQRS + MediatR |
+| Architecture | Clean Architecture |
+| Patterns | CQRS + MediatR |
+| Error Handling | Result Pattern + Typed Errors |
+| Exception Handling | ASP.NET Core IExceptionHandler |
 | Logging | Serilog |
 | Cloud Storage | Cloudinary |
-| External APIs | OpenAI, OpenWeatherMap |
+| AI Services | OpenAI API |
+| Weather Services | OpenWeatherMap API |
 | Email Service | MailKit + Brevo SMTP |
-| Caching | Hybrid Cache with Tag Invalidation |
+| Caching | Hybrid Cache |
 
 ---
 
-# 🧭 Architecture Overview
-
-The system follows Clean Architecture principles to ensure separation of concerns.
-
-### 📌 Request Flow
+# 🧭 Request Flow
 
 ```text
 Client Request
-     ↓
-Namaa.API (Controllers + Middleware)
-     ↓
-Application Layer (CQRS + MediatR Pipeline)
-     ↓
-Domain Layer (Business Rules)
-     ↓
-Infrastructure Layer (Database + External Services)
+      │
+      ▼
+API Controllers
+      │
+      ▼
+MediatR Pipeline
+      │
+      ├── Validation
+      ├── Caching
+      └── Logging
+      │
+      ▼
+CQRS Handler
+      │
+      ▼
+Domain Logic
+      │
+      ▼
+Infrastructure Services
+      │
+      ▼
+Database / External Services
 ```
 
 ---
 
 # ⚙️ Configuration
 
-Before running the application, ensure all required settings are configured in `appsettings.json`.
+Before running the application, configure the required values inside:
 
-Modify the values according to your local or development environment.
+```text
+appsettings.json
+```
 
----
+Update the values according to your environment.
 
-## 📌 Example Configuration
+## Example Configuration
 
 ```json
 {
@@ -200,31 +288,22 @@ Modify the values according to your local or development environment.
 
 ---
 
-## ⚠️ Notes
+# 🚀 Running the Application
 
-- 🚧 This project is still under active development
-- Core backend architecture is stable and functional
-- Some domain-specific features are still in progress
-- Never commit real secrets or API keys to source control
-
----
-
-# 🚀 How to Run
-
-### 1. Clone the Repository
+### Clone the Repository
 
 ```bash
-git clone https://github.com/YourUsername/Namaa-Backend.git
+git clone https://github.com/YOUR_USERNAME/Namaa-Backend.git
 cd Namaa-Backend
 ```
 
-### 2. Restore Dependencies
+### Restore Dependencies
 
 ```bash
 dotnet restore
 ```
 
-### 3. Run the Application
+### Run the Application
 
 Database migrations are automatically applied on startup.
 
@@ -232,7 +311,7 @@ Database migrations are automatically applied on startup.
 dotnet run --project src/Namaa.API
 ```
 
-### 4. Access Swagger
+### Access Swagger
 
 ```text
 https://localhost:7070/swagger
@@ -242,15 +321,16 @@ https://localhost:7070/swagger
 
 # 🧩 System Design Highlights
 
-- ✔️ Clean Architecture with strict layer separation
-- ⚡ CQRS pattern for scalable request handling
-- ✅ Result Pattern for consistent error propagation
-- 🛡️ Global exception handling middleware
+- ✔️ Clean Architecture with strict separation of concerns
+- ⚡ CQRS pattern using MediatR
+- ✅ Result Pattern for consistent operation outcomes
+- 🛡️ Centralized exception handling using IExceptionHandler
 - 🚨 Typed error system with categorized error types
-- ⚡ Tag-based caching strategy
-- 👥 Multi-role system design
-- 🔌 External integrations (AI, Weather, Email)
-- 🏗️ Production-style backend structure
+- 📄 RFC 7807 Problem Details responses
+- ⚡ Hybrid Cache with tag-based invalidation
+- 🔐 JWT Authentication & Authorization
+- 🔌 Integration with OpenAI, Cloudinary, OpenWeatherMap, and Brevo
+- 🏗️ Production-oriented backend structure
 
 ---
 
@@ -268,4 +348,4 @@ Both contributors worked together to design and implement the system as part of 
 
 # ⭐ Final Note
 
-Namaa is a backend system built using modern .NET development practices and architectural patterns. The project emphasizes maintainability, scalability, clean design, and real-world backend engineering concepts while continuing to evolve as a graduation project.
+Namaa is a backend platform built using modern .NET development practices and architectural patterns. The project focuses on scalability, maintainability, clean design, and real-world backend engineering concepts while continuing to evolve as an active graduation project.
