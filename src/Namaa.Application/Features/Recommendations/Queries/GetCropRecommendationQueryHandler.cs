@@ -266,7 +266,7 @@ public class GetCropRecommendationQueryHandler(IAppDbContext context, IAiConsult
                 HarvestTime = crop.HarvestTime!,
                 DaysToHarvest = crop.DaysToHarvest
             },
-            MatchPercentage = score,
+            MatchPercentage = Math.Min(95, score),
             MinTotalCostPerDonum = calculatedMinCost,
             MaxTotalCostPerDonum = calculatedMaxCost,
             MinExpectedProfitPerDonum = minProfitPerDonum,
