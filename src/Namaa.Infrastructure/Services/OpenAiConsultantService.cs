@@ -48,88 +48,53 @@ public class OpenAiConsultantService(IConfiguration configuration) : IAiConsulta
             _ => throw new System.Diagnostics.UnreachableException()
         };
 
-        string farmerContext = $@"
+       string farmerContext = $@"
 FARMER PROFILE:
 - Location: {cityName}, Palestine
 - Total Land Area: {request.LandAreaDonums} Donums
 - Soil Type: {soilName} 
 ";
 
+        // FIX 2: Restored the cropSummary generation logic so the prompt has the actual data
         var cropSummary = string.Join("\n", topCrops.Select(c =>
-              $"- ID: {c.Crop.Id} | Name: {c.Crop.Name} | Season: {c.Crop.Season} | Match Score: {c.MatchPercentage}%\n" +
-              $"  Technical Reasons: {string.Join(", ", c.MatchingReasons)}\n"));
+            $"- ID: {c.Crop.Id} | Name: {c.Crop.Name} | Season: {c.Crop.Season} | Match Score: {c.MatchPercentage}%\n" +
+            $"  Technical Reasons: {string.Join(", ", c.MatchingReasons)}\n"));
 
         return $@"
-# STEP 1: DYNAMIC 
-Attempt to find:
-1. 'Palestinian Ministry of Agriculture (MoA) crop reports March 2026'
-2. '{cityName} historical and current market price trends, supply/demand, and oversupply warnings 2026'
-
-# FALLBACK RULE:
-If live data is unavailable, proceed as a '2026 Strategic Simulator' using:
-- Palestinian historical crop yield patterns
-- MoA crop recommendations and guidelines
-- Regional planting trends
-- City-level market saturation and planting history
-- Seasonal planting and harvest history
-
----
-
-# STEP 2: CONSULTANCY PERSONA
-You are the Lead Agricultural Strategist for NAMA'A.
+# SYSTEM ROLE
+You are the Lead Agricultural Strategist for the NAMA'A agricultural platform. 
+Your core function is to act as an Expert Reasoning Engine. The backend system has already filtered out incompatible crops using strict water and environmental constraints. You will receive a pre-approved list of crops.
 
 {farmerContext}
 
-AGRICULTURAL DATA INPUT:
+# PRE-VALIDATED CROP DATA:
 {cropSummary}
 
 ---
 
-# STEP 3: ENVIRONMENT & TECHNICAL MATCH
-For EACH crop:
-
-- Provide an array 'suitableFarmingMethods' including all methods the farmer can use safely (e.g., Greenhouse adaptation possible for open-field crops).
-- Highlight any environmental limitations and note if yields may vary due to adaptation.
-- Technical suggestions are optional; if provided, they must be practical, actionable, and quantifiable.
-
----
-
-# STEP 4: AI SUITABILITY SUMMARY
-For EACH crop:
-
-- Provide ONE 'AiSuitabilitySummary' (2–3 sentences max)
-- Explain soil, water, and environment suitability using the Farmer Profile above.
-- Highlight main limitation if Match < 100%
-- Do NOT repeat TechnicalSuggestion
+# STEP 1: AI SUITABILITY SUMMARY (EXPLAINABILITY)
+For EACH crop provided above:
+- Write ONE 'AiSuitabilitySummary' (2–3 sentences max).
+- Explain exactly why this crop works for the Farmer's specific location ({cityName}) and soil type ({soilName}).
+- This serves as the Explainable AI (XAI) output so the farmer trusts the recommendation.
 
 ---
 
-# STEP 5: DYNAMIC SEEDING AREA ALGORITHM (STRICTLY ENFORCED)
-You must calculate 'SuggestedLandDistributions' for EACH crop independently using this exact 3-step dynamic algorithm:
+# STEP 2: DYNAMIC SEEDING AREA ALGORITHM (STRICTLY ENFORCED)
+You must calculate 'SuggestedLandDistributions' for EACH crop using this exact deterministic logic based on the farmer's total {request.LandAreaDonums} Donums:
 
-1. MARKET & SEASONAL RISK ASSESSMENT: First, analyze the crop's current season and the local market conditions (oversupply danger vs. high demand). Based on this, set a 'Dynamic Max Limit' out of the farmer's total {request.LandAreaDonums} Donums:
-   - NO DANGER / HIGH DEMAND: If it is the peak season and the market is safe, allow up to 80% of total land for Field Crops, or 50% for Vegetables/Greens.
-   - HEAVILY SEEDED / OVERSUPPLY RISK: If the market is flooded or the season is ending, heavily restrict the crop to protect the farmer. Max 15% to 20% of total land.
-   - NEUTRAL: Use standard baseline caps (70% Field Crops, 40% Vegetables, 20% Greens).
-
-2. SCORE ADJUSTMENT: Multiply the 'Dynamic Max Limit' (from Step 1) by the crop's Match Score percentage (e.g., 85% = 0.85). 
-
-3. THE HARD FLOOR RULE: The absolute minimum allocation for ANY crop in the top choices is 0.5 Donums. If your final calculation is less than 0.5, you MUST round it up to 0.5. You are strictly forbidden from outputting 0.
-
-Round final numbers to the nearest 0.5 (e.g., 0.5, 1.0, 1.5, 2.0).
----
-
-# STEP 6: PROFIT & YIELD CALCULATION (FOR AI REFERENCE)
-- Use average yield and average price per kg
-- Apply conservative risk factor for min yield/profit
-- Do NOT let unusually high price gaps inflate recommended area
+1. MARKET RISK ASSESSMENT (Based on your internal knowledge of Palestinian agriculture):
+   - SAFE/STAPLE CROP: Allow up to 80% of total land for Field Crops, or 50% for Vegetables.
+   - HIGH YIELD/OVERSUPPLY RISK: Cap at 15% to 20% of total land to protect the farmer from market saturation.
+2. MATCH SCORE WEIGHTING: Multiply the capped limit by the crop's Match Score (e.g., 85% Match = multiply by 0.85). 
+3. HARD FLOOR RULE: The absolute minimum allocation for ANY crop is 0.5 Donums. You must round up if the result is lower.
+4. Round final numbers to the nearest 0.5.
 
 ---
 
-# STEP 7: OUTPUT REQUIREMENTS
-- JSON ONLY. No extra text.
-- Use Crop.Id exactly as provided
-- Include:
+# STEP 3: OUTPUT REQUIREMENTS
+- STRICT JSON FORMAT ONLY. No markdown formatting outside the JSON block.
+- Use the integer CropId exactly as provided.
 {{
    ""SuggestedLandDistributions"": {{ ""CropId"": float }},
    ""AiSuitabilitySummaries"": {{ ""CropId"": ""string 2–3 sentence explanation"" }}
