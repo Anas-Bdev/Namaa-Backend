@@ -29,6 +29,45 @@ public class OpenAiConsultantService(IConfiguration configuration) : IAiConsulta
         return ParseAiResponse(result.Value.Content[0].Text);
     }
 
+    public async Task<string> GeneratePrimaryAdviceAsync(string title, string description, string? imageUrl, CancellationToken cancellationToken)
+    {
+        var chatClient = new ChatClient("gpt-5.4-mini", _apiKey);
+
+        string systemPrompt = @"
+You are a Senior Agricultural Expert for the NAMA'A platform in Palestine. 
+A farmer has submitted a consultation request seeking primary advice before a human expert reviews the ticket.
+
+Your objective:
+- Analyze the title and description provided by the farmer.
+- If an image is provided, carefully inspect the plant leaves, soil, or fruit for visible symptoms of disease, pests, or nutrient deficiency.
+- Provide immediate, practical, and safe first-aid agricultural advice.
+- Keep the tone encouraging, professional, and accessible.
+- Format the response using clean Markdown with bullet points for readability. Do NOT use JSON.";
+
+    var messages = new List<ChatMessage>
+    {
+        new SystemChatMessage(systemPrompt)
+    };
+
+    var userContentParts = new List<ChatMessageContentPart>
+    {
+        ChatMessageContentPart.CreateTextPart($"**Title:** {title}\n**Description:** {description}")
+    };
+
+    if (!string.IsNullOrWhiteSpace(imageUrl))
+    {
+        userContentParts.Add(ChatMessageContentPart.CreateImagePart(new Uri(imageUrl)));
+    }
+
+    messages.Add(new UserChatMessage(userContentParts));
+
+    var options = new ChatCompletionOptions();
+
+    ClientResult<ChatCompletion> result = await chatClient.CompleteChatAsync(messages, options, cancellationToken);
+
+    return result.Value.Content[0].Text;
+    }
+
     private string BuildSystemPrompt(GetCropRecommendationQuery request, List<CropRecommendationDto> topCrops)
     {
         string cityName = request.GovernorateId switch

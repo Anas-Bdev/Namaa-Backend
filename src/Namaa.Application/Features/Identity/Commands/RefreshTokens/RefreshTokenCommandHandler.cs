@@ -20,7 +20,7 @@ public class RefreshTokenCommandHandler(IAppDbContext dbContext,ITokenProvider t
         return ApplicationErrors.UserIdClaimInvalid;
         if(!Guid.TryParse(userId, out var parsedUserId))
         {
-            return Error.Validation("Auth.InvalidId", "The provided user ID format is invalid.");
+        return Error.Validation("Auth.InvalidId", "The provided user ID format is invalid.");
         }
         var getUserResult=await identityService.GetUserByIdAsync(userId);
         if(getUserResult.IsError)
