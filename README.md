@@ -1,8 +1,7 @@
 # 🌾 Namaa Agricultural Backend API 🚜
 
-[![Backend Core](https://img.shields.io/badge/.NET-9.0-purple.svg)](#)
-[![Architecture](https://img.shields.io/badge/Architecture-Clean_/_CQRS-blue.svg)](#)
-[![Status](https://img.shields.io/badge/Status-Active_Development-orange.svg)](#)
+![Backend Core](https://img.shields.io/badge/.NET-9.0-purple.svg) ![Architecture](https://img.shields.io/badge/Architecture-Clean_/_CQRS-blue.svg) ![Status](https://img.shields.io/badge/Status-Active_Development-orange.svg)
+![.NET 9](https://img.shields.io/badge/.NET-9.0-512BD4?style=flat&logo=dotnet&logoColor=white) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-4169E1?style=flat&logo=postgresql&logoColor=white) ![C#](https://img.shields.io/badge/C%23-13.0-239120?style=flat&logo=c-sharp&logoColor=white) ![OpenAI](https://img.shields.io/badge/OpenAI-Integrated-412991?style=flat&logo=openai&logoColor=white)
 
 ---
 
