@@ -1,11 +1,10 @@
 namespace Namaa.Domain.Enums;
 public enum InvestmentProjectStatus
 {
-     Pending=1,
-    Funding=2,
-    Funded=3,
-    InProgress=4,
-    Completed=5,
-    Rejected=6,
-    Cancelled=7
+    Funding=1,
+    Funded=2,
+    InProgress=3,
+    Completed=4,
+    Rejected=5,
+    Cancelled=6
 }

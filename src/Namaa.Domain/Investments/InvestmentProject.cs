@@ -26,7 +26,7 @@ public sealed class InvestmentProject : AuditableEntity
     public InvestmentProjectStatus Status {get;private set;}
     private readonly List<InvestorContribution> _contributions=[];
     public IEnumerable<InvestorContribution> Contributions => _contributions.AsReadOnly();
-    public decimal AmountCollected => _contributions.Where(c => c.Status==ContributionStatus.Approved).Sum(c => c.Amount);
+    public decimal AmountCollected => _contributions.Where(c => c.Status == ContributionStatus.Paid).Sum(c => c.Amount);
 
     #pragma warning disable CS8618
    private InvestmentProject() {}
@@ -62,7 +62,7 @@ public sealed class InvestmentProject : AuditableEntity
         DurationInMonths = durationInMonths;
         ExpectedStartDate = expectedStartDate;
         ExpectedEndDate = expectedEndDate;
-        Status = InvestmentProjectStatus.Pending;
+        Status = InvestmentProjectStatus.Funding;
     }
     public static Result<InvestmentProject> Create(
     Guid id,
@@ -161,7 +161,7 @@ public Result<Updated> Update(
     DateTime? expectedStartDate,
     DateTime? expectedEndDate)
 {
-    if (Status != InvestmentProjectStatus.Pending)
+    if (Status != InvestmentProjectStatus.Funding)
         return InvestmentProjectErrors.CannotUpdateProject;
 
     if (string.IsNullOrWhiteSpace(title))
@@ -220,26 +220,9 @@ public Result<Updated> Update(
     return Result.Updated;
 }
 
-public Result<Updated> Approve()
-{
-    if (Status != InvestmentProjectStatus.Pending)
-      return InvestmentProjectErrors.InvalidStatusTransition;
 
-    Status = InvestmentProjectStatus.Funding;
-    return Result.Updated;
-}
 
-public Result<Updated> MarkAsFunded()
-{
-    if (Status != InvestmentProjectStatus.Funding)
-        return InvestmentProjectErrors.InvalidStatusTransition;
 
-     if (AmountCollected < RequiredAmount)
-        return InvestmentProjectErrors.InsufficientCollectedAmount;
-
-    Status = InvestmentProjectStatus.Funded;
-    return Result.Updated;
-}
 public Result<Updated> StartProgress()
 {
     if (Status != InvestmentProjectStatus.Funded)
@@ -267,8 +250,7 @@ public Result<Updated> Complete(decimal actualRevenue, decimal actualCost)
 }
 public Result<Updated> Cancel()
 {
-    if (Status != InvestmentProjectStatus.Pending &&
-        Status != InvestmentProjectStatus.Funding)
+    if (Status != InvestmentProjectStatus.Funding)
     {
         return InvestmentProjectErrors.InvalidStatusTransition;
     }
@@ -276,14 +258,7 @@ public Result<Updated> Cancel()
     Status = InvestmentProjectStatus.Cancelled;
     return Result.Updated;
 }
-public Result<Updated> Reject()
-{
-    if (Status != InvestmentProjectStatus.Pending)
-        return InvestmentProjectErrors.InvalidStatusTransition;
 
-    Status = InvestmentProjectStatus.Rejected;
-    return Result.Updated;
-}
     
 public Result<Updated> AddContribution(InvestorContribution contribution)
     {
@@ -299,5 +274,26 @@ public Result<Updated> AddContribution(InvestorContribution contribution)
         _contributions.Add(contribution);
         return Result.Updated;
     }
+
+    public Result<Updated> ProcessPaymentForContribution(Guid contributionId)
+{
+    if (Status != InvestmentProjectStatus.Funding)
+        return InvestmentProjectErrors.ProjectNotOpenForFunding;
+
+    var contribution = _contributions.FirstOrDefault(c => c.Id == contributionId);
+    if (contribution == null)
+        return InvestorContributionErrors.NotFound;
+
+    var paymentResult = contribution.ConfirmPayment();
+    if (paymentResult.IsError)
+        return paymentResult;
+
+    if (AmountCollected >= RequiredAmount)
+    {
+        Status = InvestmentProjectStatus.Funded;
+    }
+
+    return Result.Updated;
+}
 
 }

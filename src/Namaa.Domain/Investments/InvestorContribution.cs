@@ -69,13 +69,32 @@ public sealed class InvestorContribution:AuditableEntity
 
     public Result<Updated> SetProfitAmount(decimal profitAmount)
     {
-        if (Status != ContributionStatus.Approved)
-            return InvestorContributionErrors.InvalidStatusTransition;
+        
+        if (Status != ContributionStatus.Paid)
+         return InvestorContributionErrors.InvalidStatusTransition;
 
         if (profitAmount < 0)
-            return InvestorContributionErrors.InvalidProfitAmount;
+         return InvestorContributionErrors.InvalidProfitAmount;
 
         ProfitAmount = profitAmount;
+        return Result.Updated;
+    }
+
+    public Result<Updated> ConfirmPayment()
+    {
+        if (Status != ContributionStatus.Approved)
+        return InvestorContributionErrors.InvalidStatusTransition;
+
+        Status = ContributionStatus.Paid;
+        return Result.Updated;
+    }
+
+    public Result<Updated> Withdraw()
+    {
+        if (Status != ContributionStatus.Pending)
+        return InvestorContributionErrors.InvalidStatusTransition;
+
+        Status = ContributionStatus.Withdrawn;
         return Result.Updated;
     }
 
