@@ -421,6 +421,9 @@ This project was developed as a collaborative graduation engineering project.
 ### 👨‍💻 Anas Haj Mohammad
 **Software Engineer**
 
+GitHub:
+https://github.com/Anas-Bdev
+
 Responsibilities:
 
 - Backend Architecture Design
