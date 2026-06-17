@@ -9,6 +9,7 @@ using System.Text.Json;
 using OpenAI.Chat;
 using Microsoft.Extensions.Configuration;
 using Namaa.Application.Common.Models;
+using Namaa.Application.Features.Consultations.Dtos;
 
 public class OpenAiConsultantService(IConfiguration configuration) : IAiConsultantService
 {
@@ -29,7 +30,7 @@ public class OpenAiConsultantService(IConfiguration configuration) : IAiConsulta
         return ParseAiResponse(result.Value.Content[0].Text);
     }
 
-    public async Task<string> GeneratePrimaryAdviceAsync(string title, string description, string? imageUrl, CancellationToken cancellationToken)
+    public async Task<AiPrimaryAdviceDto> GeneratePrimaryAdviceAsync(string title, string description, string? imageUrl, CancellationToken cancellationToken)
     {
         var chatClient = new ChatClient("gpt-5.4-mini", _apiKey);
 
@@ -41,8 +42,16 @@ Your objective:
 - Analyze the title and description provided by the farmer.
 - If an image is provided, carefully inspect the plant leaves, soil, or fruit for visible symptoms of disease, pests, or nutrient deficiency.
 - Provide immediate, practical, and safe first-aid agricultural advice.
-- Keep the tone encouraging, professional, and accessible.
-- Format the response using clean Markdown with bullet points for readability. Do NOT use JSON.";
+
+CRITICAL INSTRUCTION: You MUST respond ONLY with a valid JSON object. Do not include any markdown formatting like ```json or conversational text. 
+The JSON object MUST strictly match the following keys exactly:
+{
+    ""Diagnosis"": ""<A brief, clear summary of the issue>"",
+    ""ActionPlan"": [""<Step 1>"", ""<Step 2>""],
+    ""TreatmentRecommendations"": ""<Specific chemical, biological, or organic treatments>"",
+    ""PreventativeMeasures"": ""<Long-term advice to prevent recurrence>"",
+    ""UrgencyLevel"": ""<Must be one of: Low, Medium, High, Critical>""
+}";
 
     var messages = new List<ChatMessage>
     {
@@ -61,11 +70,29 @@ Your objective:
 
     messages.Add(new UserChatMessage(userContentParts));
 
-    var options = new ChatCompletionOptions();
+    var options = new ChatCompletionOptions
+        {
+            ResponseFormat = ChatResponseFormat.CreateJsonObjectFormat()
+        };
 
     ClientResult<ChatCompletion> result = await chatClient.CompleteChatAsync(messages, options, cancellationToken);
 
-    return result.Value.Content[0].Text;
+    string jsonResponse = result.Value.Content[0].Text;
+
+    var optionsJson = new JsonSerializerOptions 
+        { 
+            PropertyNameCaseInsensitive = true 
+        };
+
+    var dto = JsonSerializer.Deserialize<AiPrimaryAdviceDto>(jsonResponse, optionsJson);
+
+    if (dto is null)
+        {
+            throw new InvalidOperationException("The AI Service failed to return a valid structured response.");
+        }
+
+    return dto;
+    
     }
 
     private string BuildSystemPrompt(GetCropRecommendationQuery request, List<CropRecommendationDto> topCrops)
