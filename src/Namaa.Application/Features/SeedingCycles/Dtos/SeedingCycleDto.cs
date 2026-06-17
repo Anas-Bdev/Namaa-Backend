@@ -1,3 +1,4 @@
+using Namaa.Domain.Enums;
 using Namaa.Domain.SeedingCycles;
 
 namespace Namaa.Application.Features.SeedingCycles.Dtos;
@@ -15,4 +16,5 @@ public class SeedingCycleDto
     public double SeedingArea {get;set;}
     public double ExpectedYield {get;set;}
     public double? ActualYield {get;set;}
+    public EnvironmentType EnvironmentType {get;set;}
 }

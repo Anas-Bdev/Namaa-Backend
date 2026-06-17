@@ -12,8 +12,6 @@ public sealed record CreateLandCommand(
     double AreaDonum,
     int CityId,
     int SoilId,
-    IrrigationMethod IrrigationMethod,
     WaterSourceType WaterSourceType,
-    WaterAvailability WaterAvailability,
-    EnvironmentType EnvironmentType
+    WaterAvailability WaterAvailability
 ) : IRequest<Result<LandDto>>;

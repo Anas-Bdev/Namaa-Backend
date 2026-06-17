@@ -28,11 +28,6 @@ public class CreateLandRequest
     [Required(ErrorMessage = "Water availability is required.")]
     public WaterAvailability? WaterAvailability { get; init; }
     
-    [Required(ErrorMessage ="Irrigation Method is required.")]
-    public IrrigationMethod? IrrigationMethod { get; init; }
-
-    [Required(ErrorMessage = "Environment type is required.")]
-    public EnvironmentType? EnvironmentType { get; init; }
 
     // 1. Added the new property with strict data annotations
     [Required(ErrorMessage = "Address details are required.")]
@@ -49,11 +44,8 @@ public class CreateLandRequest
          AreaDonum,
          CityId,
          SoilId,
-         IrrigationMethod!.Value,
          WaterSourceType!.Value,
-         WaterAvailability!.Value,
-         EnvironmentType!.Value
-
+         WaterAvailability!.Value
         );
     }
 }

@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Namaa.Domain.Lands;
+using Namaa.Domain.Profiles.Farmer;
 using Namaa.Infrastructure.Identity;
 
 namespace Namaa.Infrastructure.Persistence.Configurations;
@@ -34,15 +35,6 @@ public class LandConfiguration : IEntityTypeConfiguration<Land>
             .HasConversion<string>()
             .HasMaxLength(50);
 
-        builder.Property(l => l.EnvironmentType)
-            .IsRequired()
-            .HasConversion<string>()
-            .HasMaxLength(50);
-
-             builder.Property(l => l.IrrigationMethod)
-            .IsRequired()
-            .HasConversion<string>()
-            .HasMaxLength(50);
 
         builder.Property(l => l.GovernorateId)
             .IsRequired();
@@ -60,13 +52,13 @@ public class LandConfiguration : IEntityTypeConfiguration<Land>
                .HasForeignKey(l => l.GovernorateId)
                .OnDelete(DeleteBehavior.Restrict); // Important!
 
-        builder.HasOne<AppUser>()
+        builder.HasOne<FarmerProfile>()
             .WithMany()
             .HasForeignKey(l => l.FarmerId)
             .IsRequired()
             .OnDelete(DeleteBehavior.Restrict);
 
-            builder.Property(l => l.AddressDetail)
+        builder.Property(l => l.AddressDetail)
         .IsRequired()
         .HasMaxLength(250); // Limits the column size so it doesn't default to NVARCHAR(MAX)
 

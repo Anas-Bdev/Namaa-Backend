@@ -28,14 +28,10 @@ public class UpdateLandRequest
     [Required(ErrorMessage = "Water source type is required.")]
     public WaterSourceType? WaterSourceType { get; init; }
 
-    [Required(ErrorMessage ="Irrigation Method is required.")]
-    public IrrigationMethod? IrrigationMethod {get;init;}
-
     [Required(ErrorMessage = "Water availability is required.")]
     public WaterAvailability? WaterAvailability { get; init; }
 
-    [Required(ErrorMessage = "Environment type is required.")]
-    public EnvironmentType? EnvironmentType { get; init; }
+   
 
     public UpdateLandCommand ToCommand(Guid landId,Guid farmerId)
     {
@@ -47,10 +43,8 @@ public class UpdateLandRequest
             AreaDonum,
             CityId,
             SoilId,
-            IrrigationMethod!.Value,
             WaterSourceType!.Value,
-            WaterAvailability!.Value,
-            EnvironmentType!.Value
+            WaterAvailability!.Value
         );
     }
 }

@@ -29,6 +29,8 @@ public class SeedingCycleConfiguration : IEntityTypeConfiguration<SeedingCycle>
 
         builder.Property(sc => sc.Status).IsRequired().HasConversion<string>();
 
+        builder.Property(sc => sc.EnvironmentType).IsRequired().HasConversion<string>();
+
         builder.Property(sc => sc.SeedQuantity).IsRequired();
 
         builder.Property(sc => sc.SeedingArea).IsRequired();

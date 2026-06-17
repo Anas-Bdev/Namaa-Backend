@@ -2,6 +2,7 @@ namespace Namaa.Api.Contracts.Requests.SeedingCycles;
 using System;
 using System.ComponentModel.DataAnnotations;
 using Namaa.Application.Features.SeedingCycles.Commands.CreateSeedingCycle;
+using Namaa.Domain.Enums;
 using Namaa.Domain.SeedingCycles;
 
 public class CreateSeedingCycleRequest
@@ -33,6 +34,9 @@ public class CreateSeedingCycleRequest
     [Required(ErrorMessage = "Expected yield is required.")]
     [Range(0.01, 100000.0, ErrorMessage = "Expected yield must be greater than 0.")]
     public double ExpectedYield { get; init; }
+     
+    [Required(ErrorMessage ="Environment type is required")]
+    public EnvironmentType EnvironmentType {get;init;}
 
     public CreateSeedingCycleCommand ToCommand()
     {
@@ -44,7 +48,8 @@ public class CreateSeedingCycleRequest
             InitialStatus!.Value,
             SeedQuantity,
             SeedingArea,
-            ExpectedYield
+            ExpectedYield,
+            EnvironmentType
         );
     }
 }

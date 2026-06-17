@@ -19,8 +19,8 @@ public static class SeedingCycleMapper
             SeedingArea=entity.SeedingArea,
             ExpectedYield=entity.ExpectedYield,
             ActualYield=entity.ActualYield,
-            CropName=entity.Crop!.Name!
-
+            CropName=entity.Crop!.Name!,
+            EnvironmentType=entity.EnvironmentType
         };
     }
 

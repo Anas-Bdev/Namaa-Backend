@@ -19,8 +19,6 @@ public static class LandMapper
             SoilTypeId=entity.SoilType!.Id,
             WaterSourceType=entity.WaterSourceType,
             WaterAvailability=entity.WaterAvailability,
-            EnvironmentType=entity.EnvironmentType,
-            IrrigationMethod=entity.IrrigationMethod,
             AddressDetail=entity.AddressDetail!
 
         };

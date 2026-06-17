@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using Namaa.Application.Features.SeedingCycles.Commands.UpdateSeedingCycle;
+using Namaa.Domain.Enums;
 
 namespace Namaa.Api.Contracts.Requests.SeedingCycles;
 public class UpdateSeedingCycleRequest
@@ -22,6 +23,10 @@ public class UpdateSeedingCycleRequest
     [Range(0.01, 100000.0, ErrorMessage = "Expected yield must be greater than 0.")]
     public double ExpectedYield { get; init; }
 
+     
+    [Required(ErrorMessage ="Environment type is required")]
+    public EnvironmentType EnvironmentType {get;init;}
+
     public UpdateSeedingCycleCommand ToCommand(Guid id)
     {
         return new UpdateSeedingCycleCommand(
@@ -30,7 +35,8 @@ public class UpdateSeedingCycleRequest
             EstimatedHarvestDate,
             SeedQuantity,
             SeedingArea,
-            ExpectedYield
+            ExpectedYield,
+            EnvironmentType
         );
     }
 }

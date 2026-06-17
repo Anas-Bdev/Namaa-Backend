@@ -42,8 +42,6 @@ public sealed class CreateLandCommandValidator : AbstractValidator<CreateLandCom
             .IsInEnum()
             .WithMessage("Invalid water availability selected.");
 
-        RuleFor(x => x.EnvironmentType)
-            .IsInEnum()
-            .WithMessage("Invalid environment type selected.");
+       
     }
 }

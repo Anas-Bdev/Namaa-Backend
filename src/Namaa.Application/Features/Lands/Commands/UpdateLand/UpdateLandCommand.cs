@@ -11,8 +11,6 @@ public sealed record UpdateLandCommand(
     double AreaDonum,
     int CityId,
     int SoilId,
-    IrrigationMethod IrrigationMethod,
     WaterSourceType WaterSourceType,
-    WaterAvailability WaterAvailability,
-    EnvironmentType EnvironmentType
+    WaterAvailability WaterAvailability
 ) : IRequest<Result<Updated>>;
