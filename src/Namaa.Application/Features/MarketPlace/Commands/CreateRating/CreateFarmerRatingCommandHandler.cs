@@ -1,5 +1,6 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Hybrid;
 using Namaa.Application.Common.Errors;
 using Namaa.Application.Common.Interfaces;
 using Namaa.Application.Features.MarketPlace.Dtos;
@@ -10,7 +11,7 @@ using Namaa.Domain.MarketPlace;
 
 namespace Namaa.Application.Features.MarketPlace.Commands.CreateRating;
 
-public class CreateFarmerRatingCommandHandler(IAppDbContext context,IIdentityService identityService) : IRequestHandler<CreateFarmerRatingCommand, Result<FarmerRatingDto>>
+public class CreateFarmerRatingCommandHandler(IAppDbContext context,IIdentityService identityService,HybridCache cache) : IRequestHandler<CreateFarmerRatingCommand, Result<FarmerRatingDto>>
 {
     public async Task<Result<FarmerRatingDto>> Handle(CreateFarmerRatingCommand request, CancellationToken cancellationToken)
     {
@@ -42,6 +43,7 @@ public class CreateFarmerRatingCommandHandler(IAppDbContext context,IIdentitySer
         context.FarmerRatings.Add(ratingResult.Value);
         await context.SaveChangesAsync(cancellationToken);
         string reviewerName=await identityService.GetUserNameAsync(order.TraderId.ToString()) ?? string.Empty;
+        await cache.RemoveByTagAsync($"farmer:{listing.FarmerId}:ratings", cancellationToken);
         return ratingResult.Value.ToDto(reviewerName);
     }
 }

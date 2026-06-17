@@ -24,4 +24,7 @@ public static class InvestorContributionErrors
     Error.Validation(
         "InvestorContribution_Amount_BelowMinimumInvestment",
         "Contribution amount cannot be less than the minimum investment.");
+
+    public static readonly Error NotFound =
+        Error.NotFound("InvestorContribution_NotFound", "The specified investor contribution was not found.");
 }

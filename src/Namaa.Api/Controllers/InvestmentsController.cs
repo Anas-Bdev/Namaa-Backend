@@ -4,22 +4,21 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Namaa.Api.Contracts.Requests.Investments;
 using Namaa.Api.Extensions;
-using Namaa.Application.Features.Investments.Commands.ApproveInvestmentProject;
 using Namaa.Application.Features.Investments.Commands.ApproveInvestorContribution;
 using Namaa.Application.Features.Investments.Commands.CancelInvestmentProject;
 using Namaa.Application.Features.Investments.Commands.CompleteInvestmentProject;
+using Namaa.Application.Features.Investments.Commands.ConfirmContributionPayment;
 using Namaa.Application.Features.Investments.Commands.CreateInvestmentProject;
 using Namaa.Application.Features.Investments.Commands.CreateInvestorContribution;
-using Namaa.Application.Features.Investments.Commands.RejectInvestmentProject;
 using Namaa.Application.Features.Investments.Commands.RejectInvestorContribution;
 using Namaa.Application.Features.Investments.Commands.StartInvestmentProject;
 using Namaa.Application.Features.Investments.Commands.UpdateInvestmentProject;
 using Namaa.Application.Features.Investments.Commands.UploadInvestmentProjectImage;
+using Namaa.Application.Features.Investments.Commands.WithdrawInvestorContribution;
 using Namaa.Application.Features.Investments.Queries.GetFundingInvestmentProjects;
 using Namaa.Application.Features.Investments.Queries.GetInvestmentProjectById;
 using Namaa.Application.Features.Investments.Queries.GetMyInvestmentProjects;
 using Namaa.Application.Features.Investments.Queries.GetMyInvestorContributions;
-using Namaa.Application.Features.Investments.Queries.GetPendingInvestmentProjects;
 using Namaa.Domain.Common.Constants;
 
 namespace Namaa.Api.Controllers;
@@ -45,13 +44,7 @@ public class InvestmentsController(ISender sender) : ControllerBase
         return result.Match(response => Ok(response), errors => this.ToProblem(errors));
     }
 
-      [HttpGet("projects/pending")]
-    [Authorize(Roles = AppRoles.Admin)]
-    public async Task<IActionResult> GetPending(CancellationToken cancellationToken)
-    {
-        var result = await sender.Send(new GetPendingInvestmentProjectsQuery(), cancellationToken);
-        return result.Match(response => Ok(response), errors => this.ToProblem(errors));
-    }
+      
 
     [HttpGet("projects/funding")]
     [Authorize(Roles = AppRoles.Investor)]
@@ -111,21 +104,9 @@ public class InvestmentsController(ISender sender) : ControllerBase
         return result.Match(_ => NoContent(), errors => this.ToProblem(errors));
     }
 
-    [HttpPut("projects/{id:guid}/approve")]
-    [Authorize(Roles = AppRoles.Admin)]
-    public async Task<IActionResult> Approve(Guid id, CancellationToken cancellationToken)
-    {
-        var result = await sender.Send(new ApproveInvestmentProjectCommand(id), cancellationToken);
-        return result.Match(_ => NoContent(), errors => this.ToProblem(errors));
-    }
+  
 
-     [HttpPut("projects/{id:guid}/reject")]
-    [Authorize(Roles = AppRoles.Admin)]
-    public async Task<IActionResult> Reject(Guid id, CancellationToken cancellationToken)
-    {
-        var result = await sender.Send(new RejectInvestmentProjectCommand(id), cancellationToken);
-        return result.Match(_ => NoContent(), errors => this.ToProblem(errors));
-    }
+     
 
     [HttpPut("projects/{id:guid}/cancel")]
     [Authorize(Roles = AppRoles.Farmer)]
@@ -199,6 +180,26 @@ public class InvestmentsController(ISender sender) : ControllerBase
     public async Task<IActionResult> RejectContribution(Guid id, CancellationToken cancellationToken)
     {
         var result = await sender.Send(new RejectInvestorContributionCommand(id), cancellationToken);
+        return result.Match(_ => NoContent(), errors => this.ToProblem(errors));
+    }
+
+    [HttpPut("projects/{projectId:guid}/contributions/{contributionId:guid}/withdraw")]
+    [Authorize(Roles = AppRoles.Investor)]
+    public async Task<IActionResult> WithdrawContribution(Guid projectId, Guid contributionId, CancellationToken cancellationToken)
+    {
+        var command = new WithdrawInvestorContributionCommand(projectId, contributionId, UserId);
+        var result = await sender.Send(command, cancellationToken);
+        
+        return result.Match(_ => NoContent(), errors => this.ToProblem(errors));
+    }
+
+    [HttpPut("projects/{projectId:guid}/contributions/{contributionId:guid}/confirm-payment")]
+    [Authorize(Roles = AppRoles.Investor)]
+    public async Task<IActionResult> ConfirmContributionPayment(Guid projectId, Guid contributionId, CancellationToken cancellationToken)
+    {
+        var command = new ConfirmContributionPaymentCommand(projectId, contributionId);
+        var result = await sender.Send(command, cancellationToken);
+        
         return result.Match(_ => NoContent(), errors => this.ToProblem(errors));
     }
 

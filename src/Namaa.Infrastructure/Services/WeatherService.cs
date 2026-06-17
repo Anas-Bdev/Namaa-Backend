@@ -24,13 +24,40 @@ public class WeatherService(IConfiguration configuration,HttpClient httpClient) 
             return dto;
     }
 
+    public async Task<List<ForecastIntervalDto>> GetWeatherForecastAsync(double latitude, double longitude, CancellationToken cancellationToken)
+    {
+        var apiKey = configuration["WeatherApi:OpenWeatherMapKey"];
+        var url = $"https://api.openweathermap.org/data/2.5/forecast?lat={latitude}&lon={longitude}&units=metric&appid={apiKey}";
+        var response = await httpClient.GetFromJsonAsync<OpenWeatherForecastResponse>(url, cancellationToken);
+        if (response?.List == null)
+        return new List<ForecastIntervalDto>();
 
+        return response.List.Select(item => new ForecastIntervalDto
+        {
+            ForecastTime = DateTimeOffset.FromUnixTimeSeconds(item.Dt).UtcDateTime,
+            TemperatureCelsius = item.Main.Temp,
+            ConditionText = item.Weather.FirstOrDefault()?.Description ?? string.Empty
+        }).ToList();
+    }
+    
 
     private class OpenWeatherResponse
     {
         public MainData Main { get; set; } = default!;
         public WeatherData[] Weather { get; set; } = Array.Empty<WeatherData>();
         public WindData Wind {get;set;}=default!;
+    }
+
+    private class OpenWeatherForecastResponse
+    {
+        public List<ForecastItem> List { get; set; } = new();
+    }
+
+    private class ForecastItem
+    {
+        public long Dt { get; set; }
+        public MainData Main { get; set; } = default!;
+        public WeatherData[] Weather { get; set; } = Array.Empty<WeatherData>();
     }
 
     private class MainData 

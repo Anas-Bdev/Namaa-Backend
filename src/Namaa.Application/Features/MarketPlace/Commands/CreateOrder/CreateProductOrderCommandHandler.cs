@@ -1,5 +1,6 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Hybrid;
 using Namaa.Application.Common.Errors;
 using Namaa.Application.Common.Interfaces;
 using Namaa.Application.Features.MarketPlace.Dtos;
@@ -11,7 +12,7 @@ using Namaa.Domain.MarketPlace;
 
 namespace Namaa.Application.Features.MarketPlace.Commands.CreateOrder;
 
-public class CreateProductOrderCommandHandler(IAppDbContext context) : IRequestHandler<CreateProductOrderCommand, Result<ProductOrderDto>>
+public class CreateProductOrderCommandHandler(IAppDbContext context,HybridCache cache) : IRequestHandler<CreateProductOrderCommand, Result<ProductOrderDto>>
 {
     public async Task<Result<ProductOrderDto>> Handle(CreateProductOrderCommand request, CancellationToken cancellationToken)
     {
@@ -47,6 +48,7 @@ public class CreateProductOrderCommandHandler(IAppDbContext context) : IRequestH
         var order = orderResult.Value;
         context.ProductOrders.Add(order);
         await context.SaveChangesAsync(cancellationToken);
+        await cache.RemoveByTagAsync("listings",cancellationToken);
         return order.ToDto();
     }
 }

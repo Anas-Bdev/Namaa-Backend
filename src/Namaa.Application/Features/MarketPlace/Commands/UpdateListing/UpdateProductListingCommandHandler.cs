@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.Extensions.Caching.Hybrid;
 using Namaa.Application.Common.Errors;
 using Namaa.Application.Common.Interfaces;
 using Namaa.Domain.Common.Results;
@@ -6,7 +7,7 @@ using Namaa.Domain.MarketPlace;
 
 namespace Namaa.Application.Features.MarketPlace.Commands.UpdateListing;
 
-public class UpdateProductListingCommandHandler(IAppDbContext context) : IRequestHandler<UpdateProductListingCommand, Result<Updated>>
+public class UpdateProductListingCommandHandler(IAppDbContext context,HybridCache cache) : IRequestHandler<UpdateProductListingCommand, Result<Updated>>
 {
     public async Task<Result<Updated>> Handle(UpdateProductListingCommand request, CancellationToken cancellationToken)
     {
@@ -29,6 +30,7 @@ public class UpdateProductListingCommandHandler(IAppDbContext context) : IReques
         if(updateResult.IsError)
         return updateResult.Errors;
         await context.SaveChangesAsync(cancellationToken);
+        await cache.RemoveByTagAsync("listings",cancellationToken);
         return Result.Updated;
     }
 }

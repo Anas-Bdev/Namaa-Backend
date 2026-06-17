@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using MediatR;
 using Microsoft.AspNetCore.Mvc.Diagnostics;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Hybrid;
 using Namaa.Application.Common.Errors;
 using Namaa.Application.Common.Interfaces;
 using Namaa.Application.Features.MarketPlace.Dtos;
@@ -11,7 +12,7 @@ using Namaa.Domain.MarketPlace;
 
 namespace Namaa.Application.Features.MarketPlace.Commands.CreateListing;
 
-public class CreateProductListingCommandHandler(IAppDbContext context) : IRequestHandler<CreateProductListingCommand, Result<ProductListingDto>>
+public class CreateProductListingCommandHandler(IAppDbContext context,HybridCache cache) : IRequestHandler<CreateProductListingCommand, Result<ProductListingDto>>
 {
     public async Task<Result<ProductListingDto>> Handle(CreateProductListingCommand request, CancellationToken cancellationToken)
     {
@@ -40,6 +41,7 @@ public class CreateProductListingCommandHandler(IAppDbContext context) : IReques
          return listingResult.Errors;
          context.ProductListings.Add(listingResult.Value);
          await context.SaveChangesAsync(cancellationToken);
+         await cache.RemoveByTagAsync("listings",cancellationToken);
         return listingResult.Value.ToDto(cropName);
         
     }

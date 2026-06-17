@@ -1103,6 +1103,87 @@ namespace Namaa.Infrastructure.Persistence.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Namaa.Domain.Consultations.ConsultationMessage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ConsultationRequestId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)");
+
+                    b.Property<DateTimeOffset>("CreatedAtUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("text");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset>("LastModifiedUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("SenderId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ConsultationRequestId");
+
+                    b.ToTable("ConsultationMessages", (string)null);
+                });
+
+            modelBuilder.Entity("Namaa.Domain.Consultations.ConsultationRequest", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset>("CreatedAtUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid?>("ExpertId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("FarmerId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("text");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset>("LastModifiedUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ConsultationRequests", (string)null);
+                });
+
             modelBuilder.Entity("Namaa.Domain.Identity.RefreshToken", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1488,6 +1569,9 @@ namespace Namaa.Infrastructure.Persistence.Migrations
                     b.Property<string>("DeliveryNotes")
                         .HasMaxLength(1000)
                         .HasColumnType("character varying(1000)");
+
+                    b.Property<DateTime?>("EstimatedArrivalDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("text");
@@ -4610,6 +4694,15 @@ namespace Namaa.Infrastructure.Persistence.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Namaa.Domain.Consultations.ConsultationMessage", b =>
+                {
+                    b.HasOne("Namaa.Domain.Consultations.ConsultationRequest", null)
+                        .WithMany("Messages")
+                        .HasForeignKey("ConsultationRequestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Namaa.Domain.Identity.RefreshToken", b =>
                 {
                     b.HasOne("Namaa.Infrastructure.Identity.AppUser", null)
@@ -4877,6 +4970,11 @@ namespace Namaa.Infrastructure.Persistence.Migrations
                     b.Navigation("Crop");
 
                     b.Navigation("Land");
+                });
+
+            modelBuilder.Entity("Namaa.Domain.Consultations.ConsultationRequest", b =>
+                {
+                    b.Navigation("Messages");
                 });
 
             modelBuilder.Entity("Namaa.Domain.Investments.InvestmentProject", b =>

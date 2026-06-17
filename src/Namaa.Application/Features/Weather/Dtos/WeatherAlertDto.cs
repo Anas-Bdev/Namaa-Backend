@@ -8,4 +8,6 @@ public class WeatherAlertDto
     public decimal MaxTolerableTemp {get;set;}
     public decimal MinTolerableTemp {get;set;}
     public string AlertMessage {get;set;}=string.Empty;
+    public DateTime AlertTime { get; set; }
+    public string AlertType { get; set; } = string.Empty; 
 }

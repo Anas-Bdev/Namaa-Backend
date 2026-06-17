@@ -73,4 +73,7 @@ public static class InvestmentProjectErrors
     Error.Validation(
         "InvestmentProject_NotOpenForFunding",
         "The project is not open for funding.");
+
+    public static readonly Error NotFound =
+    Error.NotFound("InvestmentProject_NotFound", "The specified investment project was not found.");
 }
