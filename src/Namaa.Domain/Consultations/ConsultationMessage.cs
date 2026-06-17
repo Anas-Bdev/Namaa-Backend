@@ -18,7 +18,7 @@ public sealed class ConsultationMessage : AuditableEntity
             Content = content;
     }
 
-    internal static ConsultationMessage Create(Guid requestId, Guid senderId, string content)
+    public static ConsultationMessage Create(Guid requestId, Guid senderId, string content)
     {
            
             
