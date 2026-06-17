@@ -9,17 +9,16 @@ public static class SeedingCycleMapper
         return new SeedingCycleDto
         {
             SeedingCycleId=entity.Id,
-            CropId=entity.CropId,
             LandId=entity.LandId,
             StartDate=entity.StartDate,
             EstimatedHarvestDate=entity.EstimatedHarvestDate,
             ActualHarvestDate=entity.ActualHarvestDate,
             Status=entity.Status,
-            SeedQuantity=entity.SeedQuantity,
-            SeedingArea=entity.SeedingArea,
-            ExpectedYield=entity.ExpectedYield,
-            ActualYield=entity.ActualYield,
-            CropName=entity.Crop!.Name!,
+            SeedQuantity=entity.SeedQuantityKg,
+            SeedingArea=entity.SeedingAreaDunums,
+            ExpectedYield=entity.ExpectedYieldKg,
+            ActualYield=entity.ActualYieldKg,
+            CropName=entity.CropName,
             EnvironmentType=entity.EnvironmentType
         };
     }

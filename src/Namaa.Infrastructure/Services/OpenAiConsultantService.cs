@@ -109,6 +109,46 @@ The JSON object MUST strictly match the following keys exactly:
     
     }
 
+    public async Task<CropThresholds> GetCropTemperatureLimitsAsync(string cropName, CancellationToken cancellationToken)
+    {
+        var chatClient = new ChatClient("gpt-5.4-mini", _apiKey);
+
+    string prompt = $@"
+        You are a botanical expert for the NAMA'A agricultural platform.
+        Provide the safe minimum and maximum temperature limits in Celsius for growing {cropName}.
+        
+        Return ONLY a valid JSON object in this exact format:
+        {{
+            ""minTemp"": 0.0,
+            ""maxTemp"": 0.0
+        }}
+        Do not include any markdown, explanations, or additional text.";
+
+    var messages = new List<ChatMessage> { new UserChatMessage(prompt) };
+    
+    var options = new ChatCompletionOptions 
+    { 
+        ResponseFormat = ChatResponseFormat.CreateJsonObjectFormat() 
+    };
+
+    ClientResult<ChatCompletion> result = await chatClient.CompleteChatAsync(messages, options, cancellationToken);
+    
+    string jsonResponse = result.Value.Content[0].Text;
+
+    var optionsJson = new JsonSerializerOptions 
+    { 
+        PropertyNameCaseInsensitive = true 
+    };
+
+    var thresholds = JsonSerializer.Deserialize<CropThresholds>(jsonResponse, optionsJson);
+
+    return thresholds ?? new CropThresholds
+    {
+        MaxTemp=40.0m,
+        MinTemp=0.0m
+    };
+    }
+
     private string BuildSystemPrompt(GetCropRecommendationQuery request, List<CropRecommendationDto> topCrops)
     {
         string cityName = request.GovernorateId switch

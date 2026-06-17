@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Namaa.Application.Common.Interfaces;
+using Namaa.Application.Common.Models;
 using Namaa.Application.Features.Weather.Dtos;
 using Namaa.Domain.Common.Results;
 using Namaa.Domain.Enums;
@@ -8,21 +9,28 @@ using Namaa.Domain.SeedingCycles;
 
 namespace Namaa.Application.Features.Weather.Queries.GetWeatherAlerts;
 
-public class GetWeatherAlertsQueryHandler(IAppDbContext context, IWeatherService weatherService) : IRequestHandler<GetWeatherAlertsQuery, Result<List<WeatherAlertDto>>>
+public class GetWeatherAlertsQueryHandler(IAppDbContext context, IWeatherService weatherService, IAiConsultantService aiConsultantService) : IRequestHandler<GetWeatherAlertsQuery, Result<List<WeatherAlertDto>>>
 {
     public async Task<Result<List<WeatherAlertDto>>> Handle(GetWeatherAlertsQuery request, CancellationToken cancellationToken)
     {
         var vulnerableCycles = await context.SeedingCycles
             .AsNoTracking()
             .Include(sc => sc.Land)
-            .Include(sc => sc.Crop)
-            .Where(sc => sc.Land!.FarmerId == request.FarmerId)          
-            .Where(sc => sc.Status == CycleStatus.Active)                      
-            .Where(sc => sc.EnvironmentType==EnvironmentType.OpenField)                 
+            .Where(sc => sc.Land!.FarmerId == request.FarmerId)
+            .Where(sc => sc.Status == CycleStatus.Active)
+            .Where(sc => sc.EnvironmentType == EnvironmentType.OpenField)
             .ToListAsync(cancellationToken);
 
         if (!vulnerableCycles.Any())
             return new List<WeatherAlertDto>();
+
+        var uniqueCropNames = vulnerableCycles.Select(sc => sc.CropName).Distinct();
+        var thresholdCache = new Dictionary<string, CropThresholds>();
+
+        foreach (var cropName in uniqueCropNames)
+        {
+            thresholdCache[cropName] = await aiConsultantService.GetCropTemperatureLimitsAsync(cropName, cancellationToken);
+        }
 
         var alerts = new List<WeatherAlertDto>();
         var uniqueLands = vulnerableCycles.Select(sc => sc.Land).DistinctBy(l => l!.Id).ToList();
@@ -38,16 +46,20 @@ public class GetWeatherAlertsQueryHandler(IAppDbContext context, IWeatherService
         foreach (var result in weatherResults)
         {
             var land = result.Land;
-            var next24HoursForecast = result.Forecast
-                .Where(f => f.ForecastTime <= DateTime.UtcNow.AddDays(1))
+            var next72HoursForecast = result.Forecast
+                .Where(f => f.ForecastTime <= DateTime.UtcNow.AddDays(3))
                 .ToList();
 
-            var cropsOnThisLand = vulnerableCycles.Where(sc => sc.LandId == land.Id).ToList();            
+            var cropsOnThisLand = vulnerableCycles.Where(sc => sc.LandId == land.Id).ToList();
+            
             foreach (var cycle in cropsOnThisLand)
             {
-                var dangerousInterval = next24HoursForecast
-                    .FirstOrDefault(f => (decimal)f.TemperatureCelsius > cycle.Crop!.MaxTemperature 
-                                      || (decimal)f.TemperatureCelsius < cycle.Crop!.MinTemperature);
+                var thresholds = thresholdCache[cycle.CropName];
+                
+                var dangerousInterval = next72HoursForecast
+                    .OrderBy(f => Math.Abs((decimal)f.TemperatureCelsius - (thresholds.MaxTemp + thresholds.MinTemp) / 2))
+                    .FirstOrDefault(f => (decimal)f.TemperatureCelsius > thresholds.MaxTemp 
+                                      || (decimal)f.TemperatureCelsius < thresholds.MinTemp);
 
                 if (dangerousInterval != null)
                 {
@@ -57,16 +69,16 @@ public class GetWeatherAlertsQueryHandler(IAppDbContext context, IWeatherService
                     alerts.Add(new WeatherAlertDto
                     {
                         SeedingCycleId = cycle.Id,
-                        CropName = cycle.Crop!.Name!,
+                        CropName = cycle.CropName,
                         LandName = land.Name!,
-                        CurrentTemperature = predictedTemp, 
-                        MaxTolerableTemp = cycle.Crop.MaxTemperature,
-                        MinTolerableTemp = cycle.Crop.MinTemperature,
+                        CurrentTemperature = predictedTemp,
+                        MaxTolerableTemp = thresholds.MaxTemp,
+                        MinTolerableTemp = thresholds.MinTemp,
                         AlertTime = dangerousInterval.ForecastTime,
-                        AlertMessage = predictedTemp > cycle.Crop.MaxTemperature 
-                            ? $"PREDICTIVE HEAT WARNING: High temperatures ({predictedTemp}°C) are expected to exceed {cycle.Crop.Name}'s max limit on {localTimeDisplay}." 
-                            : $"PREDICTIVE FROST WARNING: Freezing risk ({predictedTemp}°C) is expected to fall below {cycle.Crop.Name}'s minimum on {localTimeDisplay}. Please apply crop shielding covers.",
-                        AlertType = predictedTemp > cycle.Crop.MaxTemperature ? "Heat" : "Frost"
+                        AlertMessage = predictedTemp > thresholds.MaxTemp
+                            ? $"PREDICTIVE HEAT WARNING: High temperatures ({predictedTemp}°C) are expected to exceed {cycle.CropName}'s max limit on {localTimeDisplay}."
+                            : $"PREDICTIVE FROST WARNING: Freezing risk ({predictedTemp}°C) is expected to fall below {cycle.CropName}'s minimum on {localTimeDisplay}. Please apply crop shielding covers.",
+                        AlertType = predictedTemp > thresholds.MaxTemp ? "Heat" : "Frost"
                     });
                 }
             }
