@@ -23,6 +23,9 @@ public class UpdateSeedingCycleRequest
     [Range(0.01, 100000.0, ErrorMessage = "Expected yield must be greater than 0.")]
     public double ExpectedYield { get; init; }
 
+    [Required(ErrorMessage = "Crop name is required.")]
+    public string CropName {get;init;}=default!;
+
      
     [Required(ErrorMessage ="Environment type is required")]
     public EnvironmentType EnvironmentType {get;init;}
@@ -31,6 +34,7 @@ public class UpdateSeedingCycleRequest
     {
         return new UpdateSeedingCycleCommand(
             id,
+            CropName,
             StartDate,
             EstimatedHarvestDate,
             SeedQuantity,

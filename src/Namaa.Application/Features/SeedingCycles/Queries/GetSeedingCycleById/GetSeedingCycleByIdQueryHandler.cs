@@ -14,7 +14,6 @@ public class GetSeedingCycleByIdQueryHandler(IAppDbContext context) : IRequestHa
     {
         var seedingCycle=await context.SeedingCycles.AsNoTracking()
         .Include(x => x.Land)
-        .Include(x => x.Crop)
         .FirstOrDefaultAsync(sc => sc.Id==request.Id,cancellationToken);
         if(seedingCycle is null)
         return ApplicationErrors.SeedingCycleNotFound;

@@ -17,7 +17,9 @@ public class SeedingCycleConfiguration : IEntityTypeConfiguration<SeedingCycle>
 
         builder.Property(sc => sc.LandId).IsRequired();
 
-        builder.Property(sc => sc.CropId).IsRequired();
+        builder.Property(sc => sc.CropName)
+       .IsRequired()
+       .HasMaxLength(100);
 
         builder.Property(sc => sc.StartDate).IsRequired();
 
@@ -25,27 +27,23 @@ public class SeedingCycleConfiguration : IEntityTypeConfiguration<SeedingCycle>
 
         builder.Property(sc => sc.ActualHarvestDate).IsRequired(false);
         
-        builder.Property(sc => sc.ActualYield).IsRequired(false);
+        builder.Property(sc => sc.ActualYieldKg).IsRequired(false);
 
         builder.Property(sc => sc.Status).IsRequired().HasConversion<string>();
 
         builder.Property(sc => sc.EnvironmentType).IsRequired().HasConversion<string>();
 
-        builder.Property(sc => sc.SeedQuantity).IsRequired();
+        builder.Property(sc => sc.SeedQuantityKg).IsRequired();
 
-        builder.Property(sc => sc.SeedingArea).IsRequired();
+        builder.Property(sc => sc.SeedingAreaDunums).IsRequired();
 
-        builder.Property(sc => sc.ExpectedYield).IsRequired();
+        builder.Property(sc => sc.ExpectedYieldKg).IsRequired();
 
         builder.HasOne(sc => sc.Land)
         .WithMany()
         .HasForeignKey(sc => sc.LandId)
         .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasOne(sc => sc.Crop)
-        .WithMany()
-        .HasForeignKey(sc => sc.CropId)
-        .OnDelete(DeleteBehavior.Restrict);
         
     }
 }
