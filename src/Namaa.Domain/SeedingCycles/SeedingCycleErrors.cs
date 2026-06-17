@@ -3,11 +3,11 @@ using Namaa.Domain.Common.Results;
 namespace Namaa.Domain.SeedingCycles;
 public static class SeedingCycleErrors
 {
-    public static readonly Error InvalidLandId = 
+        public static readonly Error InvalidLandId = 
             Error.Validation("SeedingCycle_LandId_Invalid", "The selected land identifier is empty or invalid.");
 
-        public static readonly Error InvalidCropId = 
-            Error.Validation("SeedingCycle_CropId_Invalid", "The selected crop identifier must be greater than zero.");
+        public static readonly Error CropNameRequired = 
+            Error.Validation("SeedingCycle_CropName_Required", "The crop name cannot be empty.");
 
         public static readonly Error PlannedCycleMustStartInFuture = 
             Error.Validation("SeedingCycle_StartDate_InvalidPlanned", "A planned seeding cycle cannot start in the past or today.");
@@ -29,10 +29,13 @@ public static class SeedingCycleErrors
 
         public static readonly Error InvalidExpectedYield = 
             Error.Validation("SeedingCycle_ExpectedYield_Invalid", "The expected yield must be greater than zero.");
+            
         public static readonly Error IdRequired = 
             Error.Validation("SeedingCycle_Id_Required", "SeedingCycle ID is required.");
+            
         public static readonly Error CycleIsLocked = 
             Error.Validation("SeedingCycle_Status_Locked", "Cannot update a cycle that is already harvested, failed, or cancelled.");
+            
         public static readonly Error CycleMustBeActiveToHarvest = 
             Error.Validation("SeedingCycle_Status_NotActiveToHarvest", "Only active seeding cycles can be harvested.");
 
@@ -41,6 +44,7 @@ public static class SeedingCycleErrors
     
         public static readonly Error InvalidActualYield = 
             Error.Validation("SeedingCycle_ActualYield_Invalid", "The actual yield cannot be a negative value.");
+            
         public static readonly Error CycleCannotBeCancelled = 
            Error.Validation("SeedingCycle_Status_CannotCancel", "Only planned cycles can be cancelled.");
 
@@ -48,6 +52,5 @@ public static class SeedingCycleErrors
           Error.Validation("SeedingCycle_Status_CannotFail", "Only active cycles can be marked as failed.");
 
         public static readonly Error CycleMustBePlannedToActivate = 
-        Error.Validation("SeedingCycle.InvalidState", "A seeding cycle must be in 'Planned' status to be activated.");    
-
-    }
+          Error.Validation("SeedingCycle.InvalidState", "A seeding cycle must be in 'Planned' status to be activated.");    
+}

@@ -5,4 +5,4 @@ using Namaa.Domain.Enums;
 using Namaa.Domain.SeedingCycles;
 
 namespace Namaa.Application.Features.SeedingCycles.Commands.CreateSeedingCycle;
-public sealed record CreateSeedingCycleCommand(Guid LandId,int CropId,DateTime StartDate,DateTime EstimatedHarvestDate,CycleStatus InitialStatus,double SeedQuantity,double SeedingArea,double ExpectedYield,EnvironmentType EnvironmentType):IRequest<Result<SeedingCycleDto>>;
+public sealed record CreateSeedingCycleCommand(Guid LandId,string CropName,DateTime StartDate,DateTime EstimatedHarvestDate,CycleStatus InitialStatus,double SeedQuantity,double SeedingArea,double ExpectedYield,EnvironmentType EnvironmentType):IRequest<Result<SeedingCycleDto>>;

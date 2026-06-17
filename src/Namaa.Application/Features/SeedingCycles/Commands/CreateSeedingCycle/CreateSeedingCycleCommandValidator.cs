@@ -3,11 +3,10 @@ namespace Namaa.Application.Features.SeedingCycles.Commands.CreateSeedingCycle;
 public sealed class CreateSeedingCycleCommandValidator : AbstractValidator<CreateSeedingCycleCommand>
 {
     public CreateSeedingCycleCommandValidator(){
-    RuleFor(x => x.LandId)
+
+       RuleFor(x => x.LandId)
             .NotEmpty().WithMessage("Land ID is required and cannot be empty.");
 
-        RuleFor(x => x.CropId)
-            .GreaterThan(0).WithMessage("A valid Crop ID is required.");
 
         RuleFor(x => x.StartDate)
             .NotEmpty().WithMessage("Start date is required.");
@@ -31,5 +30,9 @@ public sealed class CreateSeedingCycleCommandValidator : AbstractValidator<Creat
         RuleFor(x => x.EnvironmentType)
             .IsInEnum()
             .WithMessage("Invalid environment type.");
+
+        RuleFor(x => x.CropName)
+            .NotEmpty().WithMessage("The crop name is required.")
+            .MaximumLength(100).WithMessage("The crop name cannot exceed 100 characters.");
     }
 }

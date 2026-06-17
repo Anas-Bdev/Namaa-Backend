@@ -7,7 +7,6 @@ public class SeedingCycleDto
     public Guid SeedingCycleId {get;set;}
     public Guid LandId {get;set;}
     public string CropName {get;set;}=string.Empty;
-    public int CropId {get;set;}
     public DateTime StartDate {get;set;}
     public DateTime EstimatedHarvestDate {get;set;}
     public DateTime? ActualHarvestDate {get;set;}

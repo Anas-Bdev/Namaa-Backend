@@ -26,5 +26,9 @@ public class UpdateSeedingCycleCommandValidator : AbstractValidator<UpdateSeedin
         RuleFor(x => x.EnvironmentType)
           .IsInEnum()
           .WithMessage("Invalid environment type.");
+
+        RuleFor(x => x.CropName)
+         .NotEmpty().WithMessage("The crop name is required.")
+         .MaximumLength(100).WithMessage("The crop name cannot exceed 100 characters.");
     }
 }

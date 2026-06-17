@@ -8,5 +8,6 @@ public interface IAiConsultantService
 {
     Task<CropRecommendationAiResult> GenerateFarmerAdviceAsync(GetCropRecommendationQuery request,List<CropRecommendationDto> topCrops,CancellationToken cancellationToken);
     Task<AiPrimaryAdviceDto> GeneratePrimaryAdviceAsync(string title,string description,string? imageUrl,CancellationToken cancellationToken);
+    Task<CropThresholds> GetCropTemperatureLimitsAsync(string cropName, CancellationToken cancellationToken);
 }
 

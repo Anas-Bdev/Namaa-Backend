@@ -13,7 +13,6 @@ public class GetSeedingCyclesByLandIdQueryHandler(IAppDbContext context) : IRequ
     {
         var seedingCycles=await context.SeedingCycles.AsNoTracking().Where(sc => sc.LandId==request.LandId)
                                 .Include(x => x.Land)
-                                .Include(x => x.Crop)
                                 .OrderByDescending(sc => sc.StartDate).ToListAsync(cancellationToken);
         
         return seedingCycles.ToDtos();
