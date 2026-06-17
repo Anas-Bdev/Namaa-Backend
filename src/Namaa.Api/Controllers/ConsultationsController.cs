@@ -11,6 +11,7 @@ using Namaa.Application.Features.Consultations.Commands.UploadConsultationImage;
 using Namaa.Application.Features.Consultations.Queries.GetAiPrimaryAdvice;
 using Namaa.Application.Features.Consultations.Queries.GetAvailableConsultations;
 using Namaa.Application.Features.Consultations.Queries.GetConsultationDetails;
+using Namaa.Application.Features.Consultations.Queries.GetExpertConsultations;
 using Namaa.Application.Features.Consultations.Queries.GetFarmerConsultations;
 using Namaa.Domain.Common.Constants;
 
@@ -37,6 +38,14 @@ public class ConsultationsController(ISender sender) : ControllerBase
     public async Task<IActionResult> GetAvailableConsultations(CancellationToken ct)
     {
         var result = await sender.Send(new GetAvailableConsultationsQuery(), ct);
+        return result.Match(response => Ok(response), errors => this.ToProblem(errors));
+    }
+
+    [HttpGet("assigned")]
+    [Authorize(Roles = AppRoles.Expert)]
+    public async Task<IActionResult> GetAssignedConsultations(CancellationToken ct)
+    {
+        var result = await sender.Send(new GetExpertConsultationsQuery(UserId), ct);
         return result.Match(response => Ok(response), errors => this.ToProblem(errors));
     }
 
