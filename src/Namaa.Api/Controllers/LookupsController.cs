@@ -76,7 +76,7 @@ public class LookupsController(ISender sender) : ControllerBase
             .Select(e => new 
             { 
                 Id = Convert.ToInt32(e), 
-                Name = e.ToString() 
+                Name = e.ToSpacedName()
             });
     }
 }
