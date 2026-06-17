@@ -17,7 +17,7 @@ public class CreateSeedingCycleCommandHandler(IAppDbContext context) : IRequestH
       if(!landExists)
       return ApplicationErrors.LandNotFound;
 
-      var seedingCycleResult=SeedingCycle.Create(Guid.NewGuid(),request.LandId,request.CropId,request.StartDate,request.EstimatedHarvestDate,request.InitialStatus,request.SeedQuantity,request.SeedingArea,request.ExpectedYield);
+      var seedingCycleResult=SeedingCycle.Create(Guid.NewGuid(),request.LandId,request.CropId,request.StartDate,request.EstimatedHarvestDate,request.InitialStatus,request.SeedQuantity,request.SeedingArea,request.ExpectedYield,request.EnvironmentType);
 
       if(seedingCycleResult.IsError)
       return seedingCycleResult.Errors;

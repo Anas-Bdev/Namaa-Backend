@@ -12,8 +12,6 @@ public class LandDto
     public string GovernorateName {get;set;}=string.Empty;
     public string SoilTypeName {get;set;}=string.Empty;
     public WaterSourceType WaterSourceType {get;set;}
-    public IrrigationMethod IrrigationMethod {get;set;}
     public WaterAvailability WaterAvailability {get;set;}
-    public EnvironmentType EnvironmentType {get;set;}
 
 }

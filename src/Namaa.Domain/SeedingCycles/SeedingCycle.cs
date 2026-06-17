@@ -1,5 +1,6 @@
 using Namaa.Domain.Common;
 using Namaa.Domain.Common.Results;
+using Namaa.Domain.Enums;
 using Namaa.Domain.Lands;
 using Namaa.Domain.ReferenceData;
 
@@ -16,6 +17,7 @@ public sealed class SeedingCycle : AuditableEntity
     public double SeedQuantity {get;private set;}
     public double SeedingArea {get;private set;}
     public double ExpectedYield {get;private set;}
+    public EnvironmentType EnvironmentType {get;private set;}
     public double? ActualYield {get;private set;}
     public Land? Land {get;private set;}
 
@@ -29,7 +31,8 @@ public sealed class SeedingCycle : AuditableEntity
     CycleStatus status, 
     double seedQuantity, 
     double seedingArea, 
-    double expectedYield) :base(id)
+    double expectedYield,
+    EnvironmentType environmentType) :base(id)
 { 
     LandId = landId;
     CropId = cropId;
@@ -39,10 +42,11 @@ public sealed class SeedingCycle : AuditableEntity
     SeedQuantity = seedQuantity;
     SeedingArea = seedingArea;
     ExpectedYield = expectedYield;
+    EnvironmentType=environmentType;
 }
 
      
-    public static Result<SeedingCycle> Create(Guid id,Guid landId,int cropId,DateTime startDate,DateTime estimatedHarvestDate,CycleStatus initialStatus,double seedQuantity,double seedingArea,double expectedYield)
+    public static Result<SeedingCycle> Create(Guid id,Guid landId,int cropId,DateTime startDate,DateTime estimatedHarvestDate,CycleStatus initialStatus,double seedQuantity,double seedingArea,double expectedYield, EnvironmentType environmentType)
     {
         if(id==Guid.Empty)
         return SeedingCycleErrors.IdRequired;
@@ -76,11 +80,11 @@ public sealed class SeedingCycle : AuditableEntity
         if (expectedYield <= 0)
                 return SeedingCycleErrors.InvalidExpectedYield;
 
-     return new SeedingCycle(id,landId,cropId,startDate,estimatedHarvestDate,initialStatus,seedQuantity,seedingArea,expectedYield);
+     return new SeedingCycle(id,landId,cropId,startDate,estimatedHarvestDate,initialStatus,seedQuantity,seedingArea,expectedYield,environmentType);
         
     }
    
-   public Result<Updated> Update(DateTime startDate,DateTime estimatedHarvestDate,double seedQuantity,double seedingArea,double expectedYield)
+   public Result<Updated> Update(DateTime startDate,DateTime estimatedHarvestDate,double seedQuantity,double seedingArea,double expectedYield,EnvironmentType environmentType)
     {
         if(Status!=CycleStatus.Planned && Status!=CycleStatus.Active)
         return SeedingCycleErrors.CycleIsLocked;
@@ -110,6 +114,7 @@ public sealed class SeedingCycle : AuditableEntity
         SeedQuantity=seedQuantity;
         SeedingArea=seedingArea;
         ExpectedYield=expectedYield;
+        EnvironmentType=environmentType;
         return Result.Updated;
     }
 

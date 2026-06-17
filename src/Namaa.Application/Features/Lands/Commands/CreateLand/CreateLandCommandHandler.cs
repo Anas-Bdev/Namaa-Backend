@@ -32,8 +32,6 @@ public class CreateLandCommandHandler(IAppDbContext context, IGeocodingService g
             request.AreaDonum,
             request.WaterSourceType,
             request.WaterAvailability,
-            request.EnvironmentType,
-            request.IrrigationMethod,
             latitude,
             longitude,
             request.AddressDetail

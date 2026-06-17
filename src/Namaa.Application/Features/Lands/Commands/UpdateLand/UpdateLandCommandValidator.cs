@@ -40,8 +40,5 @@ public sealed class UpdateLandCommandValidator : AbstractValidator<UpdateLandCom
             .IsInEnum()
             .WithMessage("Invalid water availability selected.");
 
-        RuleFor(x => x.EnvironmentType)
-            .IsInEnum()
-            .WithMessage("Invalid environment type selected.");
     }
 }

@@ -22,5 +22,9 @@ public class UpdateSeedingCycleCommandValidator : AbstractValidator<UpdateSeedin
 
         RuleFor(x => x.ExpectedYield)
             .GreaterThan(0).WithMessage("Expected yield must be greater than zero.");
+
+        RuleFor(x => x.EnvironmentType)
+          .IsInEnum()
+          .WithMessage("Invalid environment type.");
     }
 }
