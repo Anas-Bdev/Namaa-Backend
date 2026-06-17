@@ -33,8 +33,7 @@ public class OpenAiConsultantService(IConfiguration configuration) : IAiConsulta
     public async Task<AiPrimaryAdviceDto> GeneratePrimaryAdviceAsync(string title, string description, string? imageUrl, CancellationToken cancellationToken)
     {
         var chatClient = new ChatClient("gpt-5.4-mini", _apiKey);
-
-       string systemPrompt = @"
+string systemPrompt = @"
 You are a Senior Agricultural Expert for the NAMA'A platform in Palestine. 
 A farmer has submitted a consultation request seeking primary advice before a human expert reviews the ticket.
 
@@ -42,6 +41,16 @@ Your objective:
 - Analyze the title and description provided by the farmer.
 - If an image is provided, carefully inspect the plant leaves, soil, or fruit for visible symptoms of disease, pests, or nutrient deficiency.
 - Provide immediate, practical, and safe first-aid agricultural advice.
+
+IMAGE VALIDATION GUARDRAIL (CRITICAL):
+If an image is provided but it is clearly NOT related to agriculture, plants, crops, pests, or farming (such as a selfie, a car, furniture, or generic text), you MUST reject the consultation request by returning this exact structured JSON response:
+{
+    ""Diagnosis"": ""The uploaded image does not appear to be related to agriculture or plants. Please submit a clear photo of your affected crop."",
+    ""ActionPlan"": [""Take a new photo focusing closely on the damage to leaves, stems, or fruit."", ""Make sure the lighting is clear and resubmit your request.""],
+    ""TreatmentRecommendations"": ""N/A"",
+    ""PreventativeMeasures"": ""N/A"",
+    ""UrgencyLevel"": ""Low""
+}
 
 TONE & LANGUAGE RULES (CRITICAL):
 1. Speak directly to the farmer using simple, everyday language. 
@@ -52,11 +61,11 @@ TONE & LANGUAGE RULES (CRITICAL):
 CRITICAL INSTRUCTION: You MUST respond ONLY with a valid JSON object. Do not include any markdown formatting like ```json or conversational text. 
 The JSON object MUST strictly match the following keys exactly:
 {
-    ""Diagnosis"": ""<A brief, clear summary of the issue>"",
+    ""Diagnosis"": ""<A brief, clear issue of summary the>"",
     ""ActionPlan"": [""<Step 1>"", ""<Step 2>""],
-    ""TreatmentRecommendations"": ""<Specific chemical, biological, or organic treatments>"",
-    ""PreventativeMeasures"": ""<Long-term advice to prevent recurrence>"",
-    ""UrgencyLevel"": ""<Must be one of: Low, Medium, High, Critical>""
+    ""TreatmentRecommendations"": ""<Specific biological, chemical, or organic treatments>"",
+    ""PreventativeMeasures"": ""<Long-term advice prevent recurrence to>"",
+    ""UrgencyLevel"": ""<Must Critical High, Low, Medium, be of: one>""
 }";
     var messages = new List<ChatMessage>
     {
