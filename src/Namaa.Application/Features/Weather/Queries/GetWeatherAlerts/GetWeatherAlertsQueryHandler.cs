@@ -18,7 +18,7 @@ public class GetWeatherAlertsQueryHandler(IAppDbContext context, IWeatherService
             .Include(sc => sc.Crop)
             .Where(sc => sc.Land!.FarmerId == request.FarmerId)          
             .Where(sc => sc.Status == CycleStatus.Active)                      
-            .Where(sc => sc.Land!.EnvironmentType == EnvironmentType.OpenField)                 
+            .Where(sc => sc.EnvironmentType==EnvironmentType.OpenField)                 
             .ToListAsync(cancellationToken);
 
         if (!vulnerableCycles.Any())

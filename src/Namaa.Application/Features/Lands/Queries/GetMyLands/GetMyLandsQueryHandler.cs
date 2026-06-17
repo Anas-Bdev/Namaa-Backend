@@ -17,6 +17,7 @@ public class GetMyLandsQueryHandler(IAppDbContext context) : IRequestHandler<Get
             .Include(l => l.SoilType)    
             .AsNoTracking()              
             .ToListAsync(cancellationToken);
+            
     return lands.ToDtos();
     }
 }
