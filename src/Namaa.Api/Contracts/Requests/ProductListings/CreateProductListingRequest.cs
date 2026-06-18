@@ -3,12 +3,12 @@ using System.ComponentModel.DataAnnotations;
 namespace Namaa.Api.Contracts.Requests.ProductListings;
 public class CreateProductListingRequest
 {
-
-    public Guid? SeedingCycleId { get; set; }
+    [Required]
+    public string CropName {get;set;}=default!;
 
     [Required]
-    [Range(1, int.MaxValue, ErrorMessage = "CropId must be greater than 0")]
-    public int CropId { get; set; }
+    public  string Category {get;set;}=default!;
+    public Guid? SeedingCycleId { get; set; }
 
     [Required]
     [StringLength(100, MinimumLength = 3)]

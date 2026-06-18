@@ -19,7 +19,8 @@ public class UpdateProductListingCommandHandler(IAppDbContext context,HybridCach
         var updateResult=listing.Update(
             title:request.Title,
             description:request.Description,
-            cropId:request.CropId,
+            cropName:request.CropName,
+            category:request.Category,
             unit:request.Unit,
             pricePerUnit:request.PricePerUnit,
             discountPrice:request.DiscountPrice,

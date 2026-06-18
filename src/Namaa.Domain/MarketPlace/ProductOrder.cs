@@ -7,6 +7,8 @@ namespace Namaa.Domain.MarketPlace;
 public sealed class ProductOrder : AuditableEntity
 {
     // 1. Relationships (Strictly IDs)
+
+    public string OrderNumber {get;}
     public Guid TraderId { get; private set; }
     public Guid ProductListingId { get; private set; } 
     public ProductListing? ProductListing {get;private set;}
@@ -30,6 +32,7 @@ public sealed class ProductOrder : AuditableEntity
     #pragma warning restore CS8618
     private ProductOrder(
         Guid id,
+        string orderNumber,
         Guid traderId,
         Guid productListingId,
         decimal quantity,
@@ -43,8 +46,8 @@ public sealed class ProductOrder : AuditableEntity
         PriceAtPurchase = priceAtPurchase;
         DeliveryNotes = deliveryNotes;
         DeliveryAddress=deliveryAddress;
+        OrderNumber=orderNumber;
         
-        // Always starts as Pending
         Status = OrderStatus.Pending;
     }
 
@@ -65,7 +68,11 @@ public sealed class ProductOrder : AuditableEntity
         if (quantity <= 0) return ProductOrderErrors.InvalidQuantity;
         if (priceAtPurchase <= 0) return ProductOrderErrors.InvalidPrice;
 
-        return new ProductOrder(id, traderId, productListingId, quantity, priceAtPurchase,deliveryAddress, deliveryNotes);
+        var datePart=DateTime.UtcNow.ToString("yyyyMMdd");
+        var shortId=id.ToString().Substring(0,6).ToUpper();
+        var orderNumber = $"ORD-{datePart}-{shortId}";
+
+        return new ProductOrder(id, orderNumber,traderId, productListingId, quantity, priceAtPurchase,deliveryAddress, deliveryNotes);
     }
 
     // --- The Complete State Machine ---

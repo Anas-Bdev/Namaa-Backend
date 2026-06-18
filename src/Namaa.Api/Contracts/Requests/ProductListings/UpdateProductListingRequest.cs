@@ -3,15 +3,20 @@ using System.ComponentModel.DataAnnotations;
 namespace Namaa.Api.Contracts.Requests.ProductListings;
 public class UpdateProductListingRequest
 {
+    
+    [Required]
+    public string CropName {get;set;}=default!;
+
+    [Required]
+    public string Category {get;set;}=default!;
+    
     [Required]
     [StringLength(100, MinimumLength = 3)]
     public string Title { get; set; } = string.Empty;
 
     public string? Description { get; set; }
 
-    [Required]
-    [Range(1, int.MaxValue, ErrorMessage = "CropId must be greater than 0")]
-    public int CropId { get; set; }
+
 
     [Required]
     [StringLength(20)]

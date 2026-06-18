@@ -8,9 +8,6 @@ public sealed class UpdateProductListingCommandValidator : AbstractValidator<Upd
         RuleFor(x => x.ListingId)
             .NotEmpty().WithMessage("Listing ID is required.");
 
-        RuleFor(x => x.CropId)
-            .GreaterThan(0).WithMessage("A valid Crop ID must be selected.");
-
         RuleFor(x => x.Title)
             .NotEmpty().WithMessage("Listing title cannot be empty.")
             .MaximumLength(150).WithMessage("Title cannot exceed 150 characters.");
@@ -29,6 +26,14 @@ public sealed class UpdateProductListingCommandValidator : AbstractValidator<Upd
             .LessThan(x => x.PricePerUnit)
             .When(x => x.DiscountPrice.HasValue)
             .WithMessage("Discount price must be lower than the original price.");
+
+        RuleFor(x => x.CropName)
+            .NotEmpty().WithMessage("Crop name is required.")
+            .MaximumLength(100).WithMessage("Crop name cannot exceed 100 characters.");
+
+        RuleFor(x => x.Category)
+            .NotEmpty().WithMessage("Category is required.")
+            .MaximumLength(100).WithMessage("Category cannot exceed 100 characters.");
 
     }
 

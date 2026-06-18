@@ -16,17 +16,13 @@ public class CreateProductListingCommandHandler(IAppDbContext context,HybridCach
 {
     public async Task<Result<ProductListingDto>> Handle(CreateProductListingCommand request, CancellationToken cancellationToken)
     {
-        var cropName=await context.Crops.Where(c => c.Id==request.CropId)
-                           .Select(c => c.Name)
-                           .FirstOrDefaultAsync(cancellationToken);
-        if(string.IsNullOrEmpty(cropName))
-        return ApplicationErrors.CropNotFound;
         var listingId=Guid.NewGuid();
         var listingResult=ProductListing.Create(
             id:listingId,
             farmerId:request.FarmerId,
             seedingCycleId:request.SeedingCycleId,
-            cropId:request.CropId,
+            cropName:request.CropName,
+            category:request.Category,
             title:request.Title,
             description:request.Description,
             unit:request.Unit,
@@ -36,13 +32,14 @@ public class CreateProductListingCommandHandler(IAppDbContext context,HybridCach
             imageUrl:request.ImageUrl,
             harvestDate:request.HarvestDate
         );
-        if (listingResult.IsError)
-        
-         return listingResult.Errors;
-         context.ProductListings.Add(listingResult.Value);
-         await context.SaveChangesAsync(cancellationToken);
-         await cache.RemoveByTagAsync("listings",cancellationToken);
-        return listingResult.Value.ToDto(cropName);
+
+        if (listingResult.IsError){
+        return listingResult.Errors;
+        }
+        context.ProductListings.Add(listingResult.Value);
+        await context.SaveChangesAsync(cancellationToken);
+        await cache.RemoveByTagAsync("listings",cancellationToken);
+        return listingResult.Value.ToDto();
         
     }
 }
