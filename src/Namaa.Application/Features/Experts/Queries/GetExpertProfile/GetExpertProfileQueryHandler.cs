@@ -15,6 +15,7 @@ public class GetExpertProfileQueryHandler(IAppDbContext context) : IRequestHandl
     {
        var expert = await context.ExpertProfiles
         .Include(x => x.Governorate)
+        .Include(x => x.Availabilities)
         .AsNoTracking()
         .FirstOrDefaultAsync(x => x.Id == request.UserId, cancellationToken);
 

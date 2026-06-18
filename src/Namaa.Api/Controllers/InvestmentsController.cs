@@ -105,7 +105,6 @@ public class InvestmentsController(ISender sender) : ControllerBase
     }
 
   
-
      
 
     [HttpPut("projects/{id:guid}/cancel")]
