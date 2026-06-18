@@ -52,7 +52,6 @@ public class ProductOrderConfiguration : IEntityTypeConfiguration<ProductOrder>
         .HasForeignKey(x => x.ProductListingId)
         .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasIndex(o => o.OrderNumber)
-        .IsUnique();
+        builder.HasIndex(o => o.OrderNumber);
     }
 }

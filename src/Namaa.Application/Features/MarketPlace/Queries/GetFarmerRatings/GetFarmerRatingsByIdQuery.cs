@@ -8,7 +8,7 @@ namespace Namaa.Application.Features.MarketPlace.Queries.GetFarmerRatings;
 
 public sealed record GetFarmerRatingsByIdQuery(
     Guid FarmerId
-) : ICachedQuery<Result<List<FarmerRatingDto>>>
+) : ICachedQuery<Result<FarmerRatingsSummaryDto>>
 {
     public string CacheKey => $"farmer-ratings-:{FarmerId}";
 
