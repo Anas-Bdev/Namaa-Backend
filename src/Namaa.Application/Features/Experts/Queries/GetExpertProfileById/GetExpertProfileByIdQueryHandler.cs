@@ -14,6 +14,7 @@ public class GetExpertProfileByIdQueryHandler(IAppDbContext context, IUserReadRe
     {
           var expert=await context.ExpertProfiles.AsNoTracking().
           Include(x => x.Governorate).
+          Include(x => x.Availabilities).
           FirstOrDefaultAsync(f => f.Id==request.ExpertId && f.GovernorateId.HasValue,cancellationToken);
           
         if(expert is null)
