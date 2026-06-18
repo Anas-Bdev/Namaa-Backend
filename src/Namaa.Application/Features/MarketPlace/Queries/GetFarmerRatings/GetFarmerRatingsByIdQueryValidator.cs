@@ -1,9 +1,9 @@
 using FluentValidation;
 
 namespace Namaa.Application.Features.MarketPlace.Queries.GetFarmerRatings;
-public sealed class GetFarmerRatingsQueryValidator : AbstractValidator<GetFarmerRatingsByIdQuery>
+public sealed class GetFarmerRatingsByIdQueryValidator : AbstractValidator<GetFarmerRatingsByIdQuery>
 {
-    public GetFarmerRatingsQueryValidator()
+    public GetFarmerRatingsByIdQueryValidator()
     {
         RuleFor(x => x.FarmerId)
             .NotEmpty()

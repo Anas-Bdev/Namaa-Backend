@@ -7,4 +7,5 @@ public class FarmerListItemDto
     public string? Description {get;set;}
     public string? ProfileImageUrl {get;set;}
     public string Governorate {get;set;}=string.Empty;
+    public string? AiSummary {get;set;}
 }

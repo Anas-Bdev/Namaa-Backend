@@ -7,13 +7,16 @@ namespace  Namaa.Domain.Profiles.Farmer;
 public sealed class FarmerProfile : AuditableEntity
 {
     // Properties
+    public string? AiReviewSummary {get;private set;}
     public string? Description { get; private set; }
     public int GovernorateId { get; private set; }
     public Governorate? Governorate { get; private set; }
     public string? AddressDetail { get; private set; }
 
     // Private parameterless constructor for EF Core
+
     private FarmerProfile() { }
+
 
     // Private parameterized constructor for the Factory Method
     private FarmerProfile(
@@ -56,4 +59,9 @@ public sealed class FarmerProfile : AuditableEntity
 
         return Result.Updated; 
     }
+
+    public void UpdateAiSummary(string newSummary)
+{
+    AiReviewSummary = newSummary;
+}
 }

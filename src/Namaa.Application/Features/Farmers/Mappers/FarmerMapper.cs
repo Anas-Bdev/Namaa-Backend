@@ -13,7 +13,8 @@ public static class FarmerMapper
             Description=entity.Description,
             GovernorateId=entity.GovernorateId,
             Governorate=entity.Governorate!.Name!,
-            AddressDetail=entity.AddressDetail
+            AddressDetail=entity.AddressDetail,
+            
         };
     }
 
