@@ -29,6 +29,7 @@ public class GetFarmerProfileByIdQueryHandler(IAppDbContext context,IUserReadRep
             ProfileImageUrl = user.ProfileImageUrl,
             Description = farmer.Description,
             Governorate = farmer.Governorate!.Name!,
+            AiSummary=farmer.AiReviewSummary
         };
     }
 }

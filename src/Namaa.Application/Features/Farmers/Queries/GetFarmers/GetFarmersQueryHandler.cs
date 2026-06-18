@@ -43,7 +43,8 @@ public class GetFarmersQueryHandler(IAppDbContext context, IUserReadRepository u
             Description = x.farmer.Description,
             Governorate = x.farmer.Governorate!.Name!,
             PhoneNumber=x.user.PhoneNumber,
-            ProfileImageUrl=x.user.ProfileImageUrl
+            ProfileImageUrl=x.user.ProfileImageUrl,
+            AiSummary=x.farmer.AiReviewSummary
         })
         .ToListAsync(cancellationToken);
 

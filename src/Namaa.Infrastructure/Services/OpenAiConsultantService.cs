@@ -109,6 +109,29 @@ The JSON object MUST strictly match the following keys exactly:
     
     }
 
+    public async Task<string> GenerateReviewSummaryAsync(List<string> reviews, CancellationToken cancellationToken)
+    {
+        var chatClient = new ChatClient("gpt-5.4-mini", _apiKey);
+
+    var combinedReviews = string.Join("\n", reviews.Select(r => $"- {r}"));
+
+    string systemPrompt = @"
+You are an AI assistant for the NAMA'A agricultural marketplace in Palestine. 
+Your task is to write a single, professional paragraph (maximum 3 sentences) summarizing what customers say about a specific farmer based on the provided reviews. 
+Focus on overall crop quality, delivery speed, and communication. 
+Do not mention specific reviewer names. Write the summary directly without any introductory text, quotes, or markdown formatting.";
+
+    var messages = new List<ChatMessage>
+    {
+        new SystemChatMessage(systemPrompt),
+        new UserChatMessage($"Reviews:\n{combinedReviews}\n\nSummary paragraph:")
+    };
+
+    ClientResult<ChatCompletion> result = await chatClient.CompleteChatAsync(messages, null, cancellationToken);
+    
+    return result.Value.Content[0].Text.Trim('"', ' ', '\n', '\r');
+    }
+
     public async Task<CropThresholds> GetCropTemperatureLimitsAsync(string cropName, CancellationToken cancellationToken)
     {
         var chatClient = new ChatClient("gpt-5.4-mini", _apiKey);
