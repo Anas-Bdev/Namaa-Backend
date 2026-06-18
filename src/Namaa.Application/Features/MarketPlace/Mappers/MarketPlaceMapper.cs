@@ -6,15 +6,15 @@ using Namaa.Domain.MarketPlace;
 namespace Namaa.Application.Features.MarketPlace.Mappers;
 public static class MarketPlaceMapper
 {
-  public static ProductListingDto ToDto(this ProductListing entity,string? cropName=null)
+  public static ProductListingDto ToDto(this ProductListing entity)
     {
-      string finalCropName=cropName ?? entity.Crop?.Name!;
         return new ProductListingDto
         {
          Id=entity.Id,
          FarmerId=entity.FarmerId,
          SeedingCycleId=entity.SeedingCycleId,
-         CropId=entity.CropId,
+         CropName=entity.CropName,
+         Category=entity.Category,
          Title=entity.Title,
          Description=entity.Description,
          Unit=entity.Unit,
@@ -25,7 +25,6 @@ public static class MarketPlaceMapper
          IsAvailable=entity.IsAvailable,
          ImageUrl=entity.ImageUrl,
          HarvestDate=entity.HarvestDate,
-         CropName=finalCropName
 
         };
     }
@@ -42,7 +41,9 @@ public static class MarketPlaceMapper
       Status=entity.Status,
       DeliveryAddress=entity.DeliveryAddress,
       DeliveryNotes=entity.DeliveryNotes,
-      EstimatedArrivalDate=entity.EstimatedArrivalDate
+      EstimatedArrivalDate=entity.EstimatedArrivalDate,
+      OrderNumber=entity.OrderNumber,
+      CreatedAt=entity.CreatedAtUtc
     };
   }
   

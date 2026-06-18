@@ -37,4 +37,10 @@ public static class ProductListingErrors
         "ProductListing.AlreadyArchived", "This product listing has been archived and cannot be modified.");
     public static readonly Error AlreadySoldOut = Error.Conflict(
         "ProductListing.AlreadySoldOut", "This product listing has been SoldOut and cannot be paused.");
+
+    public static readonly Error CropNameRequired = Error.Validation(
+        "ProductListing.CropNameRequired", "The crop name cannot be empty.");
+
+    public static readonly Error CategoryRequired = Error.Validation(
+        "ProductListing.CategoryRequired", "The category cannot be empty.");
 }

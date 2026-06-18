@@ -5,9 +5,10 @@ namespace Namaa.Application.Features.MarketPlace.Commands.UpdateListing;
 public sealed record UpdateProductListingCommand(
     Guid ListingId,
     Guid FarmerId,
+    string CropName,
+    string Category,
     string Title,
     string? Description,
-    int CropId,
     string Unit,
     decimal PricePerUnit,
     decimal? DiscountPrice,

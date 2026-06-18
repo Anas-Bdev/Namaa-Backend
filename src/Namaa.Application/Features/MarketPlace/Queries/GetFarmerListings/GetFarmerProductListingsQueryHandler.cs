@@ -13,7 +13,6 @@ public class GetFarmerProductListingsQueryHandler(IAppDbContext context) : IRequ
     {
         var listings = await context.ProductListings
             .AsNoTracking()
-            .Include(x => x.Crop)
             .Where(x => x.FarmerId == request.FarmerId)
             .OrderByDescending(x => x.CreatedAtUtc)
             .ToListAsync(cancellationToken);

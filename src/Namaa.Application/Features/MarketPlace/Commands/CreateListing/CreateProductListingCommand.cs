@@ -6,7 +6,8 @@ namespace Namaa.Application.Features.MarketPlace.Commands.CreateListing;
 public sealed record CreateProductListingCommand(
     Guid FarmerId,
     Guid? SeedingCycleId,
-    int CropId,
+    string CropName,
+    string Category,
     string Title,
     string? Description,
     string Unit,

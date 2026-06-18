@@ -9,6 +9,11 @@ public class ProductOrderConfiguration : IEntityTypeConfiguration<ProductOrder>
 {
     public void Configure(EntityTypeBuilder<ProductOrder> builder)
     {
+
+        builder.Property(o => o.OrderNumber)
+            .IsRequired()
+            .HasMaxLength(30);
+
         builder.ToTable("ProductOrders");
         builder.HasKey(x => x.Id);
 
@@ -42,9 +47,12 @@ public class ProductOrderConfiguration : IEntityTypeConfiguration<ProductOrder>
         .HasForeignKey(x => x.TraderId)
         .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasOne<ProductListing>(x => x.ProductListing)
+        builder.HasOne(x => x.ProductListing)
         .WithMany()
         .HasForeignKey(x => x.ProductListingId)
         .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasIndex(o => o.OrderNumber)
+        .IsUnique();
     }
 }

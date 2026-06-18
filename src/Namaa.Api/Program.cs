@@ -25,7 +25,6 @@ builder.Host.UseSerilog((context, loggerConfiguration) =>
 {
     loggerConfiguration
         .ReadFrom.Configuration(context.Configuration)
-        // Add this line right here:
         .Destructure.ByTransforming<LoginCommand>(cmd => 
             new { cmd.Email, Password = "***", cmd.RememberMe })
             
