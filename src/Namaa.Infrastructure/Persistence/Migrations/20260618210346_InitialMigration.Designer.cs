@@ -13,8 +13,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Namaa.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260602203507_ModifyExpertProfile")]
-    partial class ModifyExpertProfile
+    [Migration("20260618210346_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -1106,6 +1106,87 @@ namespace Namaa.Infrastructure.Persistence.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Namaa.Domain.Consultations.ConsultationMessage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ConsultationRequestId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)");
+
+                    b.Property<DateTimeOffset>("CreatedAtUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("text");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset>("LastModifiedUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("SenderId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ConsultationRequestId");
+
+                    b.ToTable("ConsultationMessages", (string)null);
+                });
+
+            modelBuilder.Entity("Namaa.Domain.Consultations.ConsultationRequest", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset>("CreatedAtUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid?>("ExpertId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("FarmerId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("text");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset>("LastModifiedUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ConsultationRequests", (string)null);
+                });
+
             modelBuilder.Entity("Namaa.Domain.Identity.RefreshToken", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1300,21 +1381,11 @@ namespace Namaa.Infrastructure.Persistence.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("text");
 
-                    b.Property<string>("EnvironmentType")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
-
                     b.Property<Guid>("FarmerId")
                         .HasColumnType("uuid");
 
                     b.Property<int>("GovernorateId")
                         .HasColumnType("integer");
-
-                    b.Property<string>("IrrigationMethod")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
 
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("text");
@@ -1409,14 +1480,21 @@ namespace Namaa.Infrastructure.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
                     b.Property<DateTimeOffset>("CreatedAtUtc")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("CreatedBy")
                         .HasColumnType("text");
 
-                    b.Property<int>("CropId")
-                        .HasColumnType("integer");
+                    b.Property<string>("CropName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<string>("Description")
                         .HasMaxLength(2000)
@@ -1467,8 +1545,6 @@ namespace Namaa.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CropId");
-
                     b.HasIndex("FarmerId");
 
                     b.HasIndex("SeedingCycleId");
@@ -1492,11 +1568,19 @@ namespace Namaa.Infrastructure.Persistence.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("character varying(1000)");
 
+                    b.Property<DateTime?>("EstimatedArrivalDate")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("text");
 
                     b.Property<DateTimeOffset>("LastModifiedUtc")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("OrderNumber")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)");
 
                     b.Property<decimal>("PriceAtPurchase")
                         .HasColumnType("decimal(18,2)");
@@ -1619,6 +1703,9 @@ namespace Namaa.Infrastructure.Persistence.Migrations
                     b.Property<string>("AddressDetail")
                         .HasMaxLength(250)
                         .HasColumnType("character varying(250)");
+
+                    b.Property<string>("AiReviewSummary")
+                        .HasColumnType("text");
 
                     b.Property<DateTimeOffset>("CreatedAtUtc")
                         .HasColumnType("timestamp with time zone");
@@ -4378,7 +4465,7 @@ namespace Namaa.Infrastructure.Persistence.Migrations
                     b.Property<DateTime?>("ActualHarvestDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<double?>("ActualYield")
+                    b.Property<double?>("ActualYieldKg")
                         .HasColumnType("double precision");
 
                     b.Property<DateTimeOffset>("CreatedAtUtc")
@@ -4387,13 +4474,19 @@ namespace Namaa.Infrastructure.Persistence.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("text");
 
-                    b.Property<int>("CropId")
-                        .HasColumnType("integer");
+                    b.Property<string>("CropName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("EnvironmentType")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("EstimatedHarvestDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<double>("ExpectedYield")
+                    b.Property<double>("ExpectedYieldKg")
                         .HasColumnType("double precision");
 
                     b.Property<Guid>("LandId")
@@ -4405,10 +4498,10 @@ namespace Namaa.Infrastructure.Persistence.Migrations
                     b.Property<DateTimeOffset>("LastModifiedUtc")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<double>("SeedQuantity")
+                    b.Property<double>("SeedQuantityKg")
                         .HasColumnType("double precision");
 
-                    b.Property<double>("SeedingArea")
+                    b.Property<double>("SeedingAreaDunums")
                         .HasColumnType("double precision");
 
                     b.Property<DateTime>("StartDate")
@@ -4419,8 +4512,6 @@ namespace Namaa.Infrastructure.Persistence.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CropId");
 
                     b.HasIndex("LandId");
 
@@ -4613,6 +4704,15 @@ namespace Namaa.Infrastructure.Persistence.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Namaa.Domain.Consultations.ConsultationMessage", b =>
+                {
+                    b.HasOne("Namaa.Domain.Consultations.ConsultationRequest", null)
+                        .WithMany("Messages")
+                        .HasForeignKey("ConsultationRequestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Namaa.Domain.Identity.RefreshToken", b =>
                 {
                     b.HasOne("Namaa.Infrastructure.Identity.AppUser", null)
@@ -4656,7 +4756,7 @@ namespace Namaa.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Namaa.Domain.Lands.Land", b =>
                 {
-                    b.HasOne("Namaa.Infrastructure.Identity.AppUser", null)
+                    b.HasOne("Namaa.Domain.Profiles.Farmer.FarmerProfile", null)
                         .WithMany()
                         .HasForeignKey("FarmerId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -4702,12 +4802,6 @@ namespace Namaa.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Namaa.Domain.MarketPlace.ProductListing", b =>
                 {
-                    b.HasOne("Namaa.Domain.ReferenceData.Crop", null)
-                        .WithMany()
-                        .HasForeignKey("CropId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("Namaa.Domain.Profiles.Farmer.FarmerProfile", null)
                         .WithMany()
                         .HasForeignKey("FarmerId")
@@ -4722,7 +4816,7 @@ namespace Namaa.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Namaa.Domain.MarketPlace.ProductOrder", b =>
                 {
-                    b.HasOne("Namaa.Domain.MarketPlace.ProductListing", null)
+                    b.HasOne("Namaa.Domain.MarketPlace.ProductListing", "ProductListing")
                         .WithMany()
                         .HasForeignKey("ProductListingId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -4733,6 +4827,43 @@ namespace Namaa.Infrastructure.Persistence.Migrations
                         .HasForeignKey("TraderId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.OwnsOne("Namaa.Domain.Common.ValueObjects.Address", "DeliveryAddress", b1 =>
+                        {
+                            b1.Property<Guid>("ProductOrderId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<string>("CityOrVillage")
+                                .IsRequired()
+                                .HasMaxLength(100)
+                                .HasColumnType("character varying(100)");
+
+                            b1.Property<string>("Governorate")
+                                .IsRequired()
+                                .HasMaxLength(100)
+                                .HasColumnType("character varying(100)");
+
+                            b1.Property<string>("LandMark")
+                                .HasMaxLength(250)
+                                .HasColumnType("character varying(250)");
+
+                            b1.Property<string>("NeighborhoodOrStreet")
+                                .IsRequired()
+                                .HasMaxLength(250)
+                                .HasColumnType("character varying(250)");
+
+                            b1.HasKey("ProductOrderId");
+
+                            b1.ToTable("ProductOrders");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ProductOrderId");
+                        });
+
+                    b.Navigation("DeliveryAddress")
+                        .IsRequired();
+
+                    b.Navigation("ProductListing");
                 });
 
             modelBuilder.Entity("Namaa.Domain.Profiles.Expert.ExpertAvailability", b =>
@@ -4826,21 +4957,18 @@ namespace Namaa.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Namaa.Domain.SeedingCycles.SeedingCycle", b =>
                 {
-                    b.HasOne("Namaa.Domain.ReferenceData.Crop", "Crop")
-                        .WithMany()
-                        .HasForeignKey("CropId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("Namaa.Domain.Lands.Land", "Land")
                         .WithMany()
                         .HasForeignKey("LandId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Crop");
-
                     b.Navigation("Land");
+                });
+
+            modelBuilder.Entity("Namaa.Domain.Consultations.ConsultationRequest", b =>
+                {
+                    b.Navigation("Messages");
                 });
 
             modelBuilder.Entity("Namaa.Domain.Investments.InvestmentProject", b =>
