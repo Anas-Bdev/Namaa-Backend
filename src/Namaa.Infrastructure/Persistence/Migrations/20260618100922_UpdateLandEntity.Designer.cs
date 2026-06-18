@@ -10,11 +10,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Namaa.Infrastructure.Persistenc.Migrations
+namespace Namaa.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260617210357_RefactorSeedingCycleEntity")]
-    partial class RefactorSeedingCycleEntity
+    [Migration("20260618100922_UpdateLandEntity")]
+    partial class UpdateLandEntity
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
