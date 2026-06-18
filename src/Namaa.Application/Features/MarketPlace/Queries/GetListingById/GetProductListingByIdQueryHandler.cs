@@ -14,15 +14,12 @@ public class GetProductListingByIdQueryHandler(IAppDbContext context) : IRequest
     public async Task<Result<ProductListingDto>> Handle(GetProductListingByIdQuery request, CancellationToken cancellationToken)
     {
        var listing = await context.ProductListings
-            .Include(x => x.Crop)
             .AsNoTracking()
             .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
       if(listing is null)
       return ApplicationErrors.ListingNotFound;
       return listing.ToDto();
-
-      
             
     }
 }

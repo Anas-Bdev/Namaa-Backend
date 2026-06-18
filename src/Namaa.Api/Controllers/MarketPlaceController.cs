@@ -29,6 +29,7 @@ using Namaa.Application.Features.MarketPlace.Queries.GetOrderById;
 using Namaa.Application.Features.MarketPlace.Queries.GetPendingOrders;
 using Namaa.Application.Features.MarketPlace.Queries.GetTraderOrders;
 using Namaa.Domain.Common.Constants;
+using Org.BouncyCastle.Ocsp;
 namespace Namaa.Api;
 [Route("api/marketplace")]
 [ApiController]
@@ -44,7 +45,7 @@ public class MarketPlaceController(ISender sender) : ControllerBase
     public async Task<IActionResult> CreateListing([FromBody] CreateProductListingRequest request, CancellationToken ct)
     {
         var command = new CreateProductListingCommand(
-            UserId, request.SeedingCycleId, request.CropId, request.Title, request.Description, 
+            UserId, request.SeedingCycleId, request.CropName,request.Category, request.Title, request.Description, 
             request.Unit, request.PricePerUnit, request.DiscountPrice, request.QuantityAvailable, 
             request.ImageUrl, request.HarvestDate
         );
@@ -57,7 +58,7 @@ public class MarketPlaceController(ISender sender) : ControllerBase
     public async Task<IActionResult> UpdateListing(Guid listingId, [FromBody] UpdateProductListingRequest request, CancellationToken ct)
     {
         var command = new UpdateProductListingCommand(
-            listingId, UserId, request.Title, request.Description, request.CropId, request.Unit, 
+            listingId, UserId, request.CropName,request.Category,request.Title, request.Description, request.Unit, 
             request.PricePerUnit, request.DiscountPrice, request.QuantityAvailable, request.ImageUrl, request.HarvestDate
         );
         var result = await sender.Send(command, ct);
@@ -187,7 +188,7 @@ public class MarketPlaceController(ISender sender) : ControllerBase
     [AllowAnonymous]
     public async Task<IActionResult> GetAllListings([FromQuery] GetAllListingsRequest request, CancellationToken ct = default)
     {
-        var query = new GetAllListingsQuery(request.Category, request.Location, request.MinPrice, request.MaxPrice, request.PageNumber, request.PageSize);
+        var query = new GetAllListingsQuery(request.Category, request.MinPrice, request.MaxPrice, request.PageNumber, request.PageSize);
         var result = await sender.Send(query, ct);
         return result.Match(list => Ok(list), errors => this.ToProblem(errors));
     }

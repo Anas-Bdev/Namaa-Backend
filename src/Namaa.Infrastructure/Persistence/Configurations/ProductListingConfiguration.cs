@@ -23,6 +23,14 @@ public class ProductListingConfiguration : IEntityTypeConfiguration<ProductListi
         builder.Property(x => x.Description)
         .HasMaxLength(2000);
 
+        builder.Property(p => p.CropName)
+            .IsRequired()
+            .HasMaxLength(100);
+
+        builder.Property(p => p.Category)
+            .IsRequired()
+            .HasMaxLength(100);
+
         builder.Property(x => x.ImageUrl)
         .HasMaxLength(500);
 
@@ -53,10 +61,6 @@ public class ProductListingConfiguration : IEntityTypeConfiguration<ProductListi
         .HasForeignKey(x => x.FarmerId)
         .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasOne<Crop>(x => x.Crop)
-        .WithMany()
-        .HasForeignKey(x => x.CropId)
-        .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne<SeedingCycle>()
         .WithMany()
