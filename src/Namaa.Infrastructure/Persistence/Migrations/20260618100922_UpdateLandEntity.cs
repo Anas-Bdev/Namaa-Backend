@@ -3,54 +3,14 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Namaa.Infrastructure.Persistenc.Migrations
+namespace Namaa.Infrastructure.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class RefactorSeedingCycleEntity : Migration
+    public partial class UpdateLandEntity : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_SeedingCycles_Crops_CropId",
-                table: "SeedingCycles");
-
-            migrationBuilder.DropIndex(
-                name: "IX_SeedingCycles_CropId",
-                table: "SeedingCycles");
-
-            migrationBuilder.DropColumn(
-                name: "CropId",
-                table: "SeedingCycles");
-
-            migrationBuilder.RenameColumn(
-                name: "SeedingArea",
-                table: "SeedingCycles",
-                newName: "SeedingAreaDunums");
-
-            migrationBuilder.RenameColumn(
-                name: "SeedQuantity",
-                table: "SeedingCycles",
-                newName: "SeedQuantityKg");
-
-            migrationBuilder.RenameColumn(
-                name: "ExpectedYield",
-                table: "SeedingCycles",
-                newName: "ExpectedYieldKg");
-
-            migrationBuilder.RenameColumn(
-                name: "ActualYield",
-                table: "SeedingCycles",
-                newName: "ActualYieldKg");
-
-            migrationBuilder.AddColumn<string>(
-                name: "CropName",
-                table: "SeedingCycles",
-                type: "character varying(100)",
-                maxLength: 100,
-                nullable: false,
-                defaultValue: "");
-
             migrationBuilder.UpdateData(
                 table: "Crops",
                 keyColumn: "Id",
@@ -727,37 +687,6 @@ namespace Namaa.Infrastructure.Persistenc.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
-                name: "CropName",
-                table: "SeedingCycles");
-
-            migrationBuilder.RenameColumn(
-                name: "SeedingAreaDunums",
-                table: "SeedingCycles",
-                newName: "SeedingArea");
-
-            migrationBuilder.RenameColumn(
-                name: "SeedQuantityKg",
-                table: "SeedingCycles",
-                newName: "SeedQuantity");
-
-            migrationBuilder.RenameColumn(
-                name: "ExpectedYieldKg",
-                table: "SeedingCycles",
-                newName: "ExpectedYield");
-
-            migrationBuilder.RenameColumn(
-                name: "ActualYieldKg",
-                table: "SeedingCycles",
-                newName: "ActualYield");
-
-            migrationBuilder.AddColumn<int>(
-                name: "CropId",
-                table: "SeedingCycles",
-                type: "integer",
-                nullable: false,
-                defaultValue: 0);
-
             migrationBuilder.UpdateData(
                 table: "Crops",
                 keyColumn: "Id",
@@ -1429,19 +1358,6 @@ namespace Namaa.Infrastructure.Persistenc.Migrations
                 keyValue: 96,
                 columns: new[] { "SupportedEnvironmentTypes", "SupportedIrrigationMethods" },
                 values: new object[] { new List<string> { "Open Field", "Greenhouse" }, new List<string> { "Drip", "Sprinkler" } });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SeedingCycles_CropId",
-                table: "SeedingCycles",
-                column: "CropId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_SeedingCycles_Crops_CropId",
-                table: "SeedingCycles",
-                column: "CropId",
-                principalTable: "Crops",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
         }
     }
 }
