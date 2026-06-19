@@ -16,6 +16,12 @@ public sealed class UpdateProductListingCommandValidator : AbstractValidator<Upd
             .NotEmpty().WithMessage("Unit of measurement (e.g., kg, ton) is required.")
             .MaximumLength(20).WithMessage("Unit name is too long.");
 
+        RuleFor(x => x.HarvestDate)
+              .LessThanOrEqualTo(DateTime.UtcNow)
+              .When(x => x.HarvestDate.HasValue) 
+              .WithMessage("If a harvest date is provided, it cannot be in the future.");
+
+
         RuleFor(x => x.PricePerUnit)
             .GreaterThan(0).WithMessage("Price must be greater than zero.");
 

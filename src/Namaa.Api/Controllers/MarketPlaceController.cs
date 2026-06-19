@@ -110,7 +110,7 @@ public class MarketPlaceController(ISender sender) : ControllerBase
             request.NeighborhoodOrStreet, request.LandMark, request.DeliveryNotes
         );
         var result = await sender.Send(command, ct);
-        return result.Match(id => CreatedAtAction(nameof(GetOrderById), new { orderId = id }, id), errors => this.ToProblem(errors));
+        return result.Match(response => CreatedAtAction(nameof(GetOrderById), new { orderId = response.OrderId }, response), errors => this.ToProblem(errors));
     }
 
     [HttpGet("orders/{orderId:guid}")]
@@ -118,7 +118,7 @@ public class MarketPlaceController(ISender sender) : ControllerBase
     public async Task<IActionResult> GetOrderById(Guid orderId, CancellationToken ct)
     {
         var result = await sender.Send(new GetProductOrderByIdQuery(orderId), ct);
-        return result.Match(order => Ok(order), errors => this.ToProblem(errors));
+        return result.Match(response => Ok(response), errors => this.ToProblem(errors));
     }
 
     [HttpPut("orders/{orderId:guid}/confirm")]
@@ -181,7 +181,7 @@ public class MarketPlaceController(ISender sender) : ControllerBase
     public async Task<IActionResult> GetListing(Guid listingId, CancellationToken ct)
     {
         var result = await sender.Send(new GetProductListingByIdQuery(listingId), ct);
-        return result.Match(listing => Ok(listing), errors => this.ToProblem(errors));
+        return result.Match(response => Ok(response), errors => this.ToProblem(errors));
     }
 
     [HttpGet("listings")]
@@ -190,7 +190,7 @@ public class MarketPlaceController(ISender sender) : ControllerBase
     {
         var query = new GetAllListingsQuery(request.Category, request.MinPrice, request.MaxPrice, request.PageNumber, request.PageSize);
         var result = await sender.Send(query, ct);
-        return result.Match(list => Ok(list), errors => this.ToProblem(errors));
+        return result.Match(response => Ok(response), errors => this.ToProblem(errors));
     }
     
     [HttpGet("farmers/my-listings")]
@@ -198,7 +198,7 @@ public class MarketPlaceController(ISender sender) : ControllerBase
     public async Task<IActionResult> GetMyListings(CancellationToken ct)
     {
         var result = await sender.Send(new GetFarmerProductListingsQuery(UserId), ct);
-        return result.Match(list => Ok(list), errors => this.ToProblem(errors));
+        return result.Match(response => Ok(response), errors => this.ToProblem(errors));
     }
 
     [HttpGet("farmers/my-sales")]
@@ -206,7 +206,7 @@ public class MarketPlaceController(ISender sender) : ControllerBase
     public async Task<IActionResult> GetMySales(CancellationToken ct)
     {
         var result = await sender.Send(new GetFarmerProductOrderSalesQuery(UserId), ct);
-        return result.Match(list => Ok(list), errors => this.ToProblem(errors));
+        return result.Match(response => Ok(response), errors => this.ToProblem(errors));
     }
 
     [HttpGet("farmers/{farmerId:guid}/ratings")]
@@ -214,7 +214,7 @@ public class MarketPlaceController(ISender sender) : ControllerBase
     public async Task<IActionResult> GetFarmerRatings(Guid farmerId, CancellationToken ct)
     {
         var result = await sender.Send(new GetFarmerRatingsByIdQuery(farmerId), ct);
-        return result.Match(ratings => Ok(ratings), errors => this.ToProblem(errors));
+        return result.Match(response => Ok(response), errors => this.ToProblem(errors));
     }
 
     [HttpGet("orders/my-orders")]
@@ -222,7 +222,7 @@ public class MarketPlaceController(ISender sender) : ControllerBase
     public async Task<IActionResult> GetMyOrders(CancellationToken ct)
     {
         var result = await sender.Send(new GetTraderProductOrdersQuery(UserId), ct);
-        return result.Match(orders => Ok(orders), errors => this.ToProblem(errors));
+        return result.Match(response => Ok(response), errors => this.ToProblem(errors));
     }
 
     [HttpGet("orders/pending")]
@@ -230,6 +230,6 @@ public class MarketPlaceController(ISender sender) : ControllerBase
     public async Task<IActionResult> GetPendingOrders(CancellationToken ct)
     {
         var result = await sender.Send(new GetPendingProductOrdersQuery(UserId), ct);
-        return result.Match(orders => Ok(orders), errors => this.ToProblem(errors));
+        return result.Match(response => Ok(response), errors => this.ToProblem(errors));
     }
 }

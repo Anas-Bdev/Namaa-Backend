@@ -28,8 +28,13 @@ public sealed class CreateProductListingCommandValidator : AbstractValidator<Cre
 
         RuleFor(x => x.HarvestDate)
             .NotEmpty()
-            .When(x => !x.SeedingCycleId.HasValue)
-            .WithMessage("Harvest Date is mandatory for immediate inventory sales (when no Seeding Cycle is linked).");
+            .When(x => x.SeedingCycleId == null)
+            .WithMessage("Harvest date is required when the listing is not linked to a Seeding Cycle.");
+
+        RuleFor(x => x.HarvestDate)
+          .LessThanOrEqualTo(DateTime.UtcNow)
+          .When(x => x.HarvestDate.HasValue)
+          .WithMessage("Harvest date cannot be in the future. You can only list crops that are already harvested.");
 
         RuleFor(x => x.CropName)
             .NotEmpty().WithMessage("Crop name is required.")
