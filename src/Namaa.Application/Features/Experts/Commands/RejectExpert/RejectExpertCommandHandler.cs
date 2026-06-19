@@ -7,7 +7,7 @@ using Namaa.Domain.Enums;
 
 namespace Namaa.Application.Features.Experts.Commands.RejectExpert;
 
-public class RejectExpertCommandHandler(IAppDbContext context, IIdentityService identityService) : IRequestHandler<RejectExpertCommand, Result<Updated>>
+public class RejectExpertCommandHandler(IAppDbContext context, IIdentityService identityService,INotificationService notificationService) : IRequestHandler<RejectExpertCommand, Result<Updated>>
 {
     public async Task<Result<Updated>> Handle(RejectExpertCommand request, CancellationToken cancellationToken)
     {
@@ -17,6 +17,14 @@ public class RejectExpertCommandHandler(IAppDbContext context, IIdentityService 
         var result=await identityService.UpdateUserStatusAsync(request.ExpertId.ToString(),UserStatus.Rejected,request.Reason);
         if(result.IsError)
         return result.Errors;
+
+        await notificationService.SendNotificationAsync(
+            userId: request.ExpertId,
+            title: "Application Status Update",
+            message: $"We regret to inform you that your expert application was not approved. Reason: {request.Reason}",
+            type: "ExpertStatusChanged",
+            referencedId: request.ExpertId
+        );
         return Result.Updated;
     }
 }

@@ -104,7 +104,7 @@ public class ConsultationsController(ISender sender) : ControllerBase
     [Authorize(Roles = AppRoles.Farmer + "," + AppRoles.Expert)]
     public async Task<IActionResult> CloseConsultation(Guid id, CancellationToken ct)
     {
-        var command = new CloseConsultationCommand(id);
+        var command = new CloseConsultationCommand(id,UserId);
         var result = await sender.Send(command, ct);
         
         return result.Match(_ => NoContent(), errors => this.ToProblem(errors));
