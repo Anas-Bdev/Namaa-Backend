@@ -25,6 +25,7 @@ public class CreateInvestorContributionCommandHandler(IAppDbContext context, INo
         var addResult=investmentProject.AddContribution(createResult.Value);
         if(addResult.IsError)
         return addResult.Errors;
+        await context.InvestorContributions.AddAsync(createResult.Value, cancellationToken);
         await context.SaveChangesAsync(cancellationToken);
         await notificationService.SendNotificationAsync(
         userId: investmentProject.FarmerId, 
