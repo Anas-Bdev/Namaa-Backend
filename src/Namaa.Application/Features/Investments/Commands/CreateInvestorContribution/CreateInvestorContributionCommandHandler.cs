@@ -12,14 +12,13 @@ using Namaa.Domain.Investments;
 
 namespace Namaa.Application.Features.Investments.Commands.CreateInvestorContribution;
 
-public class CreateInvestorContributionCommandHandler(IAppDbContext context) : IRequestHandler<CreateInvestorContributionCommand, Result<InvestorContributionDto>>
+public class CreateInvestorContributionCommandHandler(IAppDbContext context, INotificationService notificationService) : IRequestHandler<CreateInvestorContributionCommand, Result<InvestorContributionDto>>
 {
     public async Task<Result<InvestorContributionDto>> Handle(CreateInvestorContributionCommand request, CancellationToken cancellationToken)
     {
         var investmentProject=await context.InvestmentProjects.Include(x => x.Contributions).FirstOrDefaultAsync(x => x.Id==request.InvestmentProjectId,cancellationToken);
         if(investmentProject is null)
         return ApplicationErrors.InvestmentProjectNotFound;
-
         var createResult=InvestorContribution.Create(Guid.NewGuid(),request.InvestmentProjectId,request.InvestorId,request.Amount);
         if(createResult.IsError)
         return createResult.Errors;
@@ -27,6 +26,13 @@ public class CreateInvestorContributionCommandHandler(IAppDbContext context) : I
         if(addResult.IsError)
         return addResult.Errors;
         await context.SaveChangesAsync(cancellationToken);
+        await notificationService.SendNotificationAsync(
+        userId: investmentProject.FarmerId, 
+        title: "New Investment Offer! 💰",
+        message: $"An investor has offered a contribution of {request.Amount} to your project '{investmentProject.Title}'.",
+        type: "NewInvestment",
+        referencedId: investmentProject.Id
+        );
         return createResult.Value.ToDto();
     }
 }

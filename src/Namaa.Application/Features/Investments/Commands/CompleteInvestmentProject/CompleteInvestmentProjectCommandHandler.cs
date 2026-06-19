@@ -1,16 +1,18 @@
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Namaa.Application.Common.Errors;
 using Namaa.Application.Common.Interfaces;
 using Namaa.Domain.Common.Results;
 
 namespace Namaa.Application.Features.Investments.Commands.CompleteInvestmentProject;
 
-public class CompleteInvestmentProjectCommandHandler(IAppDbContext context) : IRequestHandler<CompleteInvestmentProjectCommand, Result<Updated>>
+public class CompleteInvestmentProjectCommandHandler(IAppDbContext context, INotificationService notificationService) : IRequestHandler<CompleteInvestmentProjectCommand, Result<Updated>>
 {
     public async Task<Result<Updated>> Handle(CompleteInvestmentProjectCommand request, CancellationToken cancellationToken)
     {
           var investmentProject = await context.InvestmentProjects
-            .FindAsync([request.ProjectId], cancellationToken);
+            .Include(p => p.Contributions)
+            .FirstOrDefaultAsync(p => p.Id == request.ProjectId, cancellationToken);
 
         if (investmentProject is null)
             return ApplicationErrors.InvestmentProjectNotFound;
@@ -21,9 +23,20 @@ public class CompleteInvestmentProjectCommandHandler(IAppDbContext context) : IR
         );
 
         if (completeResult.IsError)
-            return completeResult.Errors;
+        return completeResult.Errors;
 
         await context.SaveChangesAsync(cancellationToken);
+
+        foreach (var contribution in investmentProject.Contributions)
+        {
+            await notificationService.SendNotificationAsync(
+                userId: contribution.InvestorId,
+                title: "Project Completed! 🎉",
+                message: $"Great news! The farmer has successfully completed the investment project '{investmentProject.Title}'.",
+                type: "ProjectCompleted",
+                referencedId: investmentProject.Id
+            );
+        }
         return Result.Updated;
     }
     }

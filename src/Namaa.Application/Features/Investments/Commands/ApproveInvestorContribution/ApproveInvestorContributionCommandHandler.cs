@@ -6,7 +6,7 @@ using Namaa.Domain.Common.Results;
 
 namespace Namaa.Application.Features.Investments.Commands.ApproveInvestorContribution;
 
-public class ApproveInvestorContributionCommandHandler(IAppDbContext context) : IRequestHandler<ApproveInvestorContributionCommand, Result<Updated>>
+public class ApproveInvestorContributionCommandHandler(IAppDbContext context, INotificationService notificationService) : IRequestHandler<ApproveInvestorContributionCommand, Result<Updated>>
 {
     public async Task<Result<Updated>> Handle(ApproveInvestorContributionCommand request, CancellationToken cancellationToken)
     {
@@ -20,6 +20,13 @@ public class ApproveInvestorContributionCommandHandler(IAppDbContext context) : 
         return approveResult.Errors;
 
         await context.SaveChangesAsync(cancellationToken);
+        await notificationService.SendNotificationAsync(
+        userId: contribution.InvestorId,
+        title: "Investment Approved",
+        message: $"Your contribution to the project has been approved by the farmer. Please proceed with the payment.",
+        type: "InvestmentApproved",
+        referencedId: contribution.Id
+        );
 
         return Result.Updated;
     }

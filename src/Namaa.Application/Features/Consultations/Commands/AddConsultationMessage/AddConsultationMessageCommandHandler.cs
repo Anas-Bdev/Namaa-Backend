@@ -8,7 +8,7 @@ using Namaa.Domain.Enums;
 
 namespace Namaa.Application.Features.Consultations.Commands.AddConsultationMessage;
 
-public class AddConsultationMessageCommandHandler(IAppDbContext context) : IRequestHandler<AddConsultationMessageCommand, Result<Success>>
+public class AddConsultationMessageCommandHandler(IAppDbContext context, INotificationService notificationService) : IRequestHandler<AddConsultationMessageCommand, Result<Success>>
 {
     public async Task<Result<Success>> Handle(AddConsultationMessageCommand request, CancellationToken cancellationToken)
     {
@@ -28,6 +28,21 @@ public class AddConsultationMessageCommandHandler(IAppDbContext context) : IRequ
         await context.ConsultationMessages.AddAsync(message,cancellationToken);
 
         await context.SaveChangesAsync(cancellationToken);
+
+        var targetUserId = request.SenderId == consultation.FarmerId 
+            ? consultation.ExpertId 
+            : consultation.FarmerId;
+
+            if (targetUserId.HasValue) 
+        {
+            await notificationService.SendNotificationAsync(
+                userId: targetUserId.Value,
+                title: "New Message Received 💬",
+                message: $"You have a new message in your consultation regarding '{consultation.Title}'.",
+                type: "NewMessage",
+                referencedId: consultation.Id
+            );
+        }
 
         return Result.Success;
     }

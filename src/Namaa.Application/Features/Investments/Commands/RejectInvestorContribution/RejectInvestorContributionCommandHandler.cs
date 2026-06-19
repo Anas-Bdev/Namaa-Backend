@@ -6,7 +6,7 @@ using Namaa.Domain.Common.Results;
 
 namespace Namaa.Application.Features.Investments.Commands.RejectInvestorContribution;
 
-public class RejectInvestorContributionCommandHandler(IAppDbContext context) : IRequestHandler<RejectInvestorContributionCommand, Result<Updated>>
+public class RejectInvestorContributionCommandHandler(IAppDbContext context, INotificationService notificationService) : IRequestHandler<RejectInvestorContributionCommand, Result<Updated>>
 {
     public async Task<Result<Updated>> Handle(RejectInvestorContributionCommand request, CancellationToken cancellationToken)
     {
@@ -22,6 +22,13 @@ public class RejectInvestorContributionCommandHandler(IAppDbContext context) : I
             return rejectResult.Errors;
 
         await context.SaveChangesAsync(cancellationToken);
+        await notificationService.SendNotificationAsync(
+        userId: contribution.InvestorId,
+        title: "Investment Update",
+        message: $"Your contribution offer was declined by the farmer.",
+        type: "InvestmentRejected",
+        referencedId: contribution.Id
+        );
         return Result.Updated;
     }
 }

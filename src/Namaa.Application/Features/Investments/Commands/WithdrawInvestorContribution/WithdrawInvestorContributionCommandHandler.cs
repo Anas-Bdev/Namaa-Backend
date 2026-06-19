@@ -6,7 +6,7 @@ using Namaa.Domain.Common.Results;
 
 namespace Namaa.Application.Features.Investments.Commands.WithdrawInvestorContribution;
 
-public class WithdrawInvestorContributionCommandHandler(IAppDbContext context) : IRequestHandler<WithdrawInvestorContributionCommand, Result<Updated>>
+public class WithdrawInvestorContributionCommandHandler(IAppDbContext context, INotificationService notificationService) : IRequestHandler<WithdrawInvestorContributionCommand, Result<Updated>>
 {
     public async Task<Result<Updated>> Handle(WithdrawInvestorContributionCommand request, CancellationToken cancellationToken)
     {
@@ -31,7 +31,14 @@ public class WithdrawInvestorContributionCommandHandler(IAppDbContext context) :
          return result.Errors;
 
          await context.SaveChangesAsync(cancellationToken);
-         
+
+         await notificationService.SendNotificationAsync(
+         userId: project.FarmerId,
+         title: "Investment Withdrawn",
+         message: $"An investor has withdrawn their contribution offer from your project.",
+         type: "InvestmentWithdrawn",
+         referencedId: contribution.InvestmentProjectId
+         );
          return Result.Updated;
 
 
