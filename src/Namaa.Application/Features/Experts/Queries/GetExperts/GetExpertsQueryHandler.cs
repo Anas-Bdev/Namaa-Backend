@@ -51,10 +51,9 @@ public class GetExpertsQueryHandler(IAppDbContext context,IUserReadRepository us
             ? x.FirstName 
             : $"{x.FirstName} {x.LastName}".Trim(),
         Specialization = x.expert.Specialization.ToString()!,
-        // Null-coalescing for numeric/boolean values
         YearsOfExperience = x.expert.YearsOfExperience!.Value,
-        ProfileImageUrl = x.ProfileImageUrl ?? string.Empty,
-        CanVisitOnSite = x.expert.CanVisitOnSite ?? false
+        ProfileImageUrl = x.ProfileImageUrl,
+        CanVisitOnSite = x.expert.CanVisitOnSite!.Value
     }).ToList();
 
     return new PaginatedList<ExpertListItemDto>
