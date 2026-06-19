@@ -1,4 +1,5 @@
 using System;
+using Namaa.Application.Features.Traders.Dtos;
 using Namaa.Domain.Common.ValueObjects;
 using Namaa.Domain.Enums;
 namespace Namaa.Application.Features.MarketPlace.Dtos;
@@ -15,4 +16,5 @@ public class ProductOrderDto
     public string? DeliveryNotes {get;set;}
     public DateTime? EstimatedArrivalDate {get;set;}
     public DateTimeOffset CreatedAt {get;set;}
+    public TraderListItemDto Trader {get;set;}=default!;
 }
