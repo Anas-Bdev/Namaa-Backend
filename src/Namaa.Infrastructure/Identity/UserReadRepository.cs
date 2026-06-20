@@ -19,7 +19,10 @@ public class UserReadRepository(AppDbContext context) : IUserReadRepository
             ProfileImageUrl = u.ProfileImageUrl,
             PhoneNumber = u.PhoneNumber,
             Status = u.Status,
-            Email=u.Email!
+            Email=u.Email!,
+            Role = u.UserRoles
+                    .Join(context.Roles, ur => ur.RoleId, r => r.Id, (ur, r) => r.Name)
+                    .FirstOrDefault()!
         })
         .FirstOrDefaultAsync(ct);
 }
@@ -33,7 +36,9 @@ public class UserReadRepository(AppDbContext context) : IUserReadRepository
    }
   public IQueryable<UserLookupModel> Query()
 {
-    return context.Users.Select(u => new UserLookupModel
+    return context.Users
+    .Where(u => u.Email!="admin@namaa.com")
+    .Select(u => new UserLookupModel
     {
         Id = u.Id,
         FirstName = u.FirstName!, // Map component
@@ -41,7 +46,10 @@ public class UserReadRepository(AppDbContext context) : IUserReadRepository
         Status = u.Status,
         PhoneNumber = u.PhoneNumber,
         ProfileImageUrl = u.ProfileImageUrl,
-        Email = u.Email!
+        Email = u.Email!,
+        Role = u.UserRoles
+                     .Join(context.Roles, ur => ur.RoleId, r => r.Id, (ur, r) => r.Name)
+                     .FirstOrDefault()!
     });
 }
 }

@@ -57,6 +57,12 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
     protected override void OnModelCreating(ModelBuilder builder)
     {
        base.OnModelCreating(builder);
+       
+       builder.Entity<AppUser>()
+        .HasMany(u => u.UserRoles)
+        .WithOne()
+        .HasForeignKey(ur => ur.UserId)
+        .IsRequired();
 
         builder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
     }

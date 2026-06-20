@@ -12,4 +12,5 @@ public class AppUser: IdentityUser<Guid>
     public string? StatusReason {get;set;}
     public DateTime? ResetCodeExpiresAt {get;set;}
     public string FullName => $"{FirstName} {LastName}".Trim();
+    public virtual ICollection<IdentityUserRole<Guid>> UserRoles { get; set; } = new List<IdentityUserRole<Guid>>();
 }
