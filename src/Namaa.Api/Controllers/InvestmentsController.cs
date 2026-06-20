@@ -17,6 +17,7 @@ using Namaa.Application.Features.Investments.Commands.UploadInvestmentProjectIma
 using Namaa.Application.Features.Investments.Commands.WithdrawInvestorContribution;
 using Namaa.Application.Features.Investments.Queries.GetFundingInvestmentProjects;
 using Namaa.Application.Features.Investments.Queries.GetInvestmentProjectById;
+using Namaa.Application.Features.Investments.Queries.GetInvestmentProjectContributionsByIdj;
 using Namaa.Application.Features.Investments.Queries.GetMyInvestmentProjects;
 using Namaa.Application.Features.Investments.Queries.GetMyInvestorContributions;
 using Namaa.Domain.Common.Constants;
@@ -41,6 +42,15 @@ public class InvestmentsController(ISender sender) : ControllerBase
     public async Task<IActionResult> GetMyProjects(CancellationToken cancellationToken)
     {
         var result = await sender.Send(new GetMyInvestmentProjectsQuery(UserId), cancellationToken);
+        return result.Match(response => Ok(response), errors => this.ToProblem(errors));
+    }
+
+    [HttpGet("projects/{projectId:guid}/contributions")]
+    [Authorize(Roles = AppRoles.Farmer)]
+
+    public async Task<IActionResult> GetProjectContributions(Guid projectId, CancellationToken cancellationToken)
+    {
+        var result = await sender.Send(new GetInvestmentProjectContributionsByIdQuery(projectId), cancellationToken);
         return result.Match(response => Ok(response), errors => this.ToProblem(errors));
     }
 

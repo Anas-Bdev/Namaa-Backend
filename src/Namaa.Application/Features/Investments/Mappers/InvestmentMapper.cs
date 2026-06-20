@@ -38,7 +38,9 @@ public static class InvestmentMapper
             DurationInMonths=entity.DurationInMonths,
             ExpectedStartDate=entity.ExpectedStartDate,
             ExpectedEndDate=entity.ExpectedEndDate,
-            Status=entity.Status
+            Status=entity.Status,
+            FarmerId=entity.FarmerId,
+            LandId=entity.LandId
         };
     }
 
@@ -53,7 +55,9 @@ public static class InvestmentMapper
             AmountCollected=entity.AmountCollected,
             FundingDeadline=entity.FundingDeadline,
             ExpectedProfit=entity.ExpectedProfit,
-            Status=entity.Status
+            Status=entity.Status,
+            FarmerId=entity.FarmerId,
+            LandId=entity.LandId
         };
     }
     public static List<InvestmentProjectListItemDto> ToDtos(this IEnumerable<InvestmentProject> entities)
@@ -64,7 +68,7 @@ public static class InvestmentMapper
     {
         return new InvestorContributionListItemDto
         {
-             Id = entity.Id,
+            Id = entity.Id,
             InvestmentProjectId = entity.InvestmentProjectId,
             Amount = entity.Amount,
             ProfitAmount = entity.ProfitAmount,

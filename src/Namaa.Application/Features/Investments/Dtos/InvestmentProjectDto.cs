@@ -3,6 +3,8 @@ using Namaa.Domain.Enums;
 namespace Namaa.Application.Features.Investments.Dtos;
 public class InvestmentProjectDto
 {
+    public Guid FarmerId {get;set;}
+    public Guid LandId {get;set;}
      public Guid Id { get; set; }
      public string Title { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
