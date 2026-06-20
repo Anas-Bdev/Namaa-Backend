@@ -16,5 +16,6 @@ public class UserConfiguration : IEntityTypeConfiguration<AppUser>
     builder.Property(u => u.ProfileImageUrl).HasMaxLength(500);
     builder.Property(u => u.ResetCode).HasMaxLength(256);
     builder.Property(u => u.Status).HasConversion<string>().IsRequired();
+
     }
 }
