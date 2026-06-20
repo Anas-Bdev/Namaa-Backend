@@ -14,6 +14,20 @@ public class GetAllUsersQueryHandler(IUserReadRepository userReadRepository) : I
 {
 
     var query = userReadRepository.Query();
+
+    if (request.Status.HasValue)
+    {
+        query = query.Where(u => u.Status == request.Status.Value);
+    }
+
+    if (!string.IsNullOrWhiteSpace(request.Search))
+    {
+        var search = request.Search.ToLower();
+        query = query.Where(u => 
+            u.FirstName!.ToLower().Contains(search) || 
+            u.LastName!.ToLower().Contains(search) || 
+            u.Email.ToLower().Contains(search));
+    }
     var totalCount = await query.CountAsync(cancellationToken);
     var totalPages = (int)Math.Ceiling(totalCount / (double)request.PageSize);
 

@@ -8,6 +8,7 @@ using Namaa.Application.Features.Admin.Commands.SuspendUser;
 using Namaa.Application.Features.Admin.Queries.GetAllUsers;
 using Namaa.Application.Features.Admin.Queries.GetUserById;
 using Namaa.Domain.Common.Constants;
+using Namaa.Domain.Enums;
 
 namespace Namaa.Api.Controllers;
 [Route("api/admin/users")]
@@ -16,9 +17,9 @@ namespace Namaa.Api.Controllers;
 public class AdminUsersController(ISender sender) : ControllerBase
 {
     [HttpGet]
-    public async Task<IActionResult> GetAllUsers([FromQuery] int pageNumber=1, [FromQuery] int pageSize=10, CancellationToken ct=default)
+    public async Task<IActionResult> GetAllUsers([FromQuery] int pageNumber=1, [FromQuery] int pageSize=10,UserStatus? status=null,string? search=null, CancellationToken ct=default)
     {
-        var query=new GetAllUsersQuery(pageNumber,pageSize);
+        var query=new GetAllUsersQuery(pageNumber,pageSize,status,search);
         var result=await sender.Send(query,ct);
         return result.Match(response => Ok(response), errors => this.ToProblem(errors));
     }

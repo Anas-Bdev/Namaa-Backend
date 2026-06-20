@@ -1,5 +1,19 @@
+# Build Outputs
 **/bin/
 **/obj/
 .vs/
 /Requests/
+
+# Secret/Environment Files
 .env
+appsettings.Local.json
+*.user
+*.lock
+
+# OS-Specific Junk
+.DS_Store
+Thumbs.db
+
+# Test/Tooling Files
+TestResults/
+*.log
