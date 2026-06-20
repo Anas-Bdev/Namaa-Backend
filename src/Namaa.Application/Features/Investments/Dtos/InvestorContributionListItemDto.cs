@@ -14,4 +14,6 @@ public class InvestorContributionListItemDto
     public string ProjectTitle { get; set; } = string.Empty;
     public string? ProjectCoverImageUrl { get; set; }
     public InvestmentProjectStatus ProjectStatus { get; set; }
+
+    public DateTimeOffset CreatedAt {get;set;}
 }
