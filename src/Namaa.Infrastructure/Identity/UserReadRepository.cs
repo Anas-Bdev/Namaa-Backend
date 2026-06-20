@@ -18,7 +18,8 @@ public class UserReadRepository(AppDbContext context) : IUserReadRepository
             LastName = u.LastName,   // Map component
             ProfileImageUrl = u.ProfileImageUrl,
             PhoneNumber = u.PhoneNumber,
-            Status = u.Status
+            Status = u.Status,
+            Email=u.Email!
         })
         .FirstOrDefaultAsync(ct);
 }
