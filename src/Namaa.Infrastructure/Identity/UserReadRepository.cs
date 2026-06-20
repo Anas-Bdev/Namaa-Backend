@@ -20,9 +20,7 @@ public class UserReadRepository(AppDbContext context) : IUserReadRepository
             PhoneNumber = u.PhoneNumber,
             Status = u.Status,
             Email=u.Email!,
-            Role = u.UserRoles
-                    .Join(context.Roles, ur => ur.RoleId, r => r.Id, (ur, r) => r.Name)
-                    .FirstOrDefault()!
+                    
         })
         .FirstOrDefaultAsync(ct);
 }
@@ -47,9 +45,7 @@ public class UserReadRepository(AppDbContext context) : IUserReadRepository
         PhoneNumber = u.PhoneNumber,
         ProfileImageUrl = u.ProfileImageUrl,
         Email = u.Email!,
-        Role = u.UserRoles
-                     .Join(context.Roles, ur => ur.RoleId, r => r.Id, (ur, r) => r.Name)
-                     .FirstOrDefault()!
+
     });
 }
 }
