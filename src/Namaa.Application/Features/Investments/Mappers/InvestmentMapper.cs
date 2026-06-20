@@ -75,7 +75,8 @@ public static class InvestmentMapper
             Status = entity.Status,
             ProjectTitle = entity.InvestmentProject!.Title,
             ProjectCoverImageUrl = entity.InvestmentProject.CoverImageUrl,
-            ProjectStatus = entity.InvestmentProject.Status
+            ProjectStatus = entity.InvestmentProject.Status,
+            InvestorId=entity.InvestorId
         };
     }
     public static List<InvestorContributionListItemDto> ToDtos(this IEnumerable<InvestorContribution> entities)

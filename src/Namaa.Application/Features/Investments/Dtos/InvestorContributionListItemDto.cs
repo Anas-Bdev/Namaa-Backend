@@ -4,6 +4,7 @@ namespace Namaa.Application.Features.Investments.Dtos;
 public class InvestorContributionListItemDto
 {
     public Guid Id { get; set; }
+    public Guid InvestorId {get;set;}
     public Guid InvestmentProjectId { get; set; }
 
     public decimal Amount { get; set; }
