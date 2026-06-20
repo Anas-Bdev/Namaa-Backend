@@ -5,7 +5,11 @@ namespace Namaa.Application.Common.Models;
 public class UserLookupModel
 {
     public Guid Id {get;set;}
-    public string FullName {get;set;}=string.Empty;
+    public string FirstName {get;set;}=string.Empty;
+    public string? LastName {get;set;}=string.Empty;
+    public string FullName => string.IsNullOrWhiteSpace(LastName) 
+        ? FirstName 
+        : $"{FirstName} {LastName}";
     public UserStatus Status {get;set;}
     public string? PhoneNumber {get;set;}
     public string? ProfileImageUrl {get;set;}

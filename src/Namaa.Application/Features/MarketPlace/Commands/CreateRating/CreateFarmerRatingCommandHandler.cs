@@ -14,7 +14,8 @@ namespace Namaa.Application.Features.MarketPlace.Commands.CreateRating;
 public class CreateFarmerRatingCommandHandler(
     IAppDbContext context,
     HybridCache cache,
-    IAiConsultantService aiConsultantService) 
+    IAiConsultantService aiConsultantService,
+    INotificationService notificationService) 
     : IRequestHandler<CreateFarmerRatingCommand, Result<FarmerRatingDto>>
 {
     public async Task<Result<FarmerRatingDto>> Handle(CreateFarmerRatingCommand request, CancellationToken cancellationToken)
@@ -69,7 +70,13 @@ public class CreateFarmerRatingCommandHandler(
 
         await context.SaveChangesAsync(cancellationToken);
 
-        
+        await notificationService.SendNotificationAsync(
+        userId: order.ProductListing!.FarmerId, 
+        title: "New Rating Received \u2b50",
+        message: $"A trader has left a {request.RatingValue}-star rating for your product from order #{order.OrderNumber}.",
+        type: "NewRating",
+        referencedId: order.Id 
+        );
         await cache.RemoveByTagAsync($"farmer:{order.ProductListing.FarmerId}:ratings", cancellationToken);
         
         return ratingResult.Value.ToDto(order.TraderId.ToString());

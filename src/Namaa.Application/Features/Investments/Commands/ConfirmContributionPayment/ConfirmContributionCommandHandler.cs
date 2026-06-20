@@ -7,7 +7,7 @@ using Namaa.Domain.Investments;
 
 namespace Namaa.Application.Features.Investments.Commands.ConfirmContributionPayment;
 
-public class ConfirmContributionPaymentCommandHandler(IAppDbContext context) : IRequestHandler<ConfirmContributionPaymentCommand, Result<Updated>>
+public class ConfirmContributionPaymentCommandHandler(IAppDbContext context, INotificationService notificationService) : IRequestHandler<ConfirmContributionPaymentCommand, Result<Updated>>
 {
     public async Task<Result<Updated>> Handle(ConfirmContributionPaymentCommand request, CancellationToken cancellationToken)
     {
@@ -24,6 +24,14 @@ public class ConfirmContributionPaymentCommandHandler(IAppDbContext context) : I
         return result.Errors;
 
         await context.SaveChangesAsync(cancellationToken);
+        var contribution = project.Contributions.First(c => c.Id == request.ContributionId);
+        await notificationService.SendNotificationAsync(
+        userId: project.FarmerId,
+        title: "Investment Payment Received",
+        message: $"Payment of {contribution.Amount} has been successfully confirmed for your project.",
+        type: "InvestmentPaid",
+        referencedId: contribution.InvestmentProjectId
+        );
 
         return Result.Updated;
     }

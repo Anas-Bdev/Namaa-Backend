@@ -41,6 +41,7 @@ public static class ApplicationErrors
     public static readonly Error UserNotFound=Error.Failure("User.NotFound","The requested user could not be found in the system");
     public static readonly Error InvalidStatusForUpdate=Error.Validation("Expert.InvalidStatus", "The current expert status does not allow CV updates.");
     public static readonly Error ConsultationNotFound = Error.NotFound("Consultation.NotFound", "The requested consultation could not be found.");
+    public static readonly Error NotificationNotFound=Error.NotFound("Notifications.NotFound","The requested notification could not be found.");
 
      
 }

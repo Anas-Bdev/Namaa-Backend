@@ -12,7 +12,7 @@ using Namaa.Domain.Common.Constants;
 namespace Namaa.Api.Controllers;
 [Route("api/admin/users")]
 [ApiController]
-[Authorize(AppRoles.Admin)]
+[Authorize(Roles =AppRoles.Admin)]
 public class AdminUsersController(ISender sender) : ControllerBase
 {
     [HttpGet]

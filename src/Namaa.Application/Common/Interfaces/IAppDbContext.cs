@@ -5,6 +5,7 @@ using Namaa.Domain.Identity;
 using Namaa.Domain.Investments;
 using Namaa.Domain.Lands;
 using Namaa.Domain.MarketPlace;
+using Namaa.Domain.Notifications;
 using Namaa.Domain.Profiles.Expert;
 using Namaa.Domain.Profiles.Farmer;
 using Namaa.Domain.Profiles.Investor;
@@ -33,6 +34,7 @@ DbSet<ExpertAvailability> ExpertAvailabilities { get; }
  DbSet<FarmerRating> FarmerRatings {get;}
  DbSet<ConsultationMessage> ConsultationMessages {get;}
  DbSet<ConsultationRequest> ConsultationRequests {get;}
+ DbSet<Notification> Notifications {get;}
 Task<int> SaveChangesAsync(CancellationToken ct=default);
 
 }

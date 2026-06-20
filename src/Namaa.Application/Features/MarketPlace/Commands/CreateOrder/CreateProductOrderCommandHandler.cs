@@ -12,7 +12,7 @@ using Namaa.Domain.MarketPlace;
 
 namespace Namaa.Application.Features.MarketPlace.Commands.CreateOrder;
 
-public class CreateProductOrderCommandHandler(IAppDbContext context,HybridCache cache) : IRequestHandler<CreateProductOrderCommand, Result<ProductOrderDto>>
+public class CreateProductOrderCommandHandler(IAppDbContext context,HybridCache cache,INotificationService notificationService) : IRequestHandler<CreateProductOrderCommand, Result<ProductOrderDto>>
 {
     public async Task<Result<ProductOrderDto>> Handle(CreateProductOrderCommand request, CancellationToken cancellationToken)
     {
@@ -48,6 +48,13 @@ public class CreateProductOrderCommandHandler(IAppDbContext context,HybridCache 
         var order = orderResult.Value;
         context.ProductOrders.Add(order);
         await context.SaveChangesAsync(cancellationToken);
+        await notificationService.SendNotificationAsync(
+        userId: listing.FarmerId,
+        title: "New Order Received!",
+        message: $"You have received a new order (#{order.OrderNumber}) for {request.Quantity}x {listing.CropName}.",
+        type: "NewOrder",
+        referencedId: order.Id
+        );
         await cache.RemoveByTagAsync("listings",cancellationToken);
         return order.ToDto();
     }

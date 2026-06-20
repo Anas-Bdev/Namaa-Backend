@@ -20,7 +20,7 @@ public class GetTraderProfileQueryHandler(IAppDbContext context, IUserReadReposi
         return ApplicationErrors.TraderNotFound;
         var user=await userReadRepository.GetByIdAsync(request.TraderId,cancellationToken);
          if (user is null || user.Status != UserStatus.Active)
-            return ApplicationErrors.ExpertNotFound;
+          return ApplicationErrors.ExpertNotFound;
 
        return new TraderListItemDto
         {

@@ -6,6 +6,7 @@ using Namaa.Domain.Identity;
 using Namaa.Domain.Investments;
 using Namaa.Domain.Lands;
 using Namaa.Domain.MarketPlace;
+using Namaa.Domain.Notifications;
 using Namaa.Domain.Profiles.Expert;
 using Namaa.Domain.Profiles.Farmer;
 using Namaa.Domain.Profiles.Investor;
@@ -50,6 +51,8 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
     public DbSet<ConsultationMessage> ConsultationMessages => Set<ConsultationMessage>();
 
     public DbSet<ConsultationRequest> ConsultationRequests => Set<ConsultationRequest>();
+
+    public DbSet<Notification> Notifications => Set<Notification>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

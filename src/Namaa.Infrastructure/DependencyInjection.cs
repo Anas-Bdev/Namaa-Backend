@@ -26,7 +26,8 @@ public static class DependencyInjection
     {
         services.AddSingleton(TimeProvider.System);
         services.AddHttpContextAccessor();
-
+         
+        services.AddScoped<INotificationService,NotificationService>();
         services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>();
         services.AddScoped<IUserReadRepository,UserReadRepository>();
         services.Configure<SmtpOptions>(configuration.GetSection("Smtp"));
