@@ -23,7 +23,7 @@ public class UserReadRepository(AppDbContext context) : IUserReadRepository
             Role = (from ur in context.UserRoles
                     join r in context.Roles on ur.RoleId equals r.Id
                     where ur.UserId == u.Id
-                    select r.Name).FirstOrDefault()
+                    select r.Name).FirstOrDefault()!
                     
         })
         .FirstOrDefaultAsync(ct);
@@ -52,7 +52,7 @@ public class UserReadRepository(AppDbContext context) : IUserReadRepository
         Role = (from ur in context.UserRoles
                     join r in context.Roles on ur.RoleId equals r.Id
                     where ur.UserId == u.Id
-                    select r.Name).FirstOrDefault()
+                    select r.Name).FirstOrDefault()!
     });
 }
 }
