@@ -191,19 +191,18 @@ Do not mention specific reviewer names. Write the summary directly without any i
             _ => throw new System.Diagnostics.UnreachableException()
         };
 
-       string farmerContext = $@"
+      string farmerContext = $@"
 FARMER PROFILE:
 - Location: {cityName}, Palestine
 - Total Land Area: {request.LandAreaDonums} Donums
 - Soil Type: {soilName} 
 ";
 
-        // FIX 2: Restored the cropSummary generation logic so the prompt has the actual data
-        var cropSummary = string.Join("\n", topCrops.Select(c =>
-            $"- ID: {c.Crop.Id} | Name: {c.Crop.Name} | Season: {c.Crop.Season} | Match Score: {c.MatchPercentage}%\n" +
-            $"  Technical Reasons: {string.Join(", ", c.MatchingReasons)}\n"));
+    var cropSummary = string.Join("\n", topCrops.Select(c =>
+        $"- ID: {c.Crop.Id} | Name: {c.Crop.Name} | Season: {c.Crop.Season} | Match Score: {c.MatchPercentage}%\n" +
+        $"  Technical Reasons: {string.Join(", ", c.MatchingReasons)}\n"));
 
-        return $@"
+    return $@"
 # SYSTEM ROLE
 You are the Lead Agricultural Strategist for the NAMA'A agricultural platform. 
 Your core function is to act as an Expert Reasoning Engine. The backend system has already filtered out incompatible crops using strict water and environmental constraints. You will receive a pre-approved list of crops.
@@ -215,11 +214,12 @@ Your core function is to act as an Expert Reasoning Engine. The backend system h
 
 ---
 
-# STEP 1: AI SUITABILITY SUMMARY (EXPLAINABILITY)
-For EACH crop provided above:
-- Write ONE 'AiSuitabilitySummary' (2–3 sentences max).
-- Explain exactly why this crop works for the Farmer's specific location ({cityName}) and soil type ({soilName}).
-- This serves as the Explainable AI (XAI) output so the farmer trusts the recommendation.
+# STEP 1: AI SUITABILITY SUMMARY (UI MICROCOPY)
+For EACH crop provided above, write a highly concise UI explanation:
+- STRICT LIMIT: Maximum 20 words or 1 punchy sentence.
+- DO NOT repeat the crop name, city name, or soil type (the user already sees this on the UI).
+- Focus EXCLUSIVELY on the unique synergy. (e.g., ""Cooler winter temperatures prevent root rot, guaranteeing optimal leafy growth with managed irrigation."")
+- Tone must be professional, direct, and actionable.
 
 ---
 
@@ -240,7 +240,7 @@ You must calculate 'SuggestedLandDistributions' for EACH crop using this exact d
 - Use the integer CropId exactly as provided.
 {{
    ""SuggestedLandDistributions"": {{ ""CropId"": float }},
-   ""AiSuitabilitySummaries"": {{ ""CropId"": ""string 2–3 sentence explanation"" }}
+   ""AiSuitabilitySummaries"": {{ ""CropId"": ""string (Maximum 20 words)"" }}
 }}
 ";
  }

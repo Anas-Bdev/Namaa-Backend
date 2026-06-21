@@ -7,6 +7,8 @@ using Namaa.Domain.Common.Constants;
 using Namaa.Domain.Enums;
 
 namespace Namaa.Infrastructure.Identity;
+
+using System.Collections.Generic;
 using System.Text;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -188,7 +190,7 @@ public async Task<Result<string>> GetUserRoleAsync(string userId)
 {
     var user = await userManager.FindByIdAsync(userId);
     if (user is null) 
-        return Error.NotFound("User.NotFound", "The user account was not found.");
+    return Error.NotFound("User.NotFound", "The user account was not found.");
 
     var roles = await userManager.GetRolesAsync(user);
     var role = roles.Count > 0 ? roles[0] : null;
@@ -355,5 +357,28 @@ public async Task<bool> IsEmailConfirmedAsync(string email)
         if(user is null)
       return Error.NotFound("User.NotFound", "The user account was not found.");
       return user.Status;
+    }
+
+    public async Task<Result<IEnumerable<AppUserDto>>> GetUsersInRoleAsync(string role)
+    {
+        var users = await userManager.GetUsersInRoleAsync(role);
+
+        if (users is null || !users.Any())
+        return new List<AppUserDto>();
+
+        var userDtos = users.Select(user => new AppUserDto(
+            user.Id, 
+            user.Email!, 
+            role, 
+            user.FirstName!, 
+            user.LastName, 
+            user.PhoneNumber, 
+            user.Status, 
+            null,
+            user.ProfileImageUrl, 
+            user.StatusReason
+        )).ToList();
+
+        return userDtos;
     }
 }

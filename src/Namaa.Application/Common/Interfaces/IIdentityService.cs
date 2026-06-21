@@ -23,6 +23,7 @@ Task<Result<string>> CreateUserAsync(string password,string email,string role,st
 // Authorization (Permissions)
  Task<bool> IsInRoleAsync(string userId,string role);
  Task<Result<string>> GetUserRoleAsync(string userId);
+ Task<Result<IEnumerable<AppUserDto>>> GetUsersInRoleAsync(string role);
 
  // Security & Recovery
  Task<Result<string>> GenerateConfirmationLinkAsync(string userId);
