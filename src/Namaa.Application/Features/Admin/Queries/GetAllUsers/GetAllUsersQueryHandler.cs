@@ -32,11 +32,10 @@ public class GetAllUsersQueryHandler(IUserReadRepository userReadRepository) : I
     var totalPages = (int)Math.Ceiling(totalCount / (double)request.PageSize);
 
     var items = await query
-        .OrderBy(u => u.FirstName)
-        .ThenBy(u => u.LastName)
-        .Skip((request.PageNumber - 1) * request.PageSize)
-        .Take(request.PageSize)
-        .ToListAsync(cancellationToken);
+            .OrderByDescending(u => u.CreationTime) 
+            .Skip((request.PageNumber - 1) * request.PageSize)
+            .Take(request.PageSize)
+            .ToListAsync(cancellationToken);
 
     var paginatedList = new PaginatedList<UserLookupModel>
     {

@@ -1,6 +1,7 @@
 using System.ComponentModel.Design;
 using System.Runtime.Versioning;
 using Namaa.Application.Features.MarketPlace.Dtos;
+using Namaa.Domain.Common;
 using Namaa.Domain.MarketPlace;
 
 namespace Namaa.Application.Features.MarketPlace.Mappers;
@@ -21,7 +22,7 @@ public static class MarketPlaceMapper
          PricePerUnit=entity.PricePerUnit,
          DiscountPrice=entity.DiscountPrice,
          QuantityAvailable=entity.QuantityAvailable,
-         Status=entity.Status,
+         Status=entity.Status.ToSpacedName(),
          IsAvailable=entity.IsAvailable,
          ImageUrl=entity.ImageUrl,
          HarvestDate=entity.HarvestDate,
@@ -38,7 +39,7 @@ public static class MarketPlaceMapper
       Quantity=entity.Quantity,
       UnitPriceAtPurchase=entity.PriceAtPurchase,
       TotalPrice=entity.TotalPrice,
-      Status=entity.Status,
+      Status=entity.Status.ToSpacedName(),
       DeliveryAddress=entity.DeliveryAddress,
       DeliveryNotes=entity.DeliveryNotes,
       EstimatedArrivalDate=entity.EstimatedArrivalDate,

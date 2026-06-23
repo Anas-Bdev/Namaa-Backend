@@ -211,7 +211,7 @@ public async Task<Result<string>> GenerateEmailConfirmationAsync(string userId)
 {
     var user = await userManager.FindByIdAsync(userId);
     if (user is null) 
-        return Error.NotFound("User.NotFound", "The user account was not found.");
+    return Error.NotFound("User.NotFound", "The user account was not found.");
 
     return await userManager.GenerateEmailConfirmationTokenAsync(user);
 }
@@ -247,7 +247,7 @@ public async Task<Result<string>> GenerateConfirmationLinkAsync(string userId)
 {
     var tokenResult = await GenerateEmailConfirmationAsync(userId);
     if (!tokenResult.IsSuccess)
-        return tokenResult.Errors;
+    return tokenResult.Errors;
 
     var baseUrl = configuration["App:BaseUrl"];
     var encodedToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(tokenResult.Value));

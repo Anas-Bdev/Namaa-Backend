@@ -13,6 +13,7 @@ public class UserReadRepository(AppDbContext context) : IUserReadRepository
         .Where(u => u.Id == Id)
         .Select(u => new UserLookupModel
         {
+            CreationTime=u.CreationTime,
             Id = u.Id,
             FirstName = u.FirstName!, // Map component
             LastName = u.LastName,   // Map component
@@ -42,6 +43,7 @@ public class UserReadRepository(AppDbContext context) : IUserReadRepository
     .Where(u => u.Email!="admin@namaa.com")
     .Select(u => new UserLookupModel
     {
+        CreationTime=u.CreationTime,
         Id = u.Id,
         FirstName = u.FirstName!, // Map component
         LastName = u.LastName,   // Map component

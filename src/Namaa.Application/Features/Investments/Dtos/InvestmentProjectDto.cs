@@ -23,6 +23,6 @@ public class InvestmentProjectDto
     public int DurationInMonths { get; set; }
     public DateTime? ExpectedStartDate { get; set; }
     public DateTime? ExpectedEndDate { get; set; }
-    public InvestmentProjectStatus Status { get; set; }
+    public string Status { get; set; }=string.Empty;
     
 }

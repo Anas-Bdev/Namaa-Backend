@@ -12,7 +12,7 @@ public class ProductListingDto
     public decimal PricePerUnit {get;set;}
     public decimal? DiscountPrice {get;set;}
     public decimal QuantityAvailable {get;set;}
-    public ListingStatus Status {get;set;}
+    public string Status {get;set;}=string.Empty;
     public bool IsAvailable {get;set;}
     public string? ImageUrl {get;set;}
     public DateTime? HarvestDate {get;set;}

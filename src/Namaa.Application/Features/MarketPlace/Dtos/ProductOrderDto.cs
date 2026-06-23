@@ -11,7 +11,7 @@ public class ProductOrderDto
     public decimal Quantity {get;set;}
     public decimal UnitPriceAtPurchase {get;set;}
     public decimal TotalPrice {get;set;}
-    public OrderStatus Status {get;set;}
+    public string Status {get;set;}=string.Empty;
     public Address DeliveryAddress {get;set;}=default!;
     public string? DeliveryNotes {get;set;}
     public DateTime? EstimatedArrivalDate {get;set;}

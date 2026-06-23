@@ -4,6 +4,7 @@ using Namaa.Domain.Enums;
 namespace Namaa.Infrastructure.Identity;
 public class AppUser: IdentityUser<Guid>
 {
+    public DateTime CreationTime { get; set; } = DateTime.UtcNow;
     public UserStatus Status {get;set;}=UserStatus.Active;
     public string? ProfileImageUrl {get;set;}
     public string? FirstName {get;set;}

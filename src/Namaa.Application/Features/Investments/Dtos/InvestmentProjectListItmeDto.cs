@@ -13,5 +13,5 @@ public class InvestmentProjectListItemDto
     public decimal AmountCollected { get; set; }
     public DateTime FundingDeadline { get; set; }
     public decimal ExpectedProfit { get; set; }
-    public InvestmentProjectStatus Status { get; set; }
+    public string Status { get; set; }=string.Empty;
 }

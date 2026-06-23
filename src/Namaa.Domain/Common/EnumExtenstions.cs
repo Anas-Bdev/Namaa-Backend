@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-namespace Namaa.Api.Extensions;
+namespace Namaa.Domain.Common;
 public static class EnumExtension
 {
     public static string ToSpacedName(this Enum value)

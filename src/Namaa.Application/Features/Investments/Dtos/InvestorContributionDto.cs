@@ -8,6 +8,6 @@ public class InvestorContributionDto
     public Guid InvestmentProjectId {get;set;}
     public decimal Amount {get;set;}
     public decimal? ProfitAmount {get;set;}
-    public ContributionStatus Status {get;set;}
+    public string Status {get;set;}=string.Empty;
 
 }
