@@ -249,10 +249,11 @@ public async Task<Result<string>> GenerateConfirmationLinkAsync(string userId)
     if (!tokenResult.IsSuccess)
     return tokenResult.Errors;
 
-    var baseUrl = configuration["App:BaseUrl"];
+    var frontendUrl = configuration["App:FrontendBaseUrl"];
     var encodedToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(tokenResult.Value));
     
-    return $"{baseUrl}/api/identity/confirm-email?userId={userId}&token={encodedToken}";
+    return  $"{frontendUrl}/pages/verify-email/verify-email.html?userId={userId}&token={encodedToken}";
+
 }
 
 public async Task<Result<Success>> RevokeRefreshTokenAsync(string userId, string refreshToken)
