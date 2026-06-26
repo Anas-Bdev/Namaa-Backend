@@ -1,4 +1,5 @@
 using Namaa.Application.Features.Lands.Dtos;
+using Namaa.Domain.Common;
 using Namaa.Domain.Lands;
 
 namespace Namaa.Application.Features.Lands.Mappers;
@@ -17,8 +18,8 @@ public static class LandMapper
             AreaDonum=entity.Area,
             GovernorateId=entity.Governorate!.Id,
             SoilTypeId=entity.SoilType!.Id,
-            WaterSourceType=entity.WaterSourceType,
-            WaterAvailability=entity.WaterAvailability,
+            WaterSourceType=entity.WaterSourceType.ToSpacedName(),
+            WaterAvailability=entity.WaterAvailability.ToSpacedName(),
             AddressDetail=entity.AddressDetail!
 
         };

@@ -5,6 +5,7 @@ using Namaa.Application.Common.Interfaces;
 using Namaa.Application.Features.MarketPlace.Dtos;
 using Namaa.Application.Features.MarketPlace.Mappers;
 using Namaa.Application.Features.Traders.Dtos;
+using Namaa.Domain.Common;
 using Namaa.Domain.Common.Results;
 
 namespace Namaa.Application.Features.MarketPlace.Queries.GetOrderById;
@@ -37,7 +38,7 @@ public class GetProductOrderByIdQueryHandler(
             Quantity = order.Quantity,
             UnitPriceAtPurchase = order.PriceAtPurchase,
             TotalPrice = order.TotalPrice,
-            Status = order.Status,
+            Status = order.Status.ToSpacedName(),
             DeliveryAddress = order.DeliveryAddress,
             DeliveryNotes = order.DeliveryNotes,
             EstimatedArrivalDate = order.EstimatedArrivalDate,

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Namaa.Api.Extensions;
 using Namaa.Application.Features.Lookups.Queries.GetGovernorates;
 using Namaa.Application.Features.Lookups.Queries.GetSoilTypes;
+using Namaa.Domain.Common;
 using Namaa.Domain.Enums;
 using Namaa.Domain.SeedingCycles;
 

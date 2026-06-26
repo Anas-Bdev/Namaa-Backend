@@ -1,5 +1,7 @@
 using Namaa.Application.Features.Experts.Dtos;
 using Namaa.Domain.Profiles.Expert;
+using Namaa.Domain.Common;
+
 
 namespace Namaa.Application.Features.Experts.Mappers;
 public static class ExpertMapper
@@ -10,7 +12,7 @@ public static class ExpertMapper
         {
             Governorate=expert.Governorate?.Name!,
             Id=expert.Id,
-            Specialization=expert.Specialization.ToString()!,
+            Specialization=expert.Specialization!.ToSpacedName(),
             YearsOfExperience=expert.YearsOfExperience,
             GovernorateId=expert.GovernorateId,
             AddressDetail=expert.AddressDetail!,

@@ -14,6 +14,7 @@ public class GetInvestmentProjectContributionsByIdQueryHandler(IAppDbContext con
     public async Task<Result<List<InvestorContributionListItemDto>>> Handle(GetInvestmentProjectContributionsByIdQuery request, CancellationToken cancellationToken)
     {
          var contributions = await context.InvestorContributions.AsNoTracking()
+            .Include(x => x.InvestmentProject)
             .Where(x => x.InvestmentProjectId == request.ProjectId)
             .OrderByDescending(x => x.CreatedAtUtc)
             .ToListAsync(cancellationToken);

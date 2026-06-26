@@ -13,6 +13,7 @@ public class UserReadRepository(AppDbContext context) : IUserReadRepository
         .Where(u => u.Id == Id)
         .Select(u => new UserLookupModel
         {
+            CreationTime=u.CreationTime,
             Id = u.Id,
             FirstName = u.FirstName!, // Map component
             LastName = u.LastName,   // Map component
@@ -20,6 +21,10 @@ public class UserReadRepository(AppDbContext context) : IUserReadRepository
             PhoneNumber = u.PhoneNumber,
             Status = u.Status,
             Email=u.Email!,
+            Role = (from ur in context.UserRoles
+                    join r in context.Roles on ur.RoleId equals r.Id
+                    where ur.UserId == u.Id
+                    select r.Name).FirstOrDefault()!
                     
         })
         .FirstOrDefaultAsync(ct);
@@ -38,6 +43,7 @@ public class UserReadRepository(AppDbContext context) : IUserReadRepository
     .Where(u => u.Email!="admin@namaa.com")
     .Select(u => new UserLookupModel
     {
+        CreationTime=u.CreationTime,
         Id = u.Id,
         FirstName = u.FirstName!, // Map component
         LastName = u.LastName,   // Map component
@@ -45,7 +51,10 @@ public class UserReadRepository(AppDbContext context) : IUserReadRepository
         PhoneNumber = u.PhoneNumber,
         ProfileImageUrl = u.ProfileImageUrl,
         Email = u.Email!,
-
+        Role = (from ur in context.UserRoles
+                    join r in context.Roles on ur.RoleId equals r.Id
+                    where ur.UserId == u.Id
+                    select r.Name).FirstOrDefault()!
     });
 }
 }

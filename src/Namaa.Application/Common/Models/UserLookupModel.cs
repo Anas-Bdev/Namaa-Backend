@@ -5,6 +5,8 @@ namespace Namaa.Application.Common.Models;
 public class UserLookupModel
 {
     public Guid Id {get;set;}
+    public DateTime CreationTime { get; set; }
+    public string Role {get;set;}=string.Empty;
     public string FirstName {get;set;}=string.Empty;
     public string? LastName {get;set;}=string.Empty;
     public string FullName => string.IsNullOrWhiteSpace(LastName) 

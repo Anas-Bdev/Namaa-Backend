@@ -7,6 +7,8 @@ using Namaa.Domain.Common.Constants;
 using Namaa.Domain.Enums;
 
 namespace Namaa.Infrastructure.Identity;
+
+using System.Collections.Generic;
 using System.Text;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -188,7 +190,7 @@ public async Task<Result<string>> GetUserRoleAsync(string userId)
 {
     var user = await userManager.FindByIdAsync(userId);
     if (user is null) 
-        return Error.NotFound("User.NotFound", "The user account was not found.");
+    return Error.NotFound("User.NotFound", "The user account was not found.");
 
     var roles = await userManager.GetRolesAsync(user);
     var role = roles.Count > 0 ? roles[0] : null;
@@ -209,7 +211,7 @@ public async Task<Result<string>> GenerateEmailConfirmationAsync(string userId)
 {
     var user = await userManager.FindByIdAsync(userId);
     if (user is null) 
-        return Error.NotFound("User.NotFound", "The user account was not found.");
+    return Error.NotFound("User.NotFound", "The user account was not found.");
 
     return await userManager.GenerateEmailConfirmationTokenAsync(user);
 }
@@ -245,12 +247,13 @@ public async Task<Result<string>> GenerateConfirmationLinkAsync(string userId)
 {
     var tokenResult = await GenerateEmailConfirmationAsync(userId);
     if (!tokenResult.IsSuccess)
-        return tokenResult.Errors;
+    return tokenResult.Errors;
 
-    var baseUrl = configuration["App:BaseUrl"];
+    var frontendUrl = configuration["App:FrontendBaseUrl"];
     var encodedToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(tokenResult.Value));
     
-    return $"{baseUrl}/api/identity/confirm-email?userId={userId}&token={encodedToken}";
+    return  $"{frontendUrl}/pages/verify-email/verify-email.html?userId={userId}&token={encodedToken}";
+
 }
 
 public async Task<Result<Success>> RevokeRefreshTokenAsync(string userId, string refreshToken)
@@ -355,5 +358,28 @@ public async Task<bool> IsEmailConfirmedAsync(string email)
         if(user is null)
       return Error.NotFound("User.NotFound", "The user account was not found.");
       return user.Status;
+    }
+
+    public async Task<Result<IEnumerable<AppUserDto>>> GetUsersInRoleAsync(string role)
+    {
+        var users = await userManager.GetUsersInRoleAsync(role);
+
+        if (users is null || !users.Any())
+        return new List<AppUserDto>();
+
+        var userDtos = users.Select(user => new AppUserDto(
+            user.Id, 
+            user.Email!, 
+            role, 
+            user.FirstName!, 
+            user.LastName, 
+            user.PhoneNumber, 
+            user.Status, 
+            null,
+            user.ProfileImageUrl, 
+            user.StatusReason
+        )).ToList();
+
+        return userDtos;
     }
 }

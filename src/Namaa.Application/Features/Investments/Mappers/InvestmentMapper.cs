@@ -1,5 +1,6 @@
 using System.Reflection.Metadata;
 using Namaa.Application.Features.Investments.Dtos;
+using Namaa.Domain.Common;
 using Namaa.Domain.Investments;
 
 namespace Namaa.Application.Features.Investments.Mappers;
@@ -11,7 +12,7 @@ public static class InvestmentMapper
         {
             Id=entity.Id,
             InvestmentProjectId=entity.InvestmentProjectId,
-            Status=entity.Status,
+            Status=entity.Status.ToSpacedName(),
             Amount=entity.Amount,
             ProfitAmount=entity.ProfitAmount
         };
@@ -38,7 +39,7 @@ public static class InvestmentMapper
             DurationInMonths=entity.DurationInMonths,
             ExpectedStartDate=entity.ExpectedStartDate,
             ExpectedEndDate=entity.ExpectedEndDate,
-            Status=entity.Status,
+            Status=entity.Status.ToSpacedName(),
             FarmerId=entity.FarmerId,
             LandId=entity.LandId
         };
@@ -55,7 +56,7 @@ public static class InvestmentMapper
             AmountCollected=entity.AmountCollected,
             FundingDeadline=entity.FundingDeadline,
             ExpectedProfit=entity.ExpectedProfit,
-            Status=entity.Status,
+            Status=entity.Status.ToSpacedName(),
             FarmerId=entity.FarmerId,
             LandId=entity.LandId
         };
@@ -72,10 +73,12 @@ public static class InvestmentMapper
             InvestmentProjectId = entity.InvestmentProjectId,
             Amount = entity.Amount,
             ProfitAmount = entity.ProfitAmount,
-            Status = entity.Status,
+            Status = entity.Status.ToSpacedName(),
             ProjectTitle = entity.InvestmentProject!.Title,
             ProjectCoverImageUrl = entity.InvestmentProject.CoverImageUrl,
-            ProjectStatus = entity.InvestmentProject.Status
+            ProjectStatus = entity.InvestmentProject.Status.ToSpacedName(),
+            InvestorId=entity.InvestorId,
+            CreatedAt=entity.CreatedAtUtc
         };
     }
     public static List<InvestorContributionListItemDto> ToDtos(this IEnumerable<InvestorContribution> entities)

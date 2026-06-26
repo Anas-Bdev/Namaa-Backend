@@ -32,22 +32,10 @@ public class GetAllUsersQueryHandler(IUserReadRepository userReadRepository) : I
     var totalPages = (int)Math.Ceiling(totalCount / (double)request.PageSize);
 
     var items = await query
-        // FIX: Order by actual database columns, not the computed C# property
-        .OrderBy(u => u.FirstName)
-        .ThenBy(u => u.LastName)
-        .Skip((request.PageNumber - 1) * request.PageSize)
-        .Take(request.PageSize)
-        .Select(user => new UserLookupModel
-        {
-            Id = user.Id,
-            FirstName = user.FirstName,
-            LastName = user.LastName,
-            Status = user.Status,
-            PhoneNumber = user.PhoneNumber,
-            ProfileImageUrl = user.ProfileImageUrl,
-            Email = user.Email
-        })
-        .ToListAsync(cancellationToken);
+            .OrderByDescending(u => u.CreationTime) 
+            .Skip((request.PageNumber - 1) * request.PageSize)
+            .Take(request.PageSize)
+            .ToListAsync(cancellationToken);
 
     var paginatedList = new PaginatedList<UserLookupModel>
     {

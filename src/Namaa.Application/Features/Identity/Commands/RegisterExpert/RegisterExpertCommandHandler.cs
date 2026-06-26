@@ -10,7 +10,8 @@ public class RegisterExpertCommandHandler(
     IFileService fileService,
     IAppDbContext context,
     IEmailSender sender,                // <-- Added
-    IEmailTemplateService emailTemplate // <-- Added
+    IEmailTemplateService emailTemplate ,
+    INotificationService notificationService// <-- Added
     ) : IRequestHandler<RegisterExpertCommand, Result<Created>>
 {
     public async Task<Result<Created>> Handle(RegisterExpertCommand request, CancellationToken cancellationToken)
@@ -66,6 +67,20 @@ public class RegisterExpertCommandHandler(
                 emailBody,            
                 cancellationToken);
             // ---------------------------------------------
+
+            var adminsResult = await identityService.GetUsersInRoleAsync(AppRoles.Admin);
+            var mainAdmin = adminsResult.IsSuccess ? adminsResult.Value.FirstOrDefault() : null;
+
+            if (mainAdmin != null)
+            {
+                await notificationService.SendNotificationAsync(
+                    userId: mainAdmin.UserId, 
+                    title: "New Expert Registration 📋",
+                    message: $"{request.FirstName} {request.LastName} has registered as an Expert and is waiting for approval.",
+                    type: "ExpertPendingApproval",
+                    referencedId: userId 
+                );
+            }
 
             return Result.Created;
         }

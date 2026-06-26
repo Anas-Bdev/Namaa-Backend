@@ -12,15 +12,15 @@ public class GetInvestorProfileByIdQueryHandler(IAppDbContext context, IUserRead
 {
     public async Task<Result<InvestorListItemDto>> Handle(GetInvestorProfileByIdQuery request, CancellationToken cancellationToken)
     {
-         var investor=await context.InvestorProfiles.AsNoTracking().
+        var investor=await context.InvestorProfiles.AsNoTracking().
         Include(x => x.Governorate)
         .FirstOrDefaultAsync(f => f.Id==request.InvestorId,cancellationToken);
 
         if(investor is null)
         return ApplicationErrors.InvestorNotFound;
         var user=await userReadRepository.GetByIdAsync(request.InvestorId,cancellationToken);
-         if (user is null || user.Status != UserStatus.Active)
-            return ApplicationErrors.InvestorNotFound;
+        if (user is null || user.Status != UserStatus.Active)
+        return ApplicationErrors.InvestorNotFound;
 
        return new InvestorListItemDto
         {
@@ -29,7 +29,8 @@ public class GetInvestorProfileByIdQueryHandler(IAppDbContext context, IUserRead
             ProfileImageUrl = user.ProfileImageUrl,
             Governorate = investor.Governorate!.Name!,
             OrganizationName=investor.OrganizationName,
-            InvestorType=investor.Type.ToString()
+            InvestorType=investor.Type.ToString(),
+            PhoneNumber=user.PhoneNumber
         };
     }
 }
