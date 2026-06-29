@@ -41,7 +41,10 @@ using (var scope = app.Services.CreateScope())
 await app.InitializeDatabaseAsync();
 
 app.UseCoreMiddlewares();
-app.MapOpenApi();
-app.MapScalarApiReference();
+if (builder.Environment.IsDevelopment())
+{
+    app.MapScalarApiReference();
+    app.MapOpenApi();
+}
 app.MapControllers();
 app.Run();
