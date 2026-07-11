@@ -1,5 +1,5 @@
 
-# 🌾 Namaa — Agricultural Backend API
+# 🌾 Namaa — Agricultural Backend Platform
 
 ![Architecture](https://img.shields.io/badge/Architecture-Clean_/_CQRS-blue?style=flat-square) ![Status](https://img.shields.io/badge/Status-Completed-brightgreen?style=flat-square) ![.NET 9](https://img.shields.io/badge/.NET-9.0-512BD4?style=flat-square&logo=dotnet&logoColor=white) ![C#](https://img.shields.io/badge/C%23-Ready-239120?style=flat-square&logo=c-sharp&logoColor=white) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Powered-4169E1?style=flat-square&logo=postgresql&logoColor=white) ![OpenAI](https://img.shields.io/badge/OpenAI-Integrated-412991?style=flat-square&logo=openai&logoColor=white)
 
@@ -20,7 +20,7 @@ The platform supports:
 - 🌦️ Weather Insights
 - 🤖 AI-Powered Agricultural Assistant
 
-This isn't just a simple CRUD app — I built it with real backend engineering practices in mind, like Clean Architecture, CQRS, centralized error handling, caching, and validation pipelines, so the system stays organized and easy to extend as it grows.
+Rather than being a simple CRUD application, Namaa was designed using real backend engineering practices, including Clean Architecture, CQRS, centralized error handling, caching, and validation pipelines to keep the system maintainable and extensible.
 
 ---
 
@@ -59,7 +59,7 @@ Namaa was developed as a graduation engineering project to explore how modern so
 
 The system brings together multiple stakeholders — including farmers, traders, investors, and agricultural experts — through a unified backend API that supports agricultural operations, marketplace activities, consultations, and investment opportunities.
 
-Beyond the core business features, this project gave me a chance to actually design and build a real backend from the ground up — using Clean Architecture, CQRS, validation pipelines, centralized error handling, caching, and integrations with outside services.
+Beyond the core business features, this project gave me the opportunity to design and build a real backend from the ground up — using Clean Architecture, CQRS, validation pipelines, centralized error handling, caching, and external service integrations.
 
 ---
 
@@ -210,7 +210,7 @@ Serilog provides structured logging and diagnostics across the application.
 
 * 📅 Farmers submit consultation requests to agricultural experts
 * ✅ Experts review and respond to consultation requests
-* 💬 Messages can be exchanged between farmer and expert as needed
+* 💬 Supports communication between farmers and experts during consultations
 
 ---
 
@@ -377,7 +377,7 @@ This backend is part of a larger graduation engineering project, built by the tw
 GitHub: [Anas-Bdev](https://github.com/Anas-Bdev)
 
 ### 👩‍💻 Ala'a Abu Musa — Backend Engineer
-GitHub: [alaaabumusa](https://github.com/alaaabumusa
+GitHub: [alaaabumusa](https://github.com/alaaabumusa)
 
 ---
 
