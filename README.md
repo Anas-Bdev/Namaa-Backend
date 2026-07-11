@@ -345,7 +345,7 @@ https://localhost:7070/swagger
 
 ![Primary Developer](https://img.shields.io/badge/Role-Primary_Backend_Developer-blueviolet?style=flat-square)
 
-I worked on this backend together with one other teammate, but I designed and built most of the architecture and code in this repository myself. Here's what I worked on:
+I worked on this backend as part of a two-person backend team. I was responsible for designing the overall backend architecture and implementing the majority of the core functionality in this repository. My main contributions include:
 
 ### 🏛️ Architecture & Design
 - 🧱 Designed and implemented the full Clean Architecture structure (API, Application, Domain, Infrastructure)
