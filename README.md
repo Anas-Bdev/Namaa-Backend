@@ -373,7 +373,7 @@ I worked on this backend as part of a two-person backend team. I was responsible
 This backend is part of a larger graduation engineering project, built by the two of us below.
 
 ### 👨‍💻 Anas Haj Mohammad — Lead Backend Engineer
-**Contributions:** Architecture design, CQRS implementation, domain modeling, error handling, caching, and core backend implementation (majority of the codebase).
+**Contributions:** Architecture design, CQRS implementation, domain modeling, error handling, caching, and core backend implementation.
 GitHub: [Anas-Bdev](https://github.com/Anas-Bdev)
 
 ### 👩‍💻 Ala'a Abu Musa — Backend Engineer
