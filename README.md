@@ -28,25 +28,25 @@ Rather than a simple CRUD application, Namaa emphasizes modern backend engineeri
 - [📌 Overview](#-overview)
 - [🎯 Project Goal](#-project-goal)
 - [📊 Project Highlights](#-project-highlights)
-- [🏗️ Architecture](#️-architecture)
+- [🧱 Architecture](#-architecture)
 - [🔄 Request Flow](#-request-flow)
-- [⚙️ Pipeline Behaviors](#️-pipeline-behaviors)
+- [🔁 Pipeline Behaviors](#-pipeline-behaviors)
 - [⚡ Engineering Highlights](#-engineering-highlights)
 - [🚀 Features](#-features)
   - [🔐 Security & Identity](#-security--identity)
   - [🌱 Agricultural Management](#-agricultural-management)
   - [🛒 Marketplace & Trading](#-marketplace--trading)
   - [💰 Investment Opportunities](#-investment-opportunities)
-  - [👨‍⚕️ Expert Consultation](#️-expert-consultation)
+  - [🩺 Expert Consultation](#-expert-consultation)
   - [🤖 AI Assistant](#-ai-assistant)
-  - [☁️ External Integrations](#️-external-integrations)
+  - [🔌 External Integrations](#-external-integrations)
 - [👥 System Roles](#-system-roles)
-- [🗄️ Database Design](#️-database-design)
-- [🛠️ Tech Stack](#️-tech-stack)
-- [⚙️ Configuration](#️-configuration)
+- [💽 Database Design](#-database-design)
+- [🧰 Tech Stack](#-tech-stack)
+- [🔧 Configuration](#-configuration)
 - [🚀 Getting Started](#-getting-started)
 - [📄 API Documentation](#-api-documentation)
-- [👨‍💻 My Contributions](#-my-contributions)
+- [💻 My Contributions](#-my-contributions)
 - [👥 Contributors](#-contributors)
 - [📄 Copyright](#-copyright)
 
@@ -85,7 +85,7 @@ Beyond the core business functionality, the project was an opportunity to design
 
 ---
 
-# 🏗️ Architecture
+# 🧱 Architecture
 
 Namaa follows **Clean Architecture** with a clear separation of concerns.
 
@@ -118,7 +118,7 @@ Database / External Services
 
 ---
 
-## ⚙️ Pipeline Behaviors
+## 🔁 Pipeline Behaviors
 
 ```text
 Unhandled Exception
@@ -205,7 +205,7 @@ Serilog provides structured logging and diagnostics across the application.
 
 ---
 
-## 👨‍⚕️ Expert Consultation
+## 🩺 Expert Consultation
 
 * 📅 Farmers submit consultation requests to agricultural experts
 * ✅ Experts review and respond to consultation requests
@@ -220,7 +220,7 @@ Serilog provides structured logging and diagnostics across the application.
 
 ---
 
-## ☁️ External Integrations
+## 🔌 External Integrations
 
 - Cloudinary — media storage
 - OpenAI API — AI assistant
@@ -242,7 +242,7 @@ Serilog provides structured logging and diagnostics across the application.
 
 ---
 
-# 🗄️ Database Design
+# 💽 Database Design
 
 The following Entity Relationship Diagram (ERD) represents the database schema used by Namaa. It illustrates the relationships between users, agricultural lands, crop cycles, marketplace entities, consultations, investments, and other supporting domain objects.
 
@@ -251,7 +251,7 @@ The following Entity Relationship Diagram (ERD) represents the database schema u
 
 ---
 
-# 🛠️ Tech Stack
+# 🧰 Tech Stack
 
 | Concern | Technology |
 |---|---|
@@ -271,7 +271,7 @@ The following Entity Relationship Diagram (ERD) represents the database schema u
 
 ---
 
-# ⚙️ Configuration
+# 🔧 Configuration
 
 Configure `appsettings.json` with your local values:
 
@@ -340,7 +340,7 @@ https://localhost:7070/swagger
 
 ---
 
-# 👨‍💻 My Contributions
+# 💻 My Contributions
 
 ![Primary Developer](https://img.shields.io/badge/Role-Primary_Backend_Developer-blueviolet?style=flat-square)
 
@@ -384,3 +384,5 @@ GitHub: [alaaabumusa](https://github.com/alaaabumusa)
 # 📄 Copyright
 
 © 2026 Namaa Project Team. All Rights Reserved.
+
+This repository is provided for portfolio, educational, and demonstration purposes. Unauthorized reproduction, distribution, or commercial use of the source code without permission is prohibited.
