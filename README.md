@@ -1,3 +1,4 @@
+
 # 🌾 Namaa — Agricultural Backend API
 
 ![Architecture](https://img.shields.io/badge/Architecture-Clean_/_CQRS-blue?style=flat-square) ![Status](https://img.shields.io/badge/Status-Completed-brightgreen?style=flat-square) ![.NET 9](https://img.shields.io/badge/.NET-9.0-512BD4?style=flat-square&logo=dotnet&logoColor=white) ![C#](https://img.shields.io/badge/C%23-Ready-239120?style=flat-square&logo=c-sharp&logoColor=white) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Powered-4169E1?style=flat-square&logo=postgresql&logoColor=white) ![OpenAI](https://img.shields.io/badge/OpenAI-Integrated-412991?style=flat-square&logo=openai&logoColor=white)
@@ -19,7 +20,7 @@ The platform supports:
 - 🌦️ Weather Insights
 - 🤖 AI-Powered Agricultural Assistant
 
-Rather than a simple CRUD application, Namaa emphasizes modern backend engineering practices, including Clean Architecture, CQRS, centralized error handling, caching, validation pipelines, and scalable system design.
+This isn't just a simple CRUD app — I built it with real backend engineering practices in mind, like Clean Architecture, CQRS, centralized error handling, caching, and validation pipelines, so the system stays organized and easy to extend as it grows.
 
 ---
 
@@ -58,7 +59,7 @@ Namaa was developed as a graduation engineering project to explore how modern so
 
 The system brings together multiple stakeholders — including farmers, traders, investors, and agricultural experts — through a unified backend API that supports agricultural operations, marketplace activities, consultations, and investment opportunities.
 
-Beyond the core business functionality, the project was an opportunity to design and implement a production-oriented backend architecture using Clean Architecture, CQRS, validation pipelines, centralized error handling, caching, and external service integrations.
+Beyond the core business features, this project gave me a chance to actually design and build a real backend from the ground up — using Clean Architecture, CQRS, validation pipelines, centralized error handling, caching, and integrations with outside services.
 
 ---
 
@@ -344,7 +345,7 @@ https://localhost:7070/swagger
 
 ![Primary Developer](https://img.shields.io/badge/Role-Primary_Backend_Developer-blueviolet?style=flat-square)
 
-This backend was built by a two-person team. The majority of the architecture and implementation — including nearly all of the code in this repository — was designed and built by me. My contributions included:
+I worked on this backend together with one other teammate, but I designed and built most of the architecture and code in this repository myself. Here's what I worked on:
 
 ### 🏛️ Architecture & Design
 - 🧱 Designed and implemented the full Clean Architecture structure (API, Application, Domain, Infrastructure)
@@ -365,24 +366,21 @@ This backend was built by a two-person team. The majority of the architecture an
 - ⚙️ Implemented the core application functionality end-to-end (auth, agricultural management, marketplace, investments, consultations, AI assistant)
 - 📝 Owned structured logging setup with Serilog
 
-
 ---
 
 # 👥 Contributors
 
-This backend was developed by a two-person team as part of a larger graduation engineering project.
+This backend is part of a larger graduation engineering project, built by the two of us below.
 
 ### 👨‍💻 Anas Haj Mohammad — Lead Backend Engineer
 **Contributions:** Architecture design, CQRS implementation, domain modeling, error handling, caching, and core backend implementation (majority of the codebase).
 GitHub: [Anas-Bdev](https://github.com/Anas-Bdev)
 
 ### 👩‍💻 Ala'a Abu Musa — Backend Engineer
-GitHub: [alaaabumusa](https://github.com/alaaabumusa)
+GitHub: [alaaabumusa](https://github.com/alaaabumusa
 
 ---
 
 # 📄 Copyright
 
 © 2026 Namaa Project Team. All Rights Reserved.
-
-This repository is provided for portfolio, educational, and demonstration purposes. Unauthorized reproduction, distribution, or commercial use of the source code without permission is prohibited.
