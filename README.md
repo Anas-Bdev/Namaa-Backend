@@ -376,7 +376,7 @@ This backend is part of a larger graduation engineering project, built by the tw
 **Contributions:** Architecture design, CQRS implementation, domain modeling, error handling, caching, and core backend implementation.
 GitHub: [Anas-Bdev](https://github.com/Anas-Bdev)
 
-### 👩‍💻 Ala'a Abu Musa — Backend Engineer
+### 👩‍💻 Alaa Abu Musa — Backend Engineer
 GitHub: [alaaabumusa](https://github.com/alaaabumusa)
 
 ---
