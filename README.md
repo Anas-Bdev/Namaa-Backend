@@ -7,7 +7,7 @@
 
 # 📌 Overview
 
-**Namaa** is a scalable backend platform that digitizes and connects the agricultural ecosystem, linking farmers, traders, investors, agricultural experts, and administrators through a unified API.
+**Namaa** is a  backend platform that digitizes and connects the agricultural ecosystem, linking farmers, traders, investors, agricultural experts, and administrators through a unified API.
 
 The platform supports:
 
