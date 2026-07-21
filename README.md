@@ -340,6 +340,92 @@ https://localhost:7070/swagger
 ```
 
 ---
+## 📄 API Endpoints
+
+Namaa provides a RESTful API organized around different business domains.  
+The following endpoints demonstrate the main workflows supported by the platform.
+
+Full API documentation is available through Swagger/OpenAPI.
+
+---
+
+### 🔐 Identity & Authentication
+
+| Method | Endpoint | Description |
+|---|---|---|
+| POST | `/api/identity/register` | Register a new user account |
+| POST | `/api/identity/register/expert` | Register an agricultural expert with CV upload |
+| POST | `/api/identity/login` | Authenticate user and generate JWT tokens |
+| POST | `/api/identity/refresh-token` | Refresh expired access tokens |
+| GET | `/api/identity/confirm-email` | Confirm user email address |
+| POST | `/api/identity/forgot-password` | Request password reset |
+| POST | `/api/identity/reset-password` | Reset user password |
+| POST | `/api/identity/logout` | Logout and revoke refresh token |
+
+---
+
+### 🌱 Agricultural Land Management
+
+| Method | Endpoint | Description |
+|---|---|---|
+| POST | `/api/lands` | Register a new agricultural land |
+| GET | `/api/lands` | Get farmer's registered lands |
+| GET | `/api/lands/{id}` | Get land details |
+| PUT | `/api/lands/{id}` | Update land information |
+| DELETE | `/api/lands/{id}` | Delete agricultural land |
+| GET | `/api/lands/{landId}/crops` | Get suitable crops for a land |
+
+---
+
+### 💰 Investment Management
+
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/api/investments/projects/funding` | Browse available investment projects |
+| GET | `/api/investments/projects/{id}` | Get investment project details |
+| POST | `/api/investments/projects` | Create investment opportunity |
+| PUT | `/api/investments/projects/{id}/start-progress` | Start investment project |
+| PUT | `/api/investments/projects/{id}/complete` | Complete investment project |
+| POST | `/api/investments/projects/{projectId}/contributions` | Create investor contribution |
+| PUT | `/api/investments/contributions/{id}/approve` | Approve investor contribution |
+| PUT | `/api/investments/contributions/{id}/reject` | Reject investor contribution |
+
+---
+
+### 🛒 Marketplace & Trading
+
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/api/marketplace/listings` | Browse marketplace listings |
+| GET | `/api/marketplace/listings/{listingId}` | Get product listing details |
+| POST | `/api/marketplace/listings` | Create product listing |
+| PUT | `/api/marketplace/listings/{listingId}` | Update product listing |
+| PUT | `/api/marketplace/listings/{listingId}/archive` | Archive product listing |
+| POST | `/api/marketplace/orders` | Create product order |
+| GET | `/api/marketplace/orders/{orderId}` | Get order details |
+| PUT | `/api/marketplace/orders/{orderId}/confirm` | Confirm order |
+| PUT | `/api/marketplace/orders/{orderId}/pay` | Pay for order |
+| PUT | `/api/marketplace/orders/{orderId}/ship` | Ship order |
+| PUT | `/api/marketplace/orders/{orderId}/deliver` | Mark order as delivered |
+| POST | `/api/marketplace/orders/{orderId}/rating` | Rate farmer after order completion |
+
+---
+
+### 🩺 Expert Consultation System
+
+| Method | Endpoint | Description |
+|---|---|---|
+| POST | `/api/consultations` | Request agricultural consultation |
+| GET | `/api/consultations/my-consultations` | Get farmer consultations |
+| GET | `/api/consultations/available` | Get available consultations for experts |
+| GET | `/api/consultations/assigned` | Get expert assigned consultations |
+| GET | `/api/consultations/{id}` | Get consultation details |
+| POST | `/api/consultations/{id}/messages` | Add consultation message |
+| PUT | `/api/consultations/{id}/assign` | Assign expert to consultation |
+| PUT | `/api/consultations/{id}/close` | Close consultation |
+| POST | `/api/consultations/ai-preview` | Get AI-powered agricultural advice |
+
+---
 
 # 💻 My Contributions
 
