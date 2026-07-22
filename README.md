@@ -360,7 +360,7 @@ Full API documentation is available through Swagger/OpenAPI.
 |---|---|---|
 | POST | `/api/identity/register` | Register a new user account |
 | POST | `/api/identity/register/expert` | Register an agricultural expert with CV upload |
-| POST | `/api/identity/login` | Authenticate user and generate JWT tokens |
+| POST | `/api/identity/login` | Authenticate user and generate JWT access and refresh tokens |
 | POST | `/api/identity/refresh-token` | Refresh expired access tokens |
 | GET | `/api/identity/confirm-email` | Confirm user email address |
 | POST | `/api/identity/forgot-password` | Request password reset |
