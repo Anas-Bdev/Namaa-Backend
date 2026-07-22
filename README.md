@@ -71,7 +71,7 @@ Beyond the core business features, this project gave me the opportunity to desig
 - 🗃️ Entity Framework Core 9
 - 🏛️ Clean Architecture
 - 🔀 CQRS + MediatR
-- 🔐 JWT Authentication
+- 🔐 JWT Authentication + Refresh Tokens
 - ✅ FluentValidation
 - 📝 Serilog Logging
 - 💾 HybridCache
@@ -140,6 +140,9 @@ Validation
 ### 🔀 CQRS + MediatR
 Commands mutate state while queries retrieve data. MediatR orchestrates requests and cross-cutting concerns through pipeline behaviors.
 
+### 🔐 JWT Authentication & Refresh Token Management
+Implemented secure authentication using JWT access tokens with refresh token support, allowing users to maintain long-lived sessions without repeatedly providing credentials. Refresh tokens are stored and managed to support token renewal and session revocation.
+
 ### 📦 Result Pattern
 Application operations return strongly typed results instead of relying on exceptions for normal control flow.
 
@@ -173,6 +176,8 @@ Serilog provides structured logging and diagnostics across the application.
 ## 🔐 Security & Identity
 
 * 📝 Register and log in with JWT-secured authentication
+* 🔄 Refresh token mechanism for maintaining secure long-lived user sessions
+* 🚪 Refresh token revocation during logout
 * ✉️ Verify email address after registration
 * 🔢 Reset password via OTP
 * 🧑‍⚖️ Access is controlled by role-based permissions
