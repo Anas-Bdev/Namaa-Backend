@@ -454,7 +454,7 @@ I worked on this backend as part of a two-person backend team. I was responsible
 - 🔌 Integrated all external services: OpenAI, Cloudinary, OpenWeatherMap, MailKit/Brevo
 
 ### 🚀 Core Functionality
-- ⚙️ Implemented the core application functionality end-to-end (auth, agricultural management, marketplace, investments, consultations, AI assistant)
+- ⚙️ Implemented core application functionality end-to-end, including authentication workflows (JWT access tokens, refresh tokens, email verification, password reset), agricultural management, marketplace, investments, consultations, and AI assistant features.
 - 📝 Owned structured logging setup with Serilog
 
 ---
